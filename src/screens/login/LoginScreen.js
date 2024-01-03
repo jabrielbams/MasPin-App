@@ -24,7 +24,7 @@ const LoginScreen = ({}) => {
           flex: 1,
           justifyContent: 'flex-start',
           alignContent: 'flex-start',
-          marginTop: 52,
+          marginTop: 32,
         }}>
         <View>
           <KeyboardAvoidingView enabled>
