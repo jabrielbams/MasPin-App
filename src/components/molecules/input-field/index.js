@@ -8,24 +8,27 @@ export default function InputField({
   style,
   title,
   onChangeText,
+  secureTextEntry,
 }) {
-  const [isfocus, setFocus] = React.useState(focus);
+  const [isFocus, setFocus] = React.useState(focus);
   return (
     <View>
-      <Text style={styles.TitleStyle}>{title}</Text>
+      <Text style={styles.titleStyle}>{title}</Text>
       <View
         style={[
           styles.container,
           style,
-          isfocus ? styles.focused : styles.notFocused,
+          isFocus ? styles.focused : styles.notFocused,
         ]}>
         <TextInput
-          setFocus={isfocus} //whatever focus state holds
+          setFocus={isFocus} //whatever focus state holds
           onChangeText={text => onChangeText(text)}
           onFocus={() => setFocus(true)}
           onBlur={() => setFocus(false)}
           style={styles.textInput}
           placeholder={placeholder}
+          placeholderTextColor={Color.TEXTPRIMARY}
+          secureTextEntry={secureTextEntry}
         />
       </View>
     </View>
@@ -33,9 +36,9 @@ export default function InputField({
 }
 
 const styles = StyleSheet.create({
-  TitleStyle: {
-    fontFamily: Fonts.REGULAR,
-    fontSize: FontSize.MEDIUM,
+  titleStyle: {
+    fontFamily: Fonts.MEDIUM,
+    fontSize: FontSize.dp_16,
     color: Color.BLACK,
   },
   focused: {
@@ -49,6 +52,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     fontFamily: Fonts.REGULAR,
     width: 340,
+    color: Color.TEXTPRIMARY,
   },
   notFocused: {
     fontFamily: Fonts.REGULAR,
