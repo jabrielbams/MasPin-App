@@ -1,8 +1,8 @@
 export const Fonts = {
-  REGULAR: 'Inter-Regular', // Font File Name Must Match To Use Custom Font
-  LIGHT: 'Inter-Light',
-  MEDIUM: 'Inter-Medium',
-  BOLD: 'Inter-Bold',
+  REGULAR: 'Poppins-Regular',
+  MEDIUM: 'Poppins-Medium',
+  SEMIBOLD: 'Poppins-SemiBold',
+  BOLD: 'Poppins-Bold',
 };
 
 export const FontSize = {
@@ -18,6 +18,7 @@ export const Color = {
   PRIMARY_LIGHT: '#0279FC10',
   HEADER_GRAY: '#6B7280',
   LIGHT_GRAY: '#F2F2F2',
+  OUTLINE_GRAY: '#E5E5E5',
   WHITE: '#FFFFFF',
   BLACK: '#000000',
 
@@ -27,4 +28,8 @@ export const Color = {
   LIGHT_YELLOW: '#FF8A0010',
   GREEN: '#077F37',
   LIGHT_GREEN: '#077F3710',
+  DISABLE: '#BDDBFB',
+  TEXTPRIMARY: '#808080',
+  TEXTSECONDARY: '#A2A2A2',
+  DANGER: '#FF0000',
 };
