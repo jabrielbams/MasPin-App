@@ -9,25 +9,15 @@ import {
   View,
 } from 'react-native';
 import React, {useState} from 'react';
-import {Color, Fonts} from './src/constants';
+import {Color, FontSize, Fonts} from './src/constants';
+import {InputField, ButtonMain, CustomCheckbox} from './src/components';
+import {IcEyeClose, IcEyeOpen} from './src/assets/icons';
+import RegisterScreen from './src/screens/register';
 
 const App = () => {
   return (
     <View style={styles.mainBody}>
-      <ScrollView
-        keyboardShouldPersistTaps="handled"
-        contentContainerStyle={{
-          flex: 1,
-          justifyContent: 'flex-start',
-          alignContent: 'flex-start',
-          marginTop: 52,
-        }}>
-        <View>
-          <KeyboardAvoidingView enabled>
-            <View style={styles.SectionStyle}>{/* SINIH */}</View>
-          </KeyboardAvoidingView>
-        </View>
-      </ScrollView>
+      <RegisterScreen />
     </View>
   );
 };
@@ -37,12 +27,8 @@ export default App;
 const styles = StyleSheet.create({
   mainBody: {
     flex: 1,
-    justifyContent: 'flex-start',
-    backgroundColor: '#FFFFFF',
-    alignContent: 'flex-start',
-  },
-  SectionStyle: {
-    marginHorizontal: 16,
-    justifyContent: 'flex-start',
+    // justifyContent: 'flex-start',
+    // alignContent: 'flex-start',
+    backgroundColor: Color.WHITE,
   },
 });
