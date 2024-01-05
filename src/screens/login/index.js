@@ -8,10 +8,9 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import {ButtonMain, CustomCheckbox, InputField} from '../../components';
-import {Color, Fonts} from '../../constants';
-import {useForm} from '../../utils/form';
-import styles from './styles';
+import {Color, Fonts} from './src/constants';
 import {useLogin} from './useLogin';
+import styles from './styles';
 
 const LoginScreen = ({navigation}) => {
   const {rememberMe, setRememberMe, setForm, form} = useLogin();
@@ -87,6 +86,7 @@ const LoginScreen = ({navigation}) => {
           <ButtonMain
             onPress={() => {
               // Handle button press event
+              console.log('Form Values:', form);
               console.log('Form Values:', form);
             }}
             title="Masuk"

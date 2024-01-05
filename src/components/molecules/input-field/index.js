@@ -86,6 +86,11 @@ export default function InputField({
           },
           !editable ? styles.formDisabled : null,
         ]}>
+        {type === 'phone-number' ? (
+          <View style={styles.firstPhone}>
+            <Text style={styles.firstPhoneText}>+62</Text>
+          </View>
+        ) : null}
         <TextInput
           defaultValue={
             type === 'phone-number' ? setPhoneNumber(value) : `${value ?? ''}`
@@ -145,13 +150,6 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.MEDIUM,
     fontSize: FontSize.dp_16,
     color: Color.BLACK,
-  },
-  focused: {
-    fontFamily: Fonts.REGULAR,
-    fontSize: FontSize.SMALL,
-    color: Color.HEADER_GRAY,
-    borderColor: Color.PRIMARY,
-    borderWidth: 1,
   },
   textInput: {
     borderRadius: 8,
