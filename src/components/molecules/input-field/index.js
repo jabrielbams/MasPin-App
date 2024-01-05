@@ -11,17 +11,20 @@ export default function InputField({
   value,
   onChangeText,
   secureTextEntry,
+  iconRight,
+  errorMessage,
+  onChangeTextInput,
+  required,
+  onFocus,
   label,
   labelMini,
   helper,
-  required,
   containerStyle,
   formStyle,
   labelStyle,
   inputStyle,
   height,
   editable = true,
-  onFocus,
   keyboardType,
   onBlur,
   maxLength,
@@ -31,6 +34,7 @@ export default function InputField({
   const [isRender, setIsRender] = useState(false);
   const [hint, setHint] = useState(helper);
   const [secure, setSecure] = useState(secureTextEntry);
+  const [isFocused, setIsFocused] = useState(false);
 
   useEffect(() => {
     setIsRender(true);
@@ -65,11 +69,21 @@ export default function InputField({
 
   return (
     <View>
-      {label ? <Text style={styles.labelStyle}>{label}</Text> : null}
+      <View style={styles.titleSection}>
+        {label ? <Text style={styles.labelStyle}>{label}</Text> : null}
+        {required ? <Text style={{color: Color.DANGER}}>*</Text> : null}
+      </View>
       <View
         style={[
           styles.form,
-          hint ? styles.formErr : null,
+          // hint ? styles.formErr : null,
+          {
+            borderColor: errorMessage
+              ? Color.DANGER
+              : isFocused
+              ? Color.PRIMARY
+              : Color.LIGHT_GRAY,
+          },
           !editable ? styles.formDisabled : null,
         ]}>
         {type === 'phone-number' ? (
@@ -99,8 +113,13 @@ export default function InputField({
           numberOfLines={type === 'text-area' ? 4 : 1}
           autoCapitalize={type === 'email-address' ? 'none' : 'sentences'}
           editable={editable}
-          onFocus={onFocus}
-          onBlur={onBlur}
+          onFocus={() => {
+            // onFocus();
+            setIsFocused(true);
+          }}
+          onBlur={() => {
+            setIsFocused(false);
+          }}
           onChangeText={handleChangeValue}
         />
         {secureTextEntry && (
@@ -110,11 +129,23 @@ export default function InputField({
         )}
       </View>
       {hint ? <Text style={styles.helper}>{hint}</Text> : null}
+      {errorMessage && (
+        <View style={styles.errorMsgSection}>
+          <Text style={styles.errorMsg} numberOfLines={2}>
+            {errorMessage}
+          </Text>
+        </View>
+      )}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  titleSection: {
+    flexDirection: 'row',
+    gap: 5,
+    marginBottom: 14,
+  },
   labelStyle: {
     fontFamily: Fonts.MEDIUM,
     fontSize: FontSize.dp_16,
@@ -148,5 +179,13 @@ const styles = StyleSheet.create({
     fontSize: FontSize.dp_12,
     color: Color.DANGER,
     marginTop: 8,
+  },
+  errorMsgSection: {
+    marginTop: 8,
+  },
+  errorMsg: {
+    fontSize: FontSize.dp_12,
+    fontFamily: Fonts.REGULAR,
+    color: Color.DANGER,
   },
 });
