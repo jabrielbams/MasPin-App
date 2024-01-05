@@ -33,15 +33,14 @@ const LoginScreen = ({navigation}) => {
 
   return (
     <View style={styles.mainBody}>
-      <ScrollView
-        keyboardShouldPersistTaps="handled"
-        contentContainerStyle={{
-          flex: 1,
-          justifyContent: 'flex-start',
-          alignContent: 'flex-start',
-          marginTop: 32,
-        }}>
-        <View>
+      <ScrollView>
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'flex-start',
+            alignContent: 'flex-start',
+            marginTop: 32,
+          }}>
           <KeyboardAvoidingView enabled>
             <View style={styles.SectionStyle}>
               <Text style={styles.TitleStyle}>Selamat Datang Kembali!</Text>
