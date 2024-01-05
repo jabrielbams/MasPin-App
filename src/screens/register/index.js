@@ -13,7 +13,7 @@ import styles from './styles';
 import {useRegister} from './useRegister';
 import {Color} from '../../constants';
 
-const RegisterScreen = () => {
+const RegisterScreen = ({navigation}) => {
   const {
     function: {
       onPressShowPassword,
@@ -42,7 +42,7 @@ const RegisterScreen = () => {
 
   return (
     <View style={styles.mainBody}>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.scrollViewStyle}>
           <View style={styles.sectionStyle}>
             <Text style={styles.titleStyle}>Buat Akun Maspinmu!</Text>
@@ -51,7 +51,8 @@ const RegisterScreen = () => {
             </Text>
             <View style={styles.formGroup}>
               <InputField
-                title={'Nama Lengkap'}
+                type={'name'}
+                label={'Nama Lengkap'}
                 placeholder="Masukkan nama lengkap"
                 required={true}
                 errorMessage={errors.name}
@@ -61,7 +62,8 @@ const RegisterScreen = () => {
                 onChangeTextInput={text => handleOnChange(text, 'name')}
               />
               <InputField
-                title={'No. Handphone'}
+                type={'phone-number'}
+                label={'No. Handphone'}
                 placeholder="Masukkan nomor"
                 required={true}
                 keyboardType="numeric"
@@ -72,7 +74,8 @@ const RegisterScreen = () => {
                 onChangeTextInput={text => handleOnChange(text, 'phone')}
               />
               <InputField
-                title={'Email'}
+                type={'email-address'}
+                label={'Email'}
                 placeholder="Masukkan email"
                 required={true}
                 errorMessage={errors.email}
@@ -82,7 +85,8 @@ const RegisterScreen = () => {
                 onChangeTextInput={text => handleOnChange(text, 'email')}
               />
               <InputField
-                title={'Password'}
+                type={'password'}
+                label={'Password'}
                 placeholder="Masukkan password"
                 required={true}
                 secureTextEntry={showPassword}
@@ -94,7 +98,8 @@ const RegisterScreen = () => {
                 onChangeTextInput={text => handleOnChange(text, 'password')}
               />
               <InputField
-                title={'Konfirmasi Password'}
+                type={'confirm_password'}
+                label={'Konfirmasi Password'}
                 placeholder="Ulangi password"
                 required={true}
                 secureTextEntry={showConfirmPassword}
@@ -122,7 +127,7 @@ const RegisterScreen = () => {
           <Text style={styles.descStyle}>Sudah punya akun?</Text>
           <TouchableOpacity
             onPress={() => {
-              // press event
+              navigation.navigate('Login');
             }}>
             <Text style={styles.highlightText}>Masuk</Text>
           </TouchableOpacity>

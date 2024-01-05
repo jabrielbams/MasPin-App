@@ -3,19 +3,19 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  TextInput,
-  Touchable,
   TouchableOpacity,
   View,
 } from 'react-native';
 import React, {useState} from 'react';
-import {ButtonMain, CustomCheckbox, InputField} from './src/components';
-import {Color, Fonts} from './src/constants';
+import {ButtonMain, CustomCheckbox, InputField} from '../../components';
+import {Color, Fonts} from '../../constants';
+import {useForm} from '../../utils/form';
+import styles from './styles';
+import {useLogin} from './useLogin';
 
-const LoginScreen = ({}) => {
-  const [rememberMe, setRememberMe] = useState(false);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+const LoginScreen = ({navigation}) => {
+  const {rememberMe, setRememberMe, setForm, form} = useLogin();
+
   return (
     <View style={styles.mainBody}>
       <ScrollView
@@ -36,16 +36,27 @@ const LoginScreen = ({}) => {
 
               <View style={styles.formGroup}>
                 <InputField
-                  title={'Email'}
-                  focus={true} //initial focus on this TextInput
+                  type={'email-address'}
+                  label={form.email.label}
+                  focus={true}
                   style={{marginTop: 14}}
-                  placeholder="Masukkan alamat email"
+                  placeholder="Masukkan email"
+                  required={form.email.required}
+                  helper={form.email.message}
+                  value={form.email.value}
+                  onChangeText={text => setForm('email', text)}
                 />
                 <InputField
-                  title={'Password'}
-                  focus={true} //initial focus on this TextInput
+                  type={'password'}
+                  label={form.password.label}
+                  focus={true}
                   style={{marginTop: 14}}
                   placeholder="Masukkan password"
+                  required={form.password.required}
+                  helper={form.password.message}
+                  value={form.password.value}
+                  onChangeText={text => setForm('password', text)}
+                  secureTextEntry={true}
                 />
               </View>
               <View
@@ -74,17 +85,21 @@ const LoginScreen = ({}) => {
       <View style={styles.actionSection}>
         <View style={styles.actionButton}>
           <ButtonMain
-            nPress={() => {
+            onPress={() => {
               // Handle button press event
+              console.log('Form Values:', form);
             }}
-            title="Button"
+            title="Masuk"
             style={styles.customButton}
             textStyle={styles.customButtonText}
           />
         </View>
         <View style={styles.actionText}>
           <Text style={styles.DescStyle}>Belum punya akun?</Text>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('Register');
+            }}>
             <Text style={styles.highlightText}>Daftar</Text>
           </TouchableOpacity>
         </View>
@@ -94,54 +109,3 @@ const LoginScreen = ({}) => {
 };
 
 export default LoginScreen;
-
-const styles = StyleSheet.create({
-  mainBody: {
-    flex: 1,
-    justifyContent: 'flex-start',
-    backgroundColor: '#FFFFFF',
-    alignContent: 'flex-start',
-  },
-  SectionStyle: {
-    marginHorizontal: 16,
-    justifyContent: 'flex-start',
-  },
-  TitleStyle: {
-    color: '#000',
-    fontSize: 22,
-    fontWeight: 'bold',
-    textAlign: 'left',
-  },
-  DescStyle: {
-    color: '#999EA1',
-    fontSize: 14,
-    textAlign: 'left',
-    fontWeight: '400',
-  },
-  highlightText: {
-    fontFamily: Fonts.LIGHT,
-    fontSize: 14,
-    color: Color.PRIMARY,
-  },
-  formGroup: {
-    marginTop: 32,
-    gap: 24,
-    flexDirection: 'column',
-  },
-  actionButton: {
-    justifyContent: 'flex-end',
-  },
-  actionText: {
-    flexDirection: 'row',
-    gap: 4,
-    justifyContent: 'center',
-  },
-  actionSection: {
-    marginBottom: 40,
-    gap: 4,
-    marginHorizontal: 16,
-  },
-  gap: {
-    height: 32,
-  },
-});

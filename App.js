@@ -1,34 +1,36 @@
-import {
-  KeyboardAvoidingView,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  Touchable,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import 'react-native-gesture-handler';
 import React, {useState} from 'react';
-import {Color, FontSize, Fonts} from './src/constants';
-import {InputField, ButtonMain, CustomCheckbox} from './src/components';
-import {IcEyeClose, IcEyeOpen} from './src/assets/icons';
+
+// Import Navigators from React Navigation
+import {createStackNavigator} from '@react-navigation/stack';
+import {NavigationContainer} from '@react-navigation/native';
+
+// Import screens
+
+import LoginScreen from './src/screens/login';
 import RegisterScreen from './src/screens/register';
+import HomeScreen from './src/screens/home';
+
+const Stack = createStackNavigator();
 
 const App = () => {
   return (
-    <View style={styles.mainBody}>
-      <RegisterScreen />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Login">
+        <Stack.Screen
+          name="Login"
+          component={LoginScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Register"
+          component={RegisterScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen name="Home" component={HomeScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 
 export default App;
-
-const styles = StyleSheet.create({
-  mainBody: {
-    flex: 1,
-    // justifyContent: 'flex-start',
-    // alignContent: 'flex-start',
-    backgroundColor: Color.WHITE,
-  },
-});
