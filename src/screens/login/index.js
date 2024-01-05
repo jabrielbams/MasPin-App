@@ -86,7 +86,6 @@ const LoginScreen = ({navigation}) => {
             onPress={() => {
               // Handle button press event
               console.log('Form Values:', form);
-              console.log('Form Values:', form);
             }}
             title="Masuk"
             style={styles.customButton}

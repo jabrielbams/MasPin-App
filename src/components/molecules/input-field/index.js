@@ -11,9 +11,6 @@ export default function InputField({
   value,
   onChangeText,
   secureTextEntry,
-  iconRight,
-  errorMessage,
-  onChangeTextInput,
   required,
   onFocus,
   label,
@@ -76,21 +73,9 @@ export default function InputField({
       <View
         style={[
           styles.form,
-          // hint ? styles.formErr : null,
-          {
-            borderColor: errorMessage
-              ? Color.DANGER
-              : isFocused
-              ? Color.PRIMARY
-              : Color.LIGHT_GRAY,
-          },
+          hint ? styles.formErr : null,
           !editable ? styles.formDisabled : null,
         ]}>
-        {type === 'phone-number' ? (
-          <View style={styles.firstPhone}>
-            <Text style={styles.firstPhoneText}>+62</Text>
-          </View>
-        ) : null}
         <TextInput
           defaultValue={
             type === 'phone-number' ? setPhoneNumber(value) : `${value ?? ''}`
@@ -129,13 +114,6 @@ export default function InputField({
         )}
       </View>
       {hint ? <Text style={styles.helper}>{hint}</Text> : null}
-      {errorMessage && (
-        <View style={styles.errorMsgSection}>
-          <Text style={styles.errorMsg} numberOfLines={2}>
-            {errorMessage}
-          </Text>
-        </View>
-      )}
     </View>
   );
 }

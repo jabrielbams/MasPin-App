@@ -14,32 +14,7 @@ import {useRegister} from './useRegister';
 import {Color} from '../../constants';
 
 const RegisterScreen = ({navigation}) => {
-  const {
-    function: {
-      onPressShowPassword,
-      onPressShowConfirmPassword,
-      handleOnChange,
-      handleErrorMessage,
-      validateInputs,
-    },
-    showPassword,
-    showConfirmPassword,
-    inputs,
-    errors,
-  } = useRegister();
-
-  const ShowPassword = () => (
-    <TouchableOpacity onPress={onPressShowPassword}>
-      {showPassword ? <IcEyeOpen /> : <IcEyeClose />}
-    </TouchableOpacity>
-  );
-
-  const ShowConfirmPassword = () => (
-    <TouchableOpacity onPress={onPressShowConfirmPassword}>
-      {showConfirmPassword ? <IcEyeOpen /> : <IcEyeClose />}
-    </TouchableOpacity>
-  );
-
+  const {form, setForm} = useRegister();
   return (
     <View style={styles.mainBody}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -51,64 +26,51 @@ const RegisterScreen = ({navigation}) => {
             </Text>
             <View style={styles.formGroup}>
               <InputField
-                type={'name'}
-                label={'Nama Lengkap'}
+                // type={'name'}
+                label={form.name.label}
+                helper={form.name.message}
                 placeholder="Masukkan nama lengkap"
-                required={true}
-                errorMessage={errors.name}
-                onFocus={() => {
-                  handleErrorMessage(null, 'name');
-                }}
-                onChangeTextInput={text => handleOnChange(text, 'name')}
+                required={form.name.required}
+                value={form.name.value}
+                onChangeText={text => setForm('name', text)}
               />
               <InputField
                 type={'phone-number'}
-                label={'No. Handphone'}
+                label={form.phone.label}
+                helper={form.phone.message}
                 placeholder="Masukkan nomor"
-                required={true}
-                keyboardType="numeric"
-                errorMessage={errors.phone}
-                onFocus={() => {
-                  handleErrorMessage(null, 'phone');
-                }}
-                onChangeTextInput={text => handleOnChange(text, 'phone')}
+                required={form.phone.required}
+                value={form.phone.value}
+                onChangeText={text => setForm('phone', text)}
               />
               <InputField
                 type={'email-address'}
-                label={'Email'}
+                label={form.email.label}
                 placeholder="Masukkan email"
-                required={true}
-                errorMessage={errors.email}
-                onFocus={() => {
-                  handleErrorMessage(null, 'email');
-                }}
-                onChangeTextInput={text => handleOnChange(text, 'email')}
+                required={form.email.required}
+                helper={form.email.message}
+                value={form.email.value}
+                onChangeText={text => setForm('email', text)}
               />
               <InputField
                 type={'password'}
-                label={'Password'}
+                label={form.password.label}
                 placeholder="Masukkan password"
-                required={true}
-                secureTextEntry={showPassword}
-                iconRight={<ShowPassword />}
-                errorMessage={errors.password}
-                onFocus={() => {
-                  handleErrorMessage(null, 'password');
-                }}
-                onChangeTextInput={text => handleOnChange(text, 'password')}
+                required={form.password.required}
+                secureTextEntry={true}
+                helper={form.password.message}
+                value={form.password.value}
+                onChangeText={text => setForm('password', text)}
               />
               <InputField
                 type={'confirm_password'}
-                label={'Konfirmasi Password'}
+                label={form.confirm_password.label}
                 placeholder="Ulangi password"
-                required={true}
-                secureTextEntry={showConfirmPassword}
-                iconRight={<ShowConfirmPassword />}
-                errorMessage={errors.confirmPass}
-                onFocus={() => {
-                  handleErrorMessage(null, 'confirmPass');
-                }}
-                onChangeTextInput={text => handleOnChange(text, 'confirmPass')}
+                required={form.confirm_password.required}
+                secureTextEntry={true}
+                helper={form.confirm_password.message}
+                value={form.confirm_password.value}
+                onChangeText={text => setForm('confirm_password', text)}
               />
             </View>
           </View>
@@ -117,7 +79,10 @@ const RegisterScreen = ({navigation}) => {
       <View style={styles.actionSection}>
         <View style={styles.actionButton}>
           <ButtonMain
-            onPress={validateInputs}
+            onPress={() => {
+              // Handle button press event
+              console.log('Form Values:', form);
+            }}
             title="Daftar"
             style={styles.customButton}
             textStyle={styles.customButtonText}
