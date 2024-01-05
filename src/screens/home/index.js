@@ -10,10 +10,9 @@ import {
   View,
 } from 'react-native';
 import React, {useState} from 'react';
-import {Color, FontSize, Fonts} from './src/constants';
+import {Color, FontSize, Fonts} from '../../constants';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import {NotificationIcon, SearchBar} from './src/components';
-import Logo from './src/assets/icons/ic_notification.svg';
+import {NotificationIcon, SearchBar} from '../../components';
 
 const Home = () => {
   return (
