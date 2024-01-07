@@ -16,6 +16,7 @@ import IconReport from './ic-report.svg';
 import IconTax from './ic-tax.svg';
 import IconBusRoute from './ic-bus-route.svg';
 import IconChart from './ic-chart.svg';
+import IconChartPrice from './ic-chart-price.svg';
 import IconOthers from './ic-others.svg';
 
 // navbar icon
@@ -38,6 +39,7 @@ export {
   IconBusRoute,
   IconCar,
   IconChart,
+  IconChartPrice,
   IcChevronDown,
   IcChevronLeft,
   IcChevronRightActive,

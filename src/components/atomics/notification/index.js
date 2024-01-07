@@ -7,7 +7,7 @@ export default function NotificationIcon({isNotification, onPress}) {
   return (
     <TouchableOpacity style={styles.notification}>
       <IcNotification width={28} height={28} />
-      <Badge containerStyle={styles.badgeStyle} value={8} status="error" />
+      <Badge containerStyle={styles.badgeStyle} value={3} status="error" />
     </TouchableOpacity>
   );
 }

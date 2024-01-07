@@ -12,67 +12,78 @@ import {
 import React, {useState} from 'react';
 import {Color, FontSize, Fonts} from '../../constants';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import {NotificationIcon, SearchBar} from '../../components';
+import {
+  FeatureIcon,
+  LabelStatus,
+  NewsCardMain,
+  NotificationIcon,
+  SearchBar,
+} from '../../components';
+import styles from './styles';
+import {
+  IcChevronRightActive,
+  IconBusRoute,
+  IconChartPrice,
+  IconOthers,
+  IconReport,
+  IconTax,
+} from '../../assets/icons';
 
-const Home = () => {
+const HomeScreen = () => {
   return (
     <View style={styles.mainBody}>
-      <ScrollView
-        keyboardShouldPersistTaps="handled"
-        contentContainerStyle={{
-          flex: 1,
-          justifyContent: 'flex-start',
-          alignContent: 'flex-start',
-          marginTop: 32,
-        }}>
+      <ScrollView>
         <View>
-          <SafeAreaView enabled>
-            <View style={styles.SectionStyle}>
-              <View style={styles.headerMain}>
-                <Text
-                  style={{
-                    fontFamily: Fonts.BOLD,
-                    fontSize: 24,
-                    color: Color.BLACK,
-                    fontWeight: 'bold',
-                  }}>
-                  Beranda
-                </Text>
-                <NotificationIcon style={{marginLeft: 'auto'}} />
-              </View>
+          <View style={styles.headerMain}>
+            <Text style={styles.headerText}>Beranda</Text>
+            <NotificationIcon style={{marginLeft: 'auto'}} />
+          </View>
+          <View style={styles.dividerStyle} />
+          <View style={styles.content}>
+            <View
+              style={{
+                backgroundColor: Color.LIGHT_GRAY,
+                borderRadius: 8,
+                height: 140,
+                width: '100%',
+                marginBottom: 24,
+                marginTop: 32,
+              }}></View>
+            <View style={styles.featureList}>
+              <FeatureIcon icon={<IconReport />} label="Laporan" />
+              <FeatureIcon icon={<IconTax />} label="Pajak" />
+              <FeatureIcon icon={<IconBusRoute />} label="Rute" />
+              <FeatureIcon icon={<IconChartPrice />} label="Harga" />
+              <FeatureIcon icon={<IconOthers />} label="Lainnya" />
             </View>
-            <View style={styles.dividerStyle} />
-            <View style={styles.SectionStyle}></View>
-          </SafeAreaView>
+          </View>
+          <View style={styles.dividerStyle} />
+          <View style={styles.content}>
+            <View style={styles.sectionDivider}>
+              <Text style={styles.sectionTitle}>Laporan</Text>
+              <TouchableOpacity style={styles.otherStyle}>
+                <Text style={styles.otherText}>Lainnya</Text>
+                <IcChevronRightActive />
+              </TouchableOpacity>
+            </View>
+            <View>
+              <Text>Laporan Section</Text>
+            </View>
+            <View style={styles.sectionDivider}>
+              <Text style={styles.sectionTitle}>Berita Terbaru</Text>
+              <TouchableOpacity style={styles.otherStyle}>
+                <Text style={styles.otherText}>Lainnya</Text>
+                <IcChevronRightActive />
+              </TouchableOpacity>
+            </View>
+            <View>
+              <Text>Berita Section</Text>
+            </View>
+          </View>
         </View>
       </ScrollView>
     </View>
   );
 };
 
-export default Home;
-
-const styles = StyleSheet.create({
-  mainBody: {
-    flex: 1,
-    justifyContent: 'flex-start',
-    backgroundColor: '#FFFFFF',
-    alignContent: 'flex-start',
-  },
-  SectionStyle: {
-    marginHorizontal: 16,
-    justifyContent: 'flex-start',
-  },
-  headerMain: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  dividerStyle: {
-    marginTop: 16,
-    marginBottom: 32,
-    height: 4,
-    width: '100%',
-    backgroundColor: Color.LIGHT_GRAY,
-  },
-});
+export default HomeScreen;
