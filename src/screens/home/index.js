@@ -28,6 +28,7 @@ import {
   IconReport,
   IconTax,
 } from '../../assets/icons';
+import {ImgNewsCovid} from '../../assets/images';
 
 const HomeScreen = () => {
   return (
@@ -77,7 +78,18 @@ const HomeScreen = () => {
               </TouchableOpacity>
             </View>
             <View>
-              <Text>Berita Section</Text>
+              <NewsCardMain
+                imgNews={ImgNewsCovid}
+                category="KESEHATAN"
+                titleNews="COVID-19 Kembali Meningkat di Kabupaten Banyumas"
+                descNews="Kabupaten Banyumas kembali meng-alamai lonjakan COVID-19. Masyarakat dihimbau untuk kembali untuk tetap menggunakan masker dan membawa hand sanitizer"
+              />
+              <NewsCardMain
+                imgNews={ImgNewsCovid}
+                category="KESEHATAN"
+                titleNews="COVID-19 Kembali Meningkat di Kabupaten Banyumas"
+                descNews="Kabupaten Banyumas kembali meng-alamai lonjakan COVID-19. Masyarakat dihimbau untuk kembali untuk tetap menggunakan masker dan membawa hand sanitizer"
+              />
             </View>
           </View>
         </View>
