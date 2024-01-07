@@ -10,6 +10,7 @@ export const FontSize = {
   dp_10: 10,
   dp_12: 12,
   dp_16: 16,
+  dp_14: 14,
   dp_18: 18,
   dp_22: 22,
 };

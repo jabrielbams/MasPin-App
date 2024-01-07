@@ -6,6 +6,8 @@ import SearchBar from './molecules/searchbar';
 import LabelCategory from './atomics/label-category';
 import LabelStatus from './atomics/label-status';
 import ReportCard from './molecules/card-report';
+import NewsCardMain from './organisms/news-card';
+import FeatureIcon from './atomics/feature-icon';
 
 export {
   InputField,
@@ -16,4 +18,6 @@ export {
   LabelCategory,
   LabelStatus,
   ReportCard,
+  NewsCardMain,
+  FeatureIcon,
 };
