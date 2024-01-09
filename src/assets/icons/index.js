@@ -5,6 +5,7 @@ import IcChevronRightActive from './ic-chevron-right-active.svg';
 import IcEyeClose from './ic-eye-close.svg';
 import IcEyeOpen from './ic-eye-open.svg';
 import IcLikes from './ic-likes.svg';
+import IcLikesActive from './ic-likes-active.svg';
 import IcMapPin from './ic-map-location.svg';
 import IcPlus from './ic-plus.svg';
 import IcRound from './ic-round.svg';
@@ -49,6 +50,7 @@ export {
   IconHomeDisable,
   IconHouse,
   IcLikes,
+  IcLikesActive,
   IconListActive,
   IconListDisable,
   IcMapPin,

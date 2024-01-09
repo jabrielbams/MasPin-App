@@ -14,9 +14,11 @@ import {Color, FontSize, Fonts} from '../../constants';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {
   FeatureIcon,
+  LabelCategory,
   LabelStatus,
   NewsCardMain,
   NotificationIcon,
+  ReportCardMain,
   SearchBar,
 } from '../../components';
 import styles from './styles';
@@ -28,17 +30,20 @@ import {
   IconReport,
   IconTax,
 } from '../../assets/icons';
+import {ImgCar, ImgNewsCovid} from '../../assets/images';
 
 const HomeScreen = () => {
   return (
     <View style={styles.mainBody}>
-      <ScrollView>
-        <View>
-          <View style={styles.headerMain}>
-            <Text style={styles.headerText}>Beranda</Text>
-            <NotificationIcon style={{marginLeft: 'auto'}} />
-          </View>
-          <View style={styles.dividerStyle} />
+      <View>
+        <View style={styles.headerMain}>
+          <Text style={styles.headerText}>Beranda</Text>
+          <NotificationIcon style={{marginLeft: 'auto'}} />
+        </View>
+        <View style={styles.dividerStyle} />
+        <ScrollView
+          style={{marginBottom: 50}}
+          showsVerticalScrollIndicator={false}>
           <View style={styles.content}>
             <View
               style={{
@@ -67,7 +72,27 @@ const HomeScreen = () => {
               </TouchableOpacity>
             </View>
             <View>
-              <Text>Laporan Section</Text>
+              <ReportCardMain
+                imgReport={ImgCar}
+                descReport="Minta tolong pak ditindaklanjuti kemacetan di daerah Jalan Gereja,
+                sudah 5 minggu mangkrak dipinggir jalan"
+                category={<LabelCategory title="Lalu Lintas" />}
+                status={<LabelStatus type={1} />}
+              />
+              <ReportCardMain
+                imgReport={ImgCar}
+                descReport="Minta tolong pak ditindaklanjuti kemacetan di daerah Jalan Gereja,
+                sudah 5 minggu mangkrak dipinggir jalan"
+                category={<LabelCategory title="Lalu Lintas" />}
+                status={<LabelStatus type={1} />}
+              />
+              <ReportCardMain
+                imgReport={ImgCar}
+                descReport="Minta tolong pak ditindaklanjuti kemacetan di daerah Jalan Gereja,
+                sudah 5 minggu mangkrak dipinggir jalan"
+                category={<LabelCategory title="Lalu Lintas" />}
+                status={<LabelStatus type={1} />}
+              />
             </View>
             <View style={styles.sectionDivider}>
               <Text style={styles.sectionTitle}>Berita Terbaru</Text>
@@ -77,11 +102,22 @@ const HomeScreen = () => {
               </TouchableOpacity>
             </View>
             <View>
-              <Text>Berita Section</Text>
+              <NewsCardMain
+                imgNews={ImgNewsCovid}
+                category="KESEHATAN"
+                titleNews="COVID-19 Kembali Meningkat di Kabupaten Banyumas"
+                descNews="Kabupaten Banyumas kembali meng-alamai lonjakan COVID-19. Masyarakat dihimbau untuk kembali untuk tetap menggunakan masker dan membawa hand sanitizer"
+              />
+              <NewsCardMain
+                imgNews={ImgNewsCovid}
+                category="KESEHATAN"
+                titleNews="COVID-19 Kembali Meningkat di Kabupaten Banyumas"
+                descNews="Kabupaten Banyumas kembali meng-alamai lonjakan COVID-19. Masyarakat dihimbau untuk kembali untuk tetap menggunakan masker dan membawa hand sanitizer"
+              />
             </View>
           </View>
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </View>
     </View>
   );
 };

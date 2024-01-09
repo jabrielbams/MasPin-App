@@ -1,9 +1,13 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
-import {IcLikes} from '../../../assets/icons';
+import {IcLikes, IcLikesActive} from '../../../assets/icons';
 
 export default function LikeButton() {
-  return <TouchableOpacity></TouchableOpacity>;
+  return (
+    <TouchableOpacity>
+      <IcLikes />
+    </TouchableOpacity>
+  );
 }
 
 const styles = StyleSheet.create({});
