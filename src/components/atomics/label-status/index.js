@@ -3,7 +3,7 @@ import React from 'react';
 import {Color, Fonts} from '../../../constants';
 import {IcCheckCircle, IcSpinner} from '../../../assets';
 
-export default function LabelCategory({type}) {
+export default function LabelCategory({type, title}) {
   let containerStyle, textStyle, iconComponent;
   switch (type) {
     case 1:
@@ -50,18 +50,21 @@ const styles = StyleSheet.create({
   },
   containerWaiting: {
     backgroundColor: Color.LIGHT_RED,
+    borderRadius: 4,
   },
   statusWaiting: {
     color: Color.RED,
   },
   containerProcess: {
     backgroundColor: Color.LIGHT_YELLOW,
+    borderRadius: 4,
   },
   statusProcess: {
     color: Color.YELLOW,
   },
   containerSuccess: {
     backgroundColor: Color.LIGHT_GREEN,
+    borderRadius: 4,
   },
   statusSuccess: {
     color: Color.GREEN,
