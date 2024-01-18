@@ -1,4 +1,5 @@
 import IconBellNotification from './ic-bell-notif.svg';
+import IcChevronUp from './ic_chevron_up.svg';
 import IcChevronDown from './ic-chevron-down.svg';
 import IcChevronLeft from './ic-chevron-left.svg';
 import IcChevronRightActive from './ic-chevron-right-active.svg';
@@ -35,12 +36,22 @@ import IconMotorcycle from './ic-motorcycle.svg';
 import IconHouse from './ic-house.svg';
 import IconCar from './ic-car.svg';
 
+//icon on profile screen
+import IcChangePassword from './ic-change-password.svg';
+import IcInfo from './ic-info.svg';
+import IcLanguage from './ic-language.svg';
+import IcPermissions from './ic-permission.svg';
+import IcPrivacyPolicy from './ic-privacy-policy.svg';
+import IcPrivacySecurity from './ic-privacy-security.svg';
+import IcTermsCondition from './ic-terms-condition.svg';
+
 export {
   IconBellNotification,
   IconBusRoute,
   IconCar,
   IconChart,
   IconChartPrice,
+  IcChevronUp,
   IcChevronDown,
   IcChevronLeft,
   IcChevronRightActive,
@@ -66,4 +77,11 @@ export {
   IcSearch,
   IconTax,
   IcWaiting,
+  IcChangePassword,
+  IcInfo,
+  IcLanguage,
+  IcPermissions,
+  IcPrivacyPolicy,
+  IcPrivacySecurity,
+  IcTermsCondition,
 };

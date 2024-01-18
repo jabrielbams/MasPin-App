@@ -10,6 +10,10 @@ import NewsCardMain from './organisms/news-card';
 import FeatureIcon from './atomics/feature-icon';
 import ReportCardMain from './organisms/report-card';
 import LikeButton from './atomics/like-button';
+import InputDropdownField from './molecules/input-dropdown';
+import BackButton from './atomics/back-button';
+import HeaderNavigation from './molecules/header-navigation';
+import SwitchInputField from './molecules/switch-inputfield';
 
 export {
   InputField,
@@ -24,4 +28,8 @@ export {
   FeatureIcon,
   ReportCardMain,
   LikeButton,
+  InputDropdownField,
+  BackButton,
+  HeaderNavigation,
+  SwitchInputField,
 };

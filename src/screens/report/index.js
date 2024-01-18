@@ -1,13 +1,14 @@
-import {View, Text} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
-import styles from './styles';
 
-const ReportScreen = () => {
+const ReportIndex = () => {
   return (
-    <View style={styles.mainBody}>
-      <Text>ReportScreen</Text>
+    <View>
+      <Text>ReportIndex</Text>
     </View>
   );
 };
 
-export default ReportScreen;
+export default ReportIndex;
+
+const styles = StyleSheet.create({});

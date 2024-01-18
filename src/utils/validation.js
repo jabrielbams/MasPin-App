@@ -84,6 +84,8 @@ export const validateMinMaxChar = (label, text, min, max, type) => {
       message = `${label} tidak boleh menggunakan spesial karakter`;
     }
   }
+
+  return {message, error};
 };
 
 export const validateName = (label, text) => {
@@ -139,6 +141,18 @@ export const validateEmail = email => {
   if (validate === null) {
     message = 'Email tidak sesuai';
     error = true;
+  }
+
+  return {message, error};
+};
+
+export const validateDesc = (label, text) => {
+  let message = '';
+  let error = false;
+
+  if (text.length < 0) {
+    error = true;
+    message = `${label} tidak boleh kosong`;
   }
 
   return {message, error};

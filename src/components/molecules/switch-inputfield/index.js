@@ -1,11 +1,11 @@
-import {StyleSheet, Text, TextInput, View} from 'react-native';
+import {StyleSheet, Switch, Text, TextInput, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {Color, FontSize, Fonts} from '../../../constants';
 import {setPhoneNumber} from '../../../utils/helpers';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {IcEyeClose, IcEyeOpen} from '../../../assets/icons';
 
-export default function InputField({
+export default function SwitchInputField({
   type = 'default',
   placeholder,
   value,
@@ -27,6 +27,9 @@ export default function InputField({
   maxLength,
   inputMode,
   customIcon,
+  onValueChange,
+  valueSwitch,
+  switchTitle,
 }) {
   const [isRender, setIsRender] = useState(false);
   const [hint, setHint] = useState(helper);
@@ -67,8 +70,18 @@ export default function InputField({
   return (
     <View>
       <View style={styles.titleSection}>
-        {label ? <Text style={styles.labelStyle}>{label}</Text> : null}
-        {required ? <Text style={{color: Color.DANGER}}>*</Text> : null}
+        <View style={styles.labelContainer}>
+          {label ? <Text style={styles.labelStyle}>{label}</Text> : null}
+          {required ? <Text style={{color: Color.DANGER}}>*</Text> : null}
+        </View>
+        <View style={styles.switchContainer}>
+          <Switch
+            trackColor={{false: Color.HEADER_GRAY, true: Color.PRIMARY}}
+            onValueChange={onValueChange}
+            value={valueSwitch}
+          />
+          <Text style={styles.switchTitle}>{switchTitle}</Text>
+        </View>
       </View>
       <View
         style={[
@@ -122,13 +135,27 @@ export default function InputField({
 const styles = StyleSheet.create({
   titleSection: {
     flexDirection: 'row',
-    gap: 5,
+    justifyContent: 'space-between',
+    verticalAlign: 'middle',
     marginBottom: 14,
+  },
+  labelContainer: {
+    flexDirection: 'row',
+    gap: 4,
   },
   labelStyle: {
     fontFamily: Fonts.MEDIUM,
     fontSize: FontSize.dp_16,
     color: Color.BLACK,
+  },
+  switchContainer: {
+    flexDirection: 'row-reverse',
+    alignItems: 'center',
+  },
+  switchTitle: {
+    fontFamily: Fonts.LIGHT,
+    fontSize: 12,
+    color: Color.HEADER_GRAY,
   },
   textInput: {
     borderRadius: 8,

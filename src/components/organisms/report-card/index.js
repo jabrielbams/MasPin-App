@@ -9,7 +9,16 @@ import {IcLikes} from '../../../assets/icons';
 const ReportCardMain = ({imgReport, descReport, category, status}) => {
   return (
     <View style={styles.cardContainer}>
-      <Image source={imgReport} />
+      <Image
+        source={{uri: imgReport}}
+        style={{
+          width: 100,
+          height: 100,
+          borderBottomLeftRadius: 8,
+          borderTopLeftRadius: 8,
+          resizeMode: 'cover',
+        }}
+      />
       <View style={styles.contentSection}>
         <View style={styles.header}>
           <View style={styles.category}>

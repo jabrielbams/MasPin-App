@@ -6,14 +6,67 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {ButtonMain, CustomCheckbox, InputField} from '../../components';
 import {Color, Fonts} from './src/constants';
 import {useLogin} from './useLogin';
 import styles from './styles';
+import {useForm} from '../../utils/form';
+import axios from 'axios';
+import {ENDPOINT} from '../../utils/endpoint';
 
 const LoginScreen = ({navigation}) => {
-  const {rememberMe, setRememberMe, setForm, form} = useLogin();
+  const [rememberMe, setRememberMe] = useState(false);
+
+  const [form, setForm] = useForm({
+    email: {
+      value: '',
+      required: true,
+      error: false,
+      message: '',
+      label: 'Email',
+    },
+    password: {
+      value: '',
+      required: true,
+      error: false,
+      message: '',
+      label: 'Password',
+    },
+  });
+
+  const saveTokenToStorage = async refreshToken => {
+    try {
+      await AsyncStorage.setItem('refreshToken', refreshToken);
+      console.log(refreshToken);
+    } catch (error) {
+      console.error('Error saving token to AsyncStorage:', refreshToken);
+    }
+  };
+
+  const handleLogin = async () => {
+    console.log(ENDPOINT.AUTH.LOGIN);
+    try {
+      const response = await axios.post(ENDPOINT.AUTH.LOGIN, {
+        email: form.email.value,
+        password: form.password.value,
+      });
+
+      const {data, success, message, status} = response.data;
+
+      if (success) {
+        if (data.accessToken) {
+          saveTokenToStorage(data.refreshToken);
+          navigation.replace('Home');
+        }
+        console.log('login berhasil');
+      }
+      console.log(data);
+    } catch (error) {
+      console.error('Login error:', error.message);
+    }
+  };
 
   return (
     <View style={styles.mainBody}>
@@ -85,6 +138,7 @@ const LoginScreen = ({navigation}) => {
           <ButtonMain
             onPress={() => {
               // Handle button press event
+              handleLogin();
               console.log('Form Values:', form);
             }}
             title="Masuk"

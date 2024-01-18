@@ -2,12 +2,22 @@ import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {IcNotification} from '../../../assets';
 import {Badge} from 'react-native-elements';
-export default function NotificationIcon({isNotification, onPress}) {
+export default function NotificationIcon({
+  isNotification,
+  onPress,
+  notifValue,
+}) {
   const iconChange = isNotification ? 'notifications-unread' : 'notifications';
   return (
     <TouchableOpacity style={styles.notification}>
       <IcNotification width={28} height={28} />
-      <Badge containerStyle={styles.badgeStyle} value={3} status="error" />
+      {notifValue && (
+        <Badge
+          containerStyle={styles.badgeStyle}
+          value={notifValue}
+          status="error"
+        />
+      )}
     </TouchableOpacity>
   );
 }

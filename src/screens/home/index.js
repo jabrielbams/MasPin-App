@@ -1,5 +1,6 @@
 import {
   KeyboardAvoidingView,
+  PermissionsAndroid,
   SafeAreaView,
   ScrollView,
   StyleSheet,
@@ -9,7 +10,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Color, FontSize, Fonts} from '../../constants';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {
@@ -32,7 +33,50 @@ import {
 } from '../../assets/icons';
 import {ImgCar, ImgNewsCovid} from '../../assets/images';
 
-const HomeScreen = () => {
+const HomeScreen = ({navigation}) => {
+  async function requestLocationPermission() {
+    const locationPermission = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+      {
+        title: 'Akses Lokasi Diperlukan',
+        message: 'Aplikasi ini memerlukan akses lokasi',
+      },
+    );
+    console.log(locationPermission);
+  }
+
+  const requestCameraPermission = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.CAMERA,
+        {
+          title: 'Camera Permission',
+          message:
+            'App needs access to your camera ' + 'so you can take pictures.',
+          buttonNeutral: 'Ask Me Later',
+          buttonNegative: 'Cancel',
+          buttonPositive: 'OK',
+        },
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        console.log('You can use the camera');
+      } else {
+        console.log('Camera permission denied');
+      }
+    } catch (err) {
+      console.warn(err);
+    }
+  };
+
+  const requestPermissions = async () => {
+    await requestCameraPermission();
+    await requestLocationPermission();
+  };
+
+  useEffect(() => {
+    requestPermissions();
+  });
+
   return (
     <View style={styles.mainBody}>
       <View>
@@ -55,10 +99,26 @@ const HomeScreen = () => {
                 marginTop: 32,
               }}></View>
             <View style={styles.featureList}>
-              <FeatureIcon icon={<IconReport />} label="Laporan" />
-              <FeatureIcon icon={<IconTax />} label="Pajak" />
-              <FeatureIcon icon={<IconBusRoute />} label="Rute" />
-              <FeatureIcon icon={<IconChartPrice />} label="Harga" />
+              <FeatureIcon
+                icon={<IconReport />}
+                label="Laporan"
+                onPress={() => navigation.navigate('Report')}
+              />
+              <FeatureIcon
+                icon={<IconTax />}
+                label="Pajak"
+                onPress={() => navigation.navigate('Tax')}
+              />
+              <FeatureIcon
+                icon={<IconBusRoute />}
+                label="Rute"
+                onPress={() => navigation.navigate('Bus')}
+              />
+              <FeatureIcon
+                icon={<IconChartPrice />}
+                label="Harga"
+                onPress={() => navigation.navigate('Price')}
+              />
               <FeatureIcon icon={<IconOthers />} label="Lainnya" />
             </View>
           </View>
@@ -73,21 +133,21 @@ const HomeScreen = () => {
             </View>
             <View>
               <ReportCardMain
-                imgReport={ImgCar}
+                // imgReport={ImgCar}
                 descReport="Minta tolong pak ditindaklanjuti kemacetan di daerah Jalan Gereja,
                 sudah 5 minggu mangkrak dipinggir jalan"
                 category={<LabelCategory title="Lalu Lintas" />}
                 status={<LabelStatus type={1} />}
               />
               <ReportCardMain
-                imgReport={ImgCar}
+                // imgReport={ImgCar}
                 descReport="Minta tolong pak ditindaklanjuti kemacetan di daerah Jalan Gereja,
                 sudah 5 minggu mangkrak dipinggir jalan"
                 category={<LabelCategory title="Lalu Lintas" />}
                 status={<LabelStatus type={1} />}
               />
               <ReportCardMain
-                imgReport={ImgCar}
+                // imgReport={ImgCar}
                 descReport="Minta tolong pak ditindaklanjuti kemacetan di daerah Jalan Gereja,
                 sudah 5 minggu mangkrak dipinggir jalan"
                 category={<LabelCategory title="Lalu Lintas" />}
