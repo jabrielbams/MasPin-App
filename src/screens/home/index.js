@@ -8,6 +8,7 @@ import {
   Touchable,
   TouchableOpacity,
   View,
+  Image,
 } from 'react-native';
 import React, {useState} from 'react';
 import {Color, FontSize, Fonts} from '../../constants';
@@ -22,6 +23,7 @@ import {
   SearchBar,
 } from '../../components';
 import styles from './styles';
+import {useHome} from './useHome';
 import {
   IcChevronRightActive,
   IconBusRoute,
@@ -32,7 +34,9 @@ import {
 } from '../../assets/icons';
 import {ImgCar, ImgNewsCovid} from '../../assets/images';
 
-const HomeScreen = () => {
+const HomeScreen = ({navigation}) => {
+  // const {onTaxPressed} = useHome();
+
   return (
     <View style={styles.mainBody}>
       <View>
@@ -44,19 +48,30 @@ const HomeScreen = () => {
         <ScrollView
           style={{marginBottom: 50}}
           showsVerticalScrollIndicator={false}>
+          <View
+            style={{
+              alignItems: 'center',
+              marginTop: 20,
+              marginBottom: 24,
+              paddingHorizontal: 8,
+            }}>
+            <Image
+              source={require('../../assets/images/img-banner-home.jpg')}
+              style={{width: '100%', borderRadius: 8}}
+            />
+          </View>
           <View style={styles.content}>
-            <View
-              style={{
-                backgroundColor: Color.LIGHT_GRAY,
-                borderRadius: 8,
-                height: 140,
-                width: '100%',
-                marginBottom: 24,
-                marginTop: 32,
-              }}></View>
             <View style={styles.featureList}>
               <FeatureIcon icon={<IconReport />} label="Laporan" />
-              <FeatureIcon icon={<IconTax />} label="Pajak" />
+              <FeatureIcon
+                icon={<IconTax />}
+                label="Pajak"
+                onPress={() => {
+                  navigation.navigate('Tax', {
+                    section: 'Pajak',
+                  });
+                }}
+              />
               <FeatureIcon icon={<IconBusRoute />} label="Rute" />
               <FeatureIcon icon={<IconChartPrice />} label="Harga" />
               <FeatureIcon icon={<IconOthers />} label="Lainnya" />

@@ -2,7 +2,7 @@ import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {IcNotification} from '../../../assets';
 import {Badge} from 'react-native-elements';
-export default function NotificationIcon({isNotification, onPress}) {
+export default function NotificationIcon({isNotification, onPress, value}) {
   const iconChange = isNotification ? 'notifications-unread' : 'notifications';
   return (
     <TouchableOpacity style={styles.notification}>

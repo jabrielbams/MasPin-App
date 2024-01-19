@@ -24,6 +24,8 @@ import ReportScreen from '../screens/report';
 import ProfileScreen from '../screens/profile';
 import LoginScreen from '../screens/login';
 import RegisterScreen from '../screens/register';
+import TaxScreen from '../screens/tax';
+import DetailTax from '../screens/tax/detail-tax';
 
 // Screens Name
 const homeName = 'Beranda';
@@ -121,6 +123,16 @@ const MainComponent = () => {
         <Stack.Screen
           name="Home"
           component={Home}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Tax"
+          component={TaxScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="DetailTax"
+          component={DetailTax}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

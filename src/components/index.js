@@ -10,6 +10,7 @@ import NewsCardMain from './organisms/news-card';
 import FeatureIcon from './atomics/feature-icon';
 import ReportCardMain from './organisms/report-card';
 import LikeButton from './atomics/like-button';
+import TaxCardMain from './organisms/tax-card';
 
 export {
   InputField,
@@ -24,4 +25,5 @@ export {
   FeatureIcon,
   ReportCardMain,
   LikeButton,
+  TaxCardMain,
 };
