@@ -41,4 +41,6 @@ export const Color = {
   TEXTSECONDARY: '#A2A2A2',
   DANGER: '#FF0000',
   INNERBOX: '#F4F4F4',
+  TEXTFIELD: '#F9F9F9',
+  TEXTBOX: '#757575',
 };

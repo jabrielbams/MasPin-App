@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {FontSize, Fonts, Color} from '../../constants';
+import {Color, FontSize, Fonts} from '../../constants';
 
 export default StyleSheet.create({
   mainBody: {
@@ -35,15 +35,16 @@ export default StyleSheet.create({
   },
   content: {
     paddingHorizontal: 16,
+    marginTop: 20,
   },
-  sectionTitle: {
-    color: Color.BLACK,
-    fontSize: 16,
-    fontFamily: Fonts.MEDIUM,
-  },
-  sectionList: {
-    marginTop: 16,
-    flexDirection: 'column',
+  searchBox: {
+    backgroundColor: Color.TEXTFIELD,
+    flexDirection: 'row',
+    height: 45,
+    borderRadius: 8,
+    alignItems: 'center',
+    paddingHorizontal: 12,
     gap: 16,
   },
+  featureList: {marginTop: 24, flexDirection: 'column', gap: 20},
 });

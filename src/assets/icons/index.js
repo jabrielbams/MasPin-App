@@ -11,6 +11,7 @@ import IcPlus from './ic-plus.svg';
 import IcRound from './ic-round.svg';
 import IcSearch from './ic-search.svg';
 import IcWaiting from './ic-waiting.svg';
+import IcChevronRight from './ic-chevron-right.svg';
 
 // feature list
 import IconReport from './ic-report.svg';
@@ -19,6 +20,7 @@ import IconBusRoute from './ic-bus-route.svg';
 import IconChart from './ic-chart.svg';
 import IconChartPrice from './ic-chart-price.svg';
 import IconOthers from './ic-others.svg';
+import IconTelephone from './ic-telephone.svg';
 
 // navbar icon
 import IconHomeActive from './ic-home-active.svg';
@@ -66,4 +68,6 @@ export {
   IcSearch,
   IconTax,
   IcWaiting,
+  IcChevronRight,
+  IconTelephone,
 };

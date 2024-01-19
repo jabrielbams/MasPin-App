@@ -9,9 +9,16 @@ import {
 import {IcSearch} from '../../../assets';
 import {Color} from '../../../constants';
 
-const SearchBar = ({clicked, searchPhrase, setSearchPhrase, setClicked}) => {
+const SearchBar = ({
+  clicked,
+  searchPhrase,
+  setSearchPhrase,
+  setClicked,
+  customStyle,
+}) => {
+  const [click, setClick] = useState(false);
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, customStyle]}>
       <View
         style={clicked ? styles.searchBarClicked : styles.searchBarUnclicked}>
         {/* search Icon */}
@@ -23,15 +30,10 @@ const SearchBar = ({clicked, searchPhrase, setSearchPhrase, setClicked}) => {
           value={searchPhrase}
           onChangeText={setSearchPhrase}
           onFocus={() => {
-            setClicked(true);
+            setClick(true);
           }}
         />
-        {/* cross Icon, depending on whether the search bar is clicked or not */}
-        {/* {clicked && (
-          // view after clicked
-        )} */}
       </View>
-      {/* cancel button, depending on whether the search bar is clicked or not */}
       {clicked && (
         <TouchableOpacity
           style={styles.cancelButton}

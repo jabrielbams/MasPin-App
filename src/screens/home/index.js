@@ -72,9 +72,33 @@ const HomeScreen = ({navigation}) => {
                   });
                 }}
               />
-              <FeatureIcon icon={<IconBusRoute />} label="Rute" />
-              <FeatureIcon icon={<IconChartPrice />} label="Harga" />
-              <FeatureIcon icon={<IconOthers />} label="Lainnya" />
+              <FeatureIcon
+                icon={<IconBusRoute />}
+                label="Rute"
+                onPress={() => {
+                  navigation.navigate('RuteBus', {
+                    section: 'Rute Bus',
+                  });
+                }}
+              />
+              <FeatureIcon
+                icon={<IconChartPrice />}
+                label="Harga"
+                onPress={() => {
+                  navigation.navigate('HargaPangan', {
+                    section: 'Harga Pangan',
+                  });
+                }}
+              />
+              <FeatureIcon
+                icon={<IconOthers />}
+                label="Lainnya"
+                onPress={() => {
+                  navigation.navigate('Others', {
+                    section: 'Lainnya',
+                  });
+                }}
+              />
             </View>
           </View>
           <View style={styles.dividerStyle} />

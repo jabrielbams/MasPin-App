@@ -11,6 +11,7 @@ import FeatureIcon from './atomics/feature-icon';
 import ReportCardMain from './organisms/report-card';
 import LikeButton from './atomics/like-button';
 import TaxCardMain from './organisms/tax-card';
+import FeatureList from './molecules/feature-list';
 
 export {
   InputField,
@@ -26,4 +27,5 @@ export {
   ReportCardMain,
   LikeButton,
   TaxCardMain,
+  FeatureList,
 };

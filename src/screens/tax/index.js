@@ -58,13 +58,7 @@ const TaxScreen = props => {
     <View style={styles.mainBody}>
       <View>
         <View style={styles.headerMain}>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'center',
-              alignItems: 'center',
-              gap: 6,
-            }}>
+          <View style={styles.title}>
             <TouchableOpacity
               onPress={() => {
                 navigation.goBack();

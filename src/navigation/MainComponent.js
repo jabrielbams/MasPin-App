@@ -26,6 +26,9 @@ import LoginScreen from '../screens/login';
 import RegisterScreen from '../screens/register';
 import TaxScreen from '../screens/tax';
 import DetailTax from '../screens/tax/detail-tax';
+import OthersScreen from '../screens/others';
+import HargaPangan from '../screens/hargaPangan';
+import RuteBus from '../screens/ruteBus';
 
 // Screens Name
 const homeName = 'Beranda';
@@ -110,6 +113,7 @@ const MainComponent = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home">
+        {/* entry */}
         <Stack.Screen
           name="Login"
           component={LoginScreen}
@@ -120,16 +124,34 @@ const MainComponent = () => {
           component={RegisterScreen}
           options={{headerShown: false}}
         />
+        {/* navbar */}
         <Stack.Screen
           name="Home"
           component={Home}
           options={{headerShown: false}}
         />
+        {/* feature */}
         <Stack.Screen
           name="Tax"
           component={TaxScreen}
           options={{headerShown: false}}
         />
+        <Stack.Screen
+          name="RuteBus"
+          component={RuteBus}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="HargaPangan"
+          component={HargaPangan}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Others"
+          component={OthersScreen}
+          options={{headerShown: false}}
+        />
+        {/* details */}
         <Stack.Screen
           name="DetailTax"
           component={DetailTax}
