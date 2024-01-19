@@ -61,12 +61,7 @@ const OthersScreen = props => {
               <IcSearch />
               <TextInput
                 placeholder="Cari Layanan"
-                style={{
-                  color: Color.TEXTBOX,
-                  fontFamily: Fonts.REGULAR,
-                  fontSize: FontSize.dp_14,
-                  width: '80%',
-                }}
+                style={styles.placeholder}
               />
             </View>
             <View style={styles.featureList}>

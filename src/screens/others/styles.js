@@ -46,5 +46,11 @@ export default StyleSheet.create({
     paddingHorizontal: 12,
     gap: 16,
   },
+  placeholder: {
+    color: Color.TEXTBOX,
+    fontFamily: Fonts.REGULAR,
+    fontSize: FontSize.dp_14,
+    width: '80%',
+  },
   featureList: {marginTop: 24, flexDirection: 'column', gap: 20},
 });

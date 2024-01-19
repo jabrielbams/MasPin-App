@@ -12,6 +12,8 @@ import IcRound from './ic-round.svg';
 import IcSearch from './ic-search.svg';
 import IcWaiting from './ic-waiting.svg';
 import IcChevronRight from './ic-chevron-right.svg';
+import IcMapPins from './ic-map-pin.svg';
+import IcFish from './ic-fish.svg';
 
 // feature list
 import IconReport from './ic-report.svg';
@@ -70,4 +72,6 @@ export {
   IcWaiting,
   IcChevronRight,
   IconTelephone,
+  IcMapPins,
+  IcFish,
 };

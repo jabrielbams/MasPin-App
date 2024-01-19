@@ -12,6 +12,8 @@ import ReportCardMain from './organisms/report-card';
 import LikeButton from './atomics/like-button';
 import TaxCardMain from './organisms/tax-card';
 import FeatureList from './molecules/feature-list';
+import MarketCard from './organisms/market-card';
+import InformationBadge from './atomics/information-badge';
 
 export {
   InputField,
@@ -28,4 +30,6 @@ export {
   LikeButton,
   TaxCardMain,
   FeatureList,
+  MarketCard,
+  InformationBadge,
 };
