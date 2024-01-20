@@ -67,28 +67,36 @@ const ActivityScreen = () => {
           <NotificationIcon style={{marginLeft: 'auto'}} />
         </View>
         <View style={styles.dividerStyle} />
-        {/* Tab Bar */}
-        <TabBar
-          tabs={[
-            {title: 'Status 1', onPress: () => setActiveTab(1)},
-            {title: 'Status 2', onPress: () => setActiveTab(2)},
-            {title: 'Status 3', onPress: () => setActiveTab(3)},
-          ]}
-          activeTab={activeTab}
-        />
+        <View style={{marginHorizontal: 16}}>
+          {/* Tab Bar */}
+          <TabBar
+            tabs={[
+              {title: 'Status 1', onPress: () => setActiveTab(1)},
+              {title: 'Status 2', onPress: () => setActiveTab(2)},
+              {title: 'Status 3', onPress: () => setActiveTab(3)},
+            ]}
+            activeTab={activeTab}
+          />
 
-        {/* Laporan List */}
-        <View style={styles.contentContainer}>
-          {loading ? (
-            <Text>Loading...</Text>
-          ) : (
-            <FlatList
-              data={filteredReportData}
-              keyExtractor={item => item._id}
-              renderItem={renderItem}
-              showsVerticalScrollIndicator={false}
-            />
-          )}
+          {/* Laporan List */}
+          <View style={styles.contentContainer}>
+            {loading ? (
+              <Text>Loading...</Text>
+            ) : (
+              <FlatList
+                data={
+                  filteredReportData
+                    ? filteredReportData.sort(
+                        (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
+                      )
+                    : []
+                }
+                keyExtractor={item => item._id}
+                renderItem={renderItem}
+                showsVerticalScrollIndicator={false}
+              />
+            )}
+          </View>
         </View>
       </View>
     </View>

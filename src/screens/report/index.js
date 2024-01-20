@@ -114,6 +114,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignContent: 'flex-start',
     paddingTop: 32,
+    flexGrow: 1,
   },
   headerMain: {
     paddingHorizontal: 16,
@@ -125,9 +126,8 @@ const styles = StyleSheet.create({
     backgroundColor: Color.LIGHT_GRAY,
   },
   contentContainer: {
+    flex: 1,
     flexDirection: 'column',
     gap: 24,
-    marginVertical: 20,
-    marginHorizontal: 16,
   },
 });

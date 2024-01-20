@@ -15,6 +15,8 @@ import {Color, FontSize, Fonts} from '../../../constants';
 import {useTax} from '../useTax';
 import {ImgStrokeDivider} from '../../../assets/images';
 import {ENDPOINT} from '../../../utils/endpoint';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
 const DetailTax = props => {
   const [platNomor, setPlatNomor] = useState('');
@@ -83,7 +85,7 @@ const DetailTax = props => {
             keyboardType="number-pad"
             placeholder="0000"
             placeholderTextColor={'#3F3F3F'}
-            onChangeText={setPlatNomor}
+            onChangeText={() => setPlatNomor()}
             value={platNomor}
           />
           <TextInput
@@ -91,7 +93,7 @@ const DetailTax = props => {
             maxLength={2}
             placeholder="XX"
             placeholderTextColor={'#3F3F3F'}
-            onChangeText={setCode}
+            onChangeText={() => setCode()}
             value={code}
           />
         </View>

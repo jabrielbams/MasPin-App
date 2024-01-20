@@ -33,7 +33,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import ReportIndex from '../screens/report';
 import ReportForm from '../screens/report/create';
 import EmergencyContact from '../screens/telephone';
-import OtherFeatures from '../screens/Other';
+import OtherFeatures from '../screens/other';
 
 // Screens Name
 const homeName = 'Beranda';
