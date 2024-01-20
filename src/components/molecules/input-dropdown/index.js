@@ -23,6 +23,7 @@ const TextFieldDropdown = props => {
     valueContainer,
     customCard,
     valueInputContainer,
+    onSubmitEditing,
   } = props;
 
   const RenderContent = ({item}) => (
@@ -45,6 +46,7 @@ const TextFieldDropdown = props => {
             onChangeText={onChangeText}
             returnKeyType="search"
             style={styles.inputValue}
+            onSubmitEditing={onSubmitEditing}
           />
           <TouchableOpacity onPress={onPressCloseDropdown}>
             <View>{Icon}</View>

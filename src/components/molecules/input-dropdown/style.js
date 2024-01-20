@@ -48,7 +48,7 @@ export default StyleSheet.create({
   card: {
     backgroundColor: '#ffffff',
     paddingHorizontal: 16,
-    maxHeight: 150,
+    // maxHeight: 150,
   },
 
   inputValue: {

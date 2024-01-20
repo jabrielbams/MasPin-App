@@ -6,26 +6,23 @@ import {Color, Fonts} from '../../../constants';
 
 export default function HeaderNavigation({onPress, title}) {
   return (
-    <TouchableOpacity onPress={onPress} style={styles.headerMain}>
-      <IcChevronLeft />
+    <TouchableOpacity onPress={onPress} style={styles.container}>
+      <View style={styles.icon}>
+        <IcChevronLeft />
+      </View>
       <Text style={styles.headerText}>{title}</Text>
     </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
-  headerMain: {
+  container: {
     flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: 16,
-    marginBottom: 16,
   },
   headerText: {
-    fontFamily: Fonts.BOLD,
-    fontSize: 24,
+    fontFamily: Fonts.SEMIBOLD,
+    fontSize: 20,
     color: Color.BLACK,
-    fontWeight: 'bold',
   },
 });

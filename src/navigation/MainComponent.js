@@ -20,13 +20,14 @@ import {FontSize, Fonts} from '../constants';
 // Screens
 import HomeScreen from '../screens/home';
 import ActivityScreen from '../screens/activity';
-import ReportScreen from '../screens/report/camera';
 import ProfileScreen from '../screens/profile';
 import LoginScreen from '../screens/login';
 import RegisterScreen from '../screens/register';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ReportIndex from '../screens/report';
 import ReportForm from '../screens/report/create';
+import EmergencyContact from '../screens/telephone';
+import OtherFeatures from '../screens/Other';
 
 // Screens Name
 const homeName = 'Beranda';
@@ -161,6 +162,11 @@ const MainComponent = () => {
           options={{headerShown: false}}
         />
         <Stack.Screen
+          name="ReportIndex"
+          component={ReportIndex}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
           name="Tax"
           component={Home}
           options={{headerShown: false}}
@@ -173,6 +179,16 @@ const MainComponent = () => {
         <Stack.Screen
           name="Market"
           component={Home}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="OtherFeatures"
+          component={OtherFeatures}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Telephone"
+          component={EmergencyContact}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

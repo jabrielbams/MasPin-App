@@ -9,6 +9,7 @@ import {
   validateMinMaxChar,
   validateMinMaxPrice,
   validateName,
+  validateNIK,
   validatePassword,
   validatePhoneNumber,
   validateReferal,
@@ -52,7 +53,9 @@ export const useForm = initalForm => {
           validate = validateName(label, value);
         } else if (key === 'desc') {
           // Perubahan di sini, tambahkan key 'desc'
-          validate = validateDesc(label, value); // Tambahkan fungsi validasi khusus untuk 'desc'
+          validate = validateDesc(label, value);
+        } else if (key === 'nik') {
+          validate = validateNIK(label, value);
         } else if (key === 'dropdown') {
           // Custom validation for dropdown
           // You can adjust this part based on the requirements for dropdown validation

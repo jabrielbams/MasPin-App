@@ -9,19 +9,19 @@ import {
 import {IcSearch} from '../../../assets';
 import {Color} from '../../../constants';
 
-const SearchBar = ({clicked, searchPhrase, setSearchPhrase, setClicked}) => {
+const SearchBar = ({clicked, searchValue, setSearchValue, setClicked}) => {
   return (
     <View style={styles.container}>
       <View
         style={clicked ? styles.searchBarClicked : styles.searchBarUnclicked}>
         {/* search Icon */}
-        <IcSearch weight={28} height={28} />
+        <IcSearch weight={24} height={24} />
         {/* Input field */}
         <TextInput
           style={styles.input}
           placeholder="Cari Layanan"
-          value={searchPhrase}
-          onChangeText={setSearchPhrase}
+          value={searchValue}
+          onChangeText={setSearchValue}
           onFocus={() => {
             setClicked(true);
           }}
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     padding: 12,
     flexDirection: 'row',
     borderRadius: 15,
-    borderColor: Color.BLACK,
+    borderColor: Color.OUTLINE_GRAY,
     borderWidth: 1,
     alignItems: 'center',
   },
@@ -68,7 +68,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: '80%',
     borderRadius: 15,
-    backgroundColor: 'rgba(0, 0, 0, 0.1)', // Add background color for clicked state
+    borderColor: Color.BLACK, // Add background color for clicked state
+    borderWidth: 1,
     alignItems: 'center',
     justifyContent: 'space-evenly',
   },

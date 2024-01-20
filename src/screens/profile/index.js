@@ -2,7 +2,7 @@ import {View, Text, Image, TouchableOpacity} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import styles from './styles';
 import {Color, Fonts} from '../../constants';
-import {NotificationIcon} from '../../components';
+import {HeaderNavigation, NotificationIcon} from '../../components';
 import {
   IcChangePassword,
   IcChevronRightActive,
@@ -12,14 +12,16 @@ import {
   IcPermissions,
   IcPrivacyPolicy,
   IcPrivacySecurity,
+  IcSignOut,
   IcTermsCondition,
   IconBellNotification,
 } from '../../assets/icons';
 import SubMenu from '../../components/molecules/submenu';
 import {ImgProfile} from '../../assets/images';
 import {getUserProfile} from '../../services/profile';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const ProfileScreen = ({}) => {
+const ProfileScreen = ({navigation}) => {
   const [userData, setUserData] = useState(null);
   const [isValid, setIsValid] = useState(false);
 
@@ -39,6 +41,17 @@ const ProfileScreen = ({}) => {
   const handleValidationAccount = profileData => {
     const statusValidate = profileData.statusValidate;
     setIsValid(statusValidate);
+  };
+
+  const handleLogout = async () => {
+    try {
+      await AsyncStorage.removeItem('refreshToken');
+
+      // Navigasi ke halaman Login atau halaman lain sesuai kebutuhan
+      navigation.replace('Login');
+    } catch (error) {
+      console.error('Logout error:', error.message);
+    }
   };
 
   const LabelValidation = () => {
@@ -71,7 +84,12 @@ const ProfileScreen = ({}) => {
       {userData ? (
         <View>
           <View style={styles.headerMain}>
-            <Text style={styles.headerText}>Profile</Text>
+            <HeaderNavigation
+              onPress={() => {
+                navigation.goBack();
+              }}
+              title={'Profil'}
+            />
             <NotificationIcon style={{marginLeft: 'auto'}} />
           </View>
           <View style={styles.dividerStyle} />
@@ -97,10 +115,6 @@ const ProfileScreen = ({}) => {
             <SubMenu leftIcon={<IcChangePassword />} title={'Ubah Password'} />
             <SubMenu leftIcon={<IcLanguage />} title={'Pengaturan Bahasa'} />
             <SubMenu
-              leftIcon={<IconBellNotification />}
-              title={'Pengaturan Notifikasi'}
-            />
-            <SubMenu
               leftIcon={<IcPrivacySecurity />}
               title={'Privasi dan Keamanan'}
             />
@@ -121,6 +135,13 @@ const ProfileScreen = ({}) => {
               leftIcon={<IcPrivacyPolicy />}
               title={'Kebijakan Privasi'}
             />
+            <TouchableOpacity onPress={handleLogout}>
+              <SubMenu
+                isIconHidden={true}
+                leftIcon={<IcSignOut />}
+                title={'Keluar'}
+              />
+            </TouchableOpacity>
           </View>
         </View>
       ) : (

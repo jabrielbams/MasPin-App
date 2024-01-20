@@ -73,6 +73,10 @@ const HomeScreen = ({navigation}) => {
     await requestLocationPermission();
   };
 
+  const handleReportIndexButton = () => {
+    navigation.navigate('ReportIndex');
+  };
+
   useEffect(() => {
     requestPermissions();
   });
@@ -119,14 +123,20 @@ const HomeScreen = ({navigation}) => {
                 label="Harga"
                 onPress={() => navigation.navigate('Price')}
               />
-              <FeatureIcon icon={<IconOthers />} label="Lainnya" />
+              <FeatureIcon
+                icon={<IconOthers />}
+                label="Lainnya"
+                onPress={() => navigation.navigate('OtherFeatures')}
+              />
             </View>
           </View>
           <View style={styles.dividerStyle} />
           <View style={styles.content}>
             <View style={styles.sectionDivider}>
               <Text style={styles.sectionTitle}>Laporan</Text>
-              <TouchableOpacity style={styles.otherStyle}>
+              <TouchableOpacity
+                style={styles.otherStyle}
+                onPress={handleReportIndexButton}>
                 <Text style={styles.otherText}>Lainnya</Text>
                 <IcChevronRightActive />
               </TouchableOpacity>

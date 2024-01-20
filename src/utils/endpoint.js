@@ -1,4 +1,5 @@
 import {API_BASE_URL1} from '@env';
+import {API_URL_NGROK} from '@env';
 
 export const ENDPOINT = {
   AUTH: {
@@ -6,5 +7,15 @@ export const ENDPOINT = {
   },
   PROFILE: {
     USER: `${API_BASE_URL1}/api/users`,
+  },
+  REPORT: {
+    CREATE: `${API_BASE_URL1}/api/laporan/add-laporan`,
+  },
+
+  NGROK: {
+    CREATE: `${API_URL_NGROK}/api/laporan/add-laporan`,
+    GET: `${API_URL_NGROK}/api/laporan/get-laporan`,
+    LOGIN: `${API_URL_NGROK}/api/users/login`,
+    VALIDASI: `${API_URL_NGROK}/api/users/validate-account`,
   },
 };

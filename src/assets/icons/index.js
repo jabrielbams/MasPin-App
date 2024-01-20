@@ -19,6 +19,7 @@ import IconTax from './ic-tax.svg';
 import IconBusRoute from './ic-bus-route.svg';
 import IconChart from './ic-chart.svg';
 import IconChartPrice from './ic-chart-price.svg';
+import IconTelephone from './ic-menu-telephone.svg';
 import IconOthers from './ic-others.svg';
 
 // navbar icon
@@ -44,6 +45,7 @@ import IcPermissions from './ic-permission.svg';
 import IcPrivacyPolicy from './ic-privacy-policy.svg';
 import IcPrivacySecurity from './ic-privacy-security.svg';
 import IcTermsCondition from './ic-terms-condition.svg';
+import IcSignOut from './ic-signout';
 
 export {
   IconBellNotification,
@@ -84,4 +86,6 @@ export {
   IcPrivacyPolicy,
   IcPrivacySecurity,
   IcTermsCondition,
+  IcSignOut,
+  IconTelephone,
 };

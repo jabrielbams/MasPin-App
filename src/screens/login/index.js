@@ -46,9 +46,9 @@ const LoginScreen = ({navigation}) => {
   };
 
   const handleLogin = async () => {
-    console.log(ENDPOINT.AUTH.LOGIN);
+    console.log(ENDPOINT.NGROK.LOGIN);
     try {
-      const response = await axios.post(ENDPOINT.AUTH.LOGIN, {
+      const response = await axios.post(ENDPOINT.NGROK.LOGIN, {
         email: form.email.value,
         password: form.password.value,
       });

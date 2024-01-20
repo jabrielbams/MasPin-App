@@ -157,3 +157,25 @@ export const validateDesc = (label, text) => {
 
   return {message, error};
 };
+
+// validation.js
+
+export const validateNIK = (label, value) => {
+  const numericValue = parseInt(value, 10); // Convert the value to an integer
+
+  if (isNaN(numericValue) || value.length !== 16) {
+    return {
+      error: true,
+      message: `${label} harus berupa angka`,
+      customMessage: `Masukkan ${label} dengan benar (16 digit)`,
+    };
+  }
+
+  // Additional conditions for NIK validation can be added here
+
+  return {
+    error: false,
+    message: '',
+    customMessage: '',
+  };
+};

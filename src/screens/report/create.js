@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   FlatList,
   PermissionsAndroid,
@@ -34,15 +34,22 @@ import Geocoding from 'react-native-geocoding';
 import getAddress from '../../services/location';
 import {useFocusEffect} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
+import {ENDPOINT} from '../../utils/endpoint';
 
 const ReportForm = ({navigation}) => {
+  const [userData, setUserData] = useState();
   const [showDropdown, setShowDropdown] = useState(false);
   const [isAgree, setIsAgree] = useState(false);
   const [submit, setSubmit] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [useSavedLocation, setUseSavedLocation] = useState(false);
 
   const [location, setLocation] = useState(null);
   const [address, setAddress] = useState('');
+
+  const [searchText, setSearchText] = useState('');
+  const [filteredData, setFilteredData] = useState(dropdownData);
 
   const [form, setForm] = useForm({
     label: {
@@ -68,13 +75,30 @@ const ReportForm = ({navigation}) => {
     },
   });
 
-  const dummyDropdownData = [
+  // Function to reset the form state
+  const resetFormState = () => {
+    setForm('@reset');
+    setSubmit(false);
+    setIsAgree(false);
+    setSelectedImage(null);
+    setLocation(null);
+    setAddress('');
+  };
+
+  const dropdownData = [
     {id: 1, label_type: 'Lalu Lintas'},
-    {id: 2, label_type: 'Jalan Raya'},
-    {id: 3, label_type: 'Ketertiban'},
-    {id: 4, label_type: 'kebersihan'},
-    {id: 5, label_type: 'Fasilitas Umum'},
+    {id: 2, label_type: 'Fasilitas Publik'},
+    {id: 3, label_type: 'Kebersihan'},
+    {id: 4, label_type: 'Ketertiban'},
   ];
+
+  const handleSearch = text => {
+    const filtered = dropdownData.filter(item =>
+      item.name.toLowerCase().includes(text.toLowerCase()),
+    );
+    setFilteredData(filtered);
+    setSearchText(text);
+  };
 
   const handlePressDropdown = () => {
     setShowDropdown(!showDropdown);
@@ -121,60 +145,71 @@ const ReportForm = ({navigation}) => {
   };
 
   const handleSubmit = async () => {
-    const formData = new FormData();
-    const refreshToken = await AsyncStorage.getItem('refreshToken');
+    try {
+      const formData = new FormData();
+      const refreshToken = await AsyncStorage.getItem('refreshToken');
 
-    if (refreshToken) {
-      formData.append('authorization', refreshToken);
-    }
+      formData.append('kategori_masalah', form.label.value);
+      formData.append('detail_masalah', form.desc.value);
+      formData.append(
+        'lokasi',
+        useSavedLocation ? address : form.address.value,
+      );
 
-    formData.append('kategori_masalah', form.label.value);
-    formData.append('detail_masalah', form.desc.value);
-    formData.append('lokasi', form.address.value);
+      if (selectedImage) {
+        const currentDate = new Date();
+        const formattedDate = `${currentDate.getFullYear()}-${
+          currentDate.getMonth() + 1
+        }-${currentDate.getDate()}`;
+        const filename = `report_${formattedDate}.jpg`;
+        const match = /\.(\w+)$/.exec(filename);
+        const type = match ? `image/${match[1]}` : 'image';
+        formData.append('image_laporan', {
+          uri: selectedImage,
+          type,
+          name: filename,
+        });
+        console.log('uri:', selectedImage);
+        console.log('type:', type);
+        console.log('name:', filename);
+      }
 
-    if (selectedImage) {
-      const filename = selectedImage.split('/').pop();
-      const match = /\.(\w+)$/.exec(filename);
-      const type = match ? `image/${match[1]}` : 'image';
-      formData.append('image_laporan', {
-        uri: selectedImage,
-        type,
-        name: filename,
+      // Make the API request
+      const response = await axios.post(ENDPOINT.NGROK.CREATE, formData, {
+        headers: {
+          Authorization: `Bearer ${refreshToken}`,
+          'Content-Type': 'multipart/form-data',
+        },
       });
+      // Handle the response from the API
+      console.log('API Response:', response.data);
+    } catch (error) {
+      console.log('API Error:', error.message);
     }
-    // Log isi formulir sebelum mengirim ke API
-    console.log('Form Data:', {
-      authorization: refreshToken,
-      image_laporan: selectedImage,
-      kategori_masalah: form.label.value,
-      detail_masalah: form.desc.value,
-      lokasi: form.address.value,
-    });
   };
 
+  // useEffect(() => {
+  //   const fetchUserProfile = async () => {
+  //     try {
+  //       const profileData = await getUserProfile();
+  //       setUserData(profileData);
+  //       handleValidationAccount(profileData);
+  //     } catch (error) {
+  //       console.error('Error fetching user profile:', error.message);
+  //     }
+  //   };
+  //   fetchUserProfile();
+  // }, []);
+
   useFocusEffect(
-    React.useCallback(() => {
+    useCallback(() => {
       handleCameraLaunch();
+
+      return () => {
+        resetFormState();
+      };
     }, []),
   );
-
-  // const handleSubmit = () => {
-  //   console.log('Hasil Formulir:', form);
-  //   Object.keys(form).forEach(key => {
-  //     console.log(`${key}: ${form[key].value}`);
-  //   });
-  //   // Di sini Anda dapat mengirimkan data formulir ke backend atau melakukan aksi lainnya
-  // };
-
-  // useEffect(() => {
-  //   if (route.params && route.params.launchCameraOnMount) {
-  //     handleCameraLaunch();
-  //   }
-  //   console.log('alamat', address);
-  //   console.log('image', selectedImage);
-
-  //   // Geocoding.init(MAP_KEY);
-  // }, [address, selectedImage, route.params]);
 
   return (
     <View style={styles.mainBody}>
@@ -218,17 +253,21 @@ const ReportForm = ({navigation}) => {
                 onPressCloseDropdown={() => setShowDropdown(false)} // Perubahan di sini
                 onPressSelectItem={item => handleSelectDropdownItem(item)} // Perubahan di sini
                 placeholder="Pilih Label"
-                dropdownData={dummyDropdownData}
+                dropdownData={dropdownData}
                 Icon={showDropdown ? <IcChevronUp /> : <IcChevronDown />}
+                onChangeText={handleSearch}
               />
               <SwitchInputField
                 required={true}
                 label="Lokasi"
-                switchTitle={'Lokasi sama dengan foto'}
-                value={address ? address : form.address.value}
+                switchTitle={'Sama dengan foto'}
+                onValueChange={setUseSavedLocation}
+                valueSwitch={useSavedLocation}
+                value={useSavedLocation ? address : form.address.value}
                 onChangeText={value => setForm('address', value)}
                 helper={form.address.message}
                 placeholder="Tuliskan lokasi"
+                editable={!useSavedLocation}
               />
               <InputField
                 type="text-area"
@@ -287,6 +326,7 @@ const ReportForm = ({navigation}) => {
       <View style={styles.actionSection}>
         <View style={styles.actionButton}>
           <ButtonMain
+            disabled={submit}
             onPress={() => {
               // Handle button press event
               handleSubmit();
