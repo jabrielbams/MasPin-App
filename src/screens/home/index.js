@@ -117,6 +117,11 @@ const HomeScreen = ({navigation}) => {
                 sudah 5 minggu mangkrak dipinggir jalan"
                 category={<LabelCategory title="Lalu Lintas" />}
                 status={<LabelStatus type={1} />}
+                onPress={() => {
+                  navigation.navigate('DetailLaporan', {
+                    section: 'Detail Laporan',
+                  });
+                }}
               />
               <ReportCardMain
                 imgReport={ImgCar}

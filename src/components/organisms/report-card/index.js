@@ -5,11 +5,11 @@ import {LabelStatus, LabelCategory, LikeButton} from '../../../components';
 import {Color, FontSize, Fonts} from '../../../constants';
 import {IcLikes, IcLikesActive} from '../../../assets/icons';
 
-const ReportCardMain = ({imgReport, descReport, category, status}) => {
+const ReportCardMain = ({imgReport, descReport, category, status, onPress}) => {
   const [pressed, setPressed] = useState(false);
 
   return (
-    <View style={styles.cardContainer}>
+    <TouchableOpacity style={styles.cardContainer} onPress={onPress}>
       <Image source={imgReport} style={styles.imgStyle} />
       <View style={styles.contentSection}>
         <View style={styles.header}>
@@ -23,7 +23,7 @@ const ReportCardMain = ({imgReport, descReport, category, status}) => {
         </View>
         <Text style={styles.descText}>{descReport}</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

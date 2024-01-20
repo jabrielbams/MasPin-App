@@ -14,6 +14,7 @@ import IcWaiting from './ic-waiting.svg';
 import IcChevronRight from './ic-chevron-right.svg';
 import IcMapPins from './ic-map-pin.svg';
 import IcFish from './ic-fish.svg';
+import IcCopy from './ic-copy.svg';
 
 // feature list
 import IconReport from './ic-report.svg';
@@ -78,4 +79,5 @@ export {
   IcFish,
   IcLineOperator,
   IcBus,
+  IcCopy,
 };

@@ -11,6 +11,7 @@ import ImgPasarWage from './img-pasar-wage.jpg';
 import ImgPasarPon from './img-pasar-pon.jpg';
 import ImgPasarBms from './img-pasar-bms.jpg';
 import ImgBusTrans from './img-bus-trans.jpg';
+import ImgDetailLaporan from './img-detail-laporan.jpg';
 
 export {
   ImgNewsCovid,
@@ -26,4 +27,5 @@ export {
   ImgPasarWage,
   ImgPasarPon,
   ImgBusTrans,
+  ImgDetailLaporan,
 };
