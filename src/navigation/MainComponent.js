@@ -31,6 +31,7 @@ import OthersScreen from '../screens/others';
 import HargaPangan from '../screens/hargaPangan';
 import RuteBus from '../screens/ruteBus';
 import DetailLaporan from '../screens/detailLaporan';
+import DetailInfoTax from '../screens/tax/detail-info-tax';
 
 // Screens Name
 const homeName = 'Beranda';
@@ -172,6 +173,11 @@ const MainComponent = () => {
         <Stack.Screen
           name="DetailLaporan"
           component={DetailLaporan}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="DetailInfoTax"
+          component={DetailInfoTax}
           options={{headerShown: false}}
         />
       </Stack.Navigator>
