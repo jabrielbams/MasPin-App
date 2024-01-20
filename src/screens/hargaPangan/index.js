@@ -4,8 +4,9 @@ import {
   TouchableOpacity,
   ScrollView,
   TextInput,
+  FlatList,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {IcChevronLeft, IcFish, IcMapPins, IcSearch} from '../../assets/icons';
 import {MarketCard, NotificationIcon} from '../../components';
 import styles from './styles';
@@ -19,6 +20,50 @@ import {
 const HargaPangan = props => {
   const {route, navigation} = props;
   const {section} = route.params;
+
+  const [searchMarket, setSearchMarket] = useState('');
+  const dataMarket = [
+    {
+      id: 1,
+      marketName: 'Pasar Wage',
+      textDesc: 'Jl. Vihara, Purwokerto Wetan',
+      textDescTwo: 'detail harga pangan',
+      additionText: '50',
+      img: require('../../assets/images/img-pasar-wage.jpg'),
+    },
+    {
+      id: 2,
+      marketName: 'Pasar Manis',
+      textDesc: 'Jl. Jend. Gatot Subroto, Purwokerto Barat',
+      textDescTwo: 'detail harga pangan',
+      additionText: '40',
+      img: require('../../assets/images/img-pasar-manis.jpg'),
+    },
+    {
+      id: 3,
+      marketName: 'Pasar Pon',
+      textDesc: 'Bantarsoka, Purwokerto Barat',
+      textDescTwo: 'detail harga pangan',
+      additionText: '20',
+      img: require('../../assets/images/img-pasar-pon.jpg'),
+    },
+    {
+      id: 4,
+      marketName: 'Pasar Banyumas',
+      textDesc: 'Jl. Gatot Subroto, Banyumas',
+      textDescTwo: 'detail harga pangan',
+      additionText: '30',
+      img: require('../../assets/images/img-pasar-bms.jpg'),
+    },
+  ];
+
+  const filteredMarket = dataMarket.filter(
+    dataMarket =>
+      dataMarket.marketName
+        .toLowerCase()
+        .includes(searchMarket.toLowerCase()) ||
+      dataMarket.textDesc.toLowerCase().includes(searchMarket.toLowerCase()),
+  );
 
   return (
     <View style={styles.mainBody}>
@@ -40,48 +85,30 @@ const HargaPangan = props => {
           <View style={styles.content}>
             <View style={styles.searchBox}>
               <IcSearch />
-              <TextInput placeholder="Cari pasar" style={styles.placeholder} />
+              <TextInput
+                placeholder="Cari pasar"
+                style={styles.placeholder}
+                value={searchMarket}
+                onChangeText={text => setSearchMarket(text)}
+              />
             </View>
             <View style={{marginTop: 24, flexDirection: 'column', gap: 20}}>
-              <MarketCard
-                imgSource={ImgPasarWage}
-                marketName="Pasar Wage"
-                iconLeft={IcMapPins}
-                textDesc="Jl. Vihara, Purwokerto Wetan"
-                iconLeftTwo={IcFish}
-                textDescTwo="detail harga pangan"
-                showAddition={true}
-                additionText="50"
-              />
-              <MarketCard
-                imgSource={ImgPasarManis}
-                marketName="Pasar Manis"
-                iconLeft={IcMapPins}
-                textDesc="Jl. Jend. Gatot Subroto, Purwokerto Barat"
-                iconLeftTwo={IcFish}
-                textDescTwo="detail harga pangan"
-                showAddition={true}
-                additionText="30"
-              />
-              <MarketCard
-                imgSource={ImgPasarPon}
-                marketName="Pasar Pon"
-                iconLeft={IcMapPins}
-                textDesc="Bantarsoka, Purwokerto Barat"
-                iconLeftTwo={IcFish}
-                textDescTwo="detail harga pangan"
-                showAddition={true}
-                additionText="20"
-              />
-              <MarketCard
-                imgSource={ImgPasarBms}
-                marketName="Pasar Banyumas"
-                iconLeft={IcMapPins}
-                textDesc="Jl. Gatot Subroto, Banyumas"
-                iconLeftTwo={IcFish}
-                textDescTwo="detail harga pangan"
-                showAddition={true}
-                additionText="50"
+              <FlatList
+                data={filteredMarket}
+                keyExtractor={item => item._id}
+                renderItem={({item}) => (
+                  <MarketCard
+                    imgSource={item.img}
+                    marketName={item.marketName}
+                    iconLeft={IcMapPins}
+                    textDesc={item.textDesc}
+                    iconLeftTwo={IcFish}
+                    textDescTwo={item.textDescTwo}
+                    showAddition={true}
+                    additionText={item.additionText}
+                  />
+                )}
+                showsVerticalScrollIndicator={false}
               />
             </View>
           </View>

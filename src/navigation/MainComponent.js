@@ -29,11 +29,8 @@ import DetailTax from '../screens/tax/detail-tax';
 import HargaPangan from '../screens/hargaPangan';
 import RuteBus from '../screens/ruteBus';
 import DetailLaporan from '../screens/detailLaporan';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import ReportIndex from '../screens/report';
-import ReportForm from '../screens/report/create';
-import EmergencyContact from '../screens/telephone';
-import OtherFeatures from '../screens/other';
+import DetailInfoTax from '../screens/tax/detail-info-tax';
+import DetailRuteBus from '../screens/ruteBus/detailRuteBus';
 
 // Screens Name
 const homeName = 'Beranda';
@@ -213,6 +210,16 @@ const MainComponent = () => {
         <Stack.Screen
           name="DetailLaporan"
           component={DetailLaporan}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="DetailInfoTax"
+          component={DetailInfoTax}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="DetailRuteBus"
+          component={DetailRuteBus}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

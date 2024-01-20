@@ -22,12 +22,6 @@ export default StyleSheet.create({
     color: Color.BLACK,
     fontWeight: 'bold',
   },
-  sectionBar: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: 6,
-  },
   dividerStyle: {
     height: 4,
     width: '100%',
@@ -36,10 +30,5 @@ export default StyleSheet.create({
   content: {
     paddingHorizontal: 16,
     marginTop: 20,
-  },
-  sectionTitle: {
-    color: Color.BLACK,
-    fontFamily: Fonts.MEDIUM,
-    fontSize: FontSize.dp_16,
   },
 });

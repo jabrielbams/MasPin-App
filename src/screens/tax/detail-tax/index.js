@@ -102,61 +102,13 @@ const DetailTax = props => {
   );
 
   const CodeBayar = () => (
-    <View
-      style={{
-        backgroundColor: Color.WHITE,
-        borderWidth: 1,
-        borderColor: Color.OUTLINE_GRAY,
-        borderRadius: 8,
-        height: 85,
-        padding: 5,
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}>
-      <View
-        style={{
-          backgroundColor: Color.INNERBOX,
-          borderRadius: 8,
-          width: '100%',
-          height: '100%',
-          justifyContent: 'center',
-        }}>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            paddingVertical: 5,
-            paddingHorizontal: 12,
-            borderBottomWidth: 1.5,
-            color: Color.TEXTPRIMARY,
-            marginHorizontal: 10,
-            marginVertical: 10,
-            gap: 10,
-          }}>
-          <Text
-            style={{
-              fontFamily: Fonts.MEDIUM,
-              fontSize: FontSize.dp_20,
-              color: Color.BLACK,
-            }}>
-            1234
-          </Text>
-          <View
-            style={{
-              width: 1.5,
-              height: '100%',
-              backgroundColor: Color.TEXTPRIMARY,
-            }}
-          />
+    <View style={styles.codeContainer}>
+      <View style={styles.innerContainer}>
+        <View style={styles.innerBoxCode}>
+          <Text style={styles.staticCode}>1234</Text>
+          <View style={styles.separator} />
           <TextInput
-            style={{
-              fontFamily: Fonts.MEDIUM,
-              fontSize: FontSize.dp_20,
-              color: Color.BLACK,
-              paddingBottom: 5,
-              letterSpacing: 2,
-              width: '80%',
-            }}
+            style={styles.inputCode}
             maxLength={14}
             keyboardType="number-pad"
             placeholder="xxxxxxxxxxxxxx"
@@ -199,16 +151,15 @@ const DetailTax = props => {
           {/* content */}
           <View>{onPhaseTwo()}</View>
         </View>
-        <View
-          style={{
-            paddingHorizontal: 16,
-            alignItems: 'flex-end',
-            marginTop: 400,
-          }}>
+        <View style={styles.btnContainer}>
           <ButtonMain
             title="Lihat"
             disabled={false}
-            onPress={handleApiRequest}
+            onPress={() => {
+              navigation.navigate('DetailInfoTax', {
+                section: 'Detail Pajak',
+              });
+            }}
           />
         </View>
       </View>
