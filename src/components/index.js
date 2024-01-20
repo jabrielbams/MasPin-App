@@ -14,6 +14,7 @@ import TaxCardMain from './organisms/tax-card';
 import FeatureList from './molecules/feature-list';
 import MarketCard from './organisms/market-card';
 import InformationBadge from './atomics/information-badge';
+import BusCard from './organisms/bus-card';
 
 export {
   InputField,
@@ -32,4 +33,5 @@ export {
   FeatureList,
   MarketCard,
   InformationBadge,
+  BusCard,
 };

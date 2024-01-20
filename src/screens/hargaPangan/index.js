@@ -40,7 +40,7 @@ const HargaPangan = props => {
           <View style={styles.content}>
             <View style={styles.searchBox}>
               <IcSearch />
-              <TextInput placeholder="Cari Pasar" style={styles.placeholder} />
+              <TextInput placeholder="Cari pasar" style={styles.placeholder} />
             </View>
             <View style={{marginTop: 24, flexDirection: 'column', gap: 20}}>
               <MarketCard

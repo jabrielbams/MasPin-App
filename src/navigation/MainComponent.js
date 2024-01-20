@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unstable-nested-components */
 import {View, Text} from 'react-native';
 import React from 'react';
 
@@ -19,8 +20,8 @@ import {FontSize, Fonts} from '../constants';
 
 // Screens
 import HomeScreen from '../screens/home';
-import ActivityScreen from '../screens/activity';
-import ReportScreen from '../screens/report';
+import ActivityScreen from '../screens/aktivitas';
+import ReportScreen from '../screens/laporan';
 import ProfileScreen from '../screens/profile';
 import LoginScreen from '../screens/login';
 import RegisterScreen from '../screens/register';
@@ -128,6 +129,16 @@ const MainComponent = () => {
         <Stack.Screen
           name="Home"
           component={Home}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Aktivitas"
+          component={ActivityScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Laporan"
+          component={ReportScreen}
           options={{headerShown: false}}
         />
         {/* feature */}
