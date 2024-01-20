@@ -1,12 +1,12 @@
 import {View, Text, Image, StyleSheet} from 'react-native';
 import React from 'react';
-import {ImgNewsCovid} from '../../../assets/images';
+import {ImgBisTrans, ImgNewsCovid} from '../../../assets/images';
 import {Color, FontSize, Fonts} from '../../../constants';
 
-const NewsCardMain = ({imgNews, category, titleNews, descNews}) => {
+const NewsCardMain = ({category, titleNews, descNews}) => {
   return (
     <View style={styles.cardContainer}>
-      <Image source={imgNews} style={styles.imgView} />
+      <Image source={ImgNewsCovid} style={styles.imgView} />
       <View style={{flex: 1, paddingHorizontal: 16, paddingVertical: 10}}>
         <Text style={styles.category} numberOfLines={1}>
           {category}

@@ -10,8 +10,11 @@ import ImgPasarManis from './img-pasar-manis.jpg';
 import ImgPasarWage from './img-pasar-wage.jpg';
 import ImgPasarPon from './img-pasar-pon.jpg';
 import ImgPasarBms from './img-pasar-bms.jpg';
-import ImgBusTrans from './img-bus-trans.jpg';
+import ImgBusTrans from './img-bus-trans.svg';
 import ImgDetailLaporan from './img-detail-laporan.jpg';
+import ImgBisTrans from './img-bis-trans.png';
+import ImgMapBus from './img-map-bus.png';
+import ImgRute from './img-rute.png';
 
 export {
   ImgNewsCovid,
@@ -28,4 +31,7 @@ export {
   ImgPasarPon,
   ImgBusTrans,
   ImgDetailLaporan,
+  ImgBisTrans,
+  ImgMapBus,
+  ImgRute,
 };

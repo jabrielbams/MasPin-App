@@ -1,32 +1,32 @@
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {Image} from 'react-native-elements';
-import {ImgBusTrans} from '../../../assets/images';
+import {ImgBusTrans, ImgBisTrans} from '../../../assets/images';
 import {Color, FontSize, Fonts} from '../../../constants';
 import {InformationBadge} from '../..';
-import {IcBus, IcLineOperator} from '../../../assets/icons';
+import {IcHalte, IcHalteBus, IcLineOperator} from '../../../assets/icons';
 
-const BusCard = () => {
+const BusCard = ({imgSource, busName, halteName, destinationName, onPress}) => {
   return (
-    <View>
-      <Image source={ImgBusTrans} width={100} height={100} />
+    <TouchableOpacity style={styles.container} onPress={onPress}>
+      {imgSource}
       <View>
-        <Text style={styles.nameBus}>Trans Banyumas 042</Text>
+        <Text style={styles.nameBus}>{busName}</Text>
         <View style={styles.routeSection}>
           <InformationBadge
-            icon={IcBus}
+            icon={IcHalteBus}
             showAddition={false}
-            text="Ht. Pancurawis"
+            text={halteName}
           />
           <IcLineOperator />
           <InformationBadge
-            icon={IcBus}
+            icon={IcHalteBus}
             showAddition={false}
-            text="Ht. Terminal"
+            text={destinationName}
           />
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -39,4 +39,14 @@ const styles = StyleSheet.create({
     fontSize: FontSize.dp_14,
   },
   routeSection: {flexDirection: 'row', alignItems: 'center', gap: 7},
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '100%',
+    height: 90,
+    backgroundColor: Color.WHITE,
+    elevation: 2,
+    gap: 10,
+    marginBottom: 10,
+  },
 });
