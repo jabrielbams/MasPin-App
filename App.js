@@ -3,12 +3,10 @@ import MainComponent from './src/navigation/MainComponent';
 import ValidationAccount from './src/screens/verification';
 import OtherFeatures from './src/screens/Other';
 import EmergencyContact from './src/screens/telephone';
+import MainModal from './src/components/organisms/main-modal';
 
 const App = () => {
-  return (
-    <MainComponent />
-    // <EmergencyContact />
-  );
+  return <MainComponent />;
 };
 
 export default App;

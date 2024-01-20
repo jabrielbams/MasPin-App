@@ -32,8 +32,13 @@ import {
   IconTax,
 } from '../../assets/icons';
 import {ImgCar, ImgNewsCovid} from '../../assets/images';
+import {getAllReport} from '../../services/reportData';
+import {FlatList} from 'react-native-gesture-handler';
+import {useFocusEffect} from '@react-navigation/native';
 
 const HomeScreen = ({navigation}) => {
+  const [reportData, setReportData] = useState(null);
+
   async function requestLocationPermission() {
     const locationPermission = await PermissionsAndroid.request(
       PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
@@ -77,9 +82,23 @@ const HomeScreen = ({navigation}) => {
     navigation.navigate('ReportIndex');
   };
 
+  const fetchDataReport = async () => {
+    try {
+      const allReport = await getAllReport();
+      setReportData(allReport);
+    } catch (error) {
+      console.error('Error fetching user profile:', error.message);
+    }
+  };
+
+  // Panggil fungsi fetchDataFromApi ketika komponen ini diload
+
+  useFocusEffect(() => {
+    fetchDataReport();
+  });
   useEffect(() => {
     requestPermissions();
-  });
+  }, []);
 
   return (
     <View style={styles.mainBody}>
@@ -142,27 +161,30 @@ const HomeScreen = ({navigation}) => {
               </TouchableOpacity>
             </View>
             <View>
-              <ReportCardMain
-                // imgReport={ImgCar}
-                descReport="Minta tolong pak ditindaklanjuti kemacetan di daerah Jalan Gereja,
-                sudah 5 minggu mangkrak dipinggir jalan"
-                category={<LabelCategory title="Lalu Lintas" />}
-                status={<LabelStatus type={1} />}
-              />
-              <ReportCardMain
-                // imgReport={ImgCar}
-                descReport="Minta tolong pak ditindaklanjuti kemacetan di daerah Jalan Gereja,
-                sudah 5 minggu mangkrak dipinggir jalan"
-                category={<LabelCategory title="Lalu Lintas" />}
-                status={<LabelStatus type={1} />}
-              />
-              <ReportCardMain
-                // imgReport={ImgCar}
-                descReport="Minta tolong pak ditindaklanjuti kemacetan di daerah Jalan Gereja,
-                sudah 5 minggu mangkrak dipinggir jalan"
-                category={<LabelCategory title="Lalu Lintas" />}
-                status={<LabelStatus type={1} />}
-              />
+              {(reportData && (
+                <FlatList
+                  data={
+                    reportData
+                      ? reportData
+                          .sort(
+                            (a, b) =>
+                              new Date(b.createdAt) - new Date(a.createdAt),
+                          )
+                          .slice(0, 3)
+                      : []
+                  }
+                  renderItem={({item}) => (
+                    <ReportCardMain
+                      key={item._id}
+                      imgReport={item.image_laporan}
+                      descReport={item.detail_masalah}
+                      category={<LabelCategory title={item.kategori_masalah} />}
+                      status={<LabelStatus type={3} />}
+                    />
+                  )}
+                  keyExtractor={item => item._id}
+                />
+              )) || <Text>Data tidak ada</Text>}
             </View>
             <View style={styles.sectionDivider}>
               <Text style={styles.sectionTitle}>Berita Terbaru</Text>

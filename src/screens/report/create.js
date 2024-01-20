@@ -1,7 +1,9 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {
   FlatList,
+  Modal,
   PermissionsAndroid,
+  Pressable,
   StyleSheet,
   Text,
   View,
@@ -51,6 +53,9 @@ const ReportForm = ({navigation}) => {
   const [searchText, setSearchText] = useState('');
   const [filteredData, setFilteredData] = useState(dropdownData);
 
+  const [loading, setLoading] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+
   const [form, setForm] = useForm({
     label: {
       value: '',
@@ -85,6 +90,16 @@ const ReportForm = ({navigation}) => {
     setAddress('');
   };
 
+  const isFormValid = () => {
+    return (
+      !!selectedImage &&
+      !form.label.error &&
+      !form.desc.error &&
+      !form.address.error &&
+      isAgree
+    );
+  };
+
   const dropdownData = [
     {id: 1, label_type: 'Lalu Lintas'},
     {id: 2, label_type: 'Fasilitas Publik'},
@@ -109,6 +124,16 @@ const ReportForm = ({navigation}) => {
     setShowDropdown(false);
   };
 
+  // Function to handle opening the confirmation modal
+  const handleOpenModal = () => {
+    setShowModal(true);
+  };
+
+  // Function to handle closing the confirmation modal
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
   const getPhotoLocation = () => {
     Geolocation.getCurrentPosition(position => {
       const {latitude, longitude} = position.coords;
@@ -127,8 +152,10 @@ const ReportForm = ({navigation}) => {
     launchCamera(options, response => {
       if (response.didCancel) {
         console.log('User cancelled camera');
+        navigation.goBack();
       } else if (response.error) {
         console.log('Camera Error: ', response.error);
+        navigation.goBack();
       } else {
         let imageUri = response.uri || response.assets?.[0]?.uri;
         setSelectedImage(imageUri);
@@ -137,15 +164,9 @@ const ReportForm = ({navigation}) => {
     });
   };
 
-  const formValidation = () => {
-    const error = form.label.error && form.desc.error && form.desc.error;
-    if (error === false && isAgree) {
-      setSubmit(true);
-    }
-  };
-
   const handleSubmit = async () => {
     try {
+      setLoading(true);
       const formData = new FormData();
       const refreshToken = await AsyncStorage.getItem('refreshToken');
 
@@ -182,9 +203,13 @@ const ReportForm = ({navigation}) => {
         },
       });
       // Handle the response from the API
+      handleCloseModal();
+      navigation.replace('Activity');
       console.log('API Response:', response.data);
     } catch (error) {
       console.log('API Error:', error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -219,7 +244,7 @@ const ReportForm = ({navigation}) => {
           <>
             <HeaderNavigation
               onPress={() => {
-                console.log('kembali');
+                navigation.goBack();
               }}
               title={'Buat Laporan'}
             />
@@ -326,13 +351,46 @@ const ReportForm = ({navigation}) => {
       <View style={styles.actionSection}>
         <View style={styles.actionButton}>
           <ButtonMain
-            disabled={submit}
+            disabled={!isFormValid()}
             onPress={() => {
               // Handle button press event
-              handleSubmit();
+              handleOpenModal();
             }}
             title="Buat laporan"
           />
+
+          {/* Confirmation Modal */}
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={showModal}
+            onRequestClose={handleCloseModal}>
+            <View style={styles.modalContainer}>
+              <View style={styles.modalContent}>
+                <Text style={{marginBottom: 10, textAlign: 'center'}}>
+                  Pastikan semua sudah benar sebelum mengirim laporan!
+                </Text>
+                <View style={styles.buttonContainer}>
+                  <Pressable
+                    style={[styles.button, styles.cancelButton]}
+                    onPress={handleCloseModal}
+                    disabled={loading}>
+                    <Text style={{color: 'white', textAlign: 'center'}}>
+                      Cancel
+                    </Text>
+                  </Pressable>
+                  <Pressable
+                    style={[styles.button, styles.submitButton]}
+                    onPress={handleSubmit}
+                    disabled={loading}>
+                    <Text style={{color: 'white', textAlign: 'center'}}>
+                      Submit
+                    </Text>
+                  </Pressable>
+                </View>
+              </View>
+            </View>
+          </Modal>
         </View>
       </View>
     </View>
@@ -421,5 +479,36 @@ const styles = StyleSheet.create({
   },
   descContainer: {
     alignContent: 'flex-start',
+  },
+
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContent: {
+    backgroundColor: 'white',
+    padding: 20,
+    borderRadius: 10,
+    elevation: 5,
+    width: '80%', // Adjust the width as needed
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 16, // Adjust the margin as needed
+  },
+  button: {
+    padding: 10,
+    borderRadius: 5,
+    flex: 1, // Equal spacing for both buttons
+  },
+  cancelButton: {
+    backgroundColor: 'red',
+    marginRight: 8, // Adjust the margin as needed
+  },
+  submitButton: {
+    backgroundColor: 'green',
+    marginLeft: 8, // Adjust the margin as needed
   },
 });

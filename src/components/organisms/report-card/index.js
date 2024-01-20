@@ -27,7 +27,9 @@ const ReportCardMain = ({imgReport, descReport, category, status}) => {
           </View>
           <LikeButton />
         </View>
-        <Text style={styles.descText}>{descReport}</Text>
+        <Text numberOfLines={2} ellipsizeMode="tail" style={styles.descText}>
+          {descReport}
+        </Text>
       </View>
     </View>
   );

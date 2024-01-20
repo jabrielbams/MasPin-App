@@ -1,56 +1,66 @@
-import {StyleSheet, Text, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import style from '../../components/molecules/input-dropdown/style';
-import {IcSearch} from '../../assets';
+import {StyleSheet, View, FlatList, Text, ScrollView} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {Color, Fonts} from '../../constants';
-import {HeaderNavigation, NotificationIcon, SearchBar} from '../../components';
-import {API_BASE_URL1} from '@env';
+import axios from 'axios';
+import {Color, Fonts, FontSize} from '../../constants';
+import {
+  HeaderNavigation,
+  SearchBar,
+  ReportCard,
+  ReportCardMain,
+  LabelCategory,
+  LabelStatus,
+} from '../../components';
+import {ENDPOINT} from '../../utils/endpoint';
 
-const ReportIndex = ({navigation}) => {
+export default function ReportIndex({navigation}) {
   const [reportData, setReportData] = useState([]);
   const [searchText, setSearchText] = useState('');
   const [loading, setLoading] = useState(true);
+  const [searchClicked, setSearchClicked] = useState(false);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       // Get refreshToken from AsyncStorage
-  //       const refreshToken = await AsyncStorage.getItem('refreshToken');
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const refreshToken = await AsyncStorage.getItem('refreshToken');
+        const response = await axios.get(ENDPOINT.NGROK.GET, {
+          headers: {
+            Authorization: `Bearer ${refreshToken}`,
+          },
+        });
 
-  //       // Fetch data from API using refreshToken for authorization
-  //       const response = await fetch(`${BASE_URL}/api/laporan/get-laporan`, {
-  //         method: 'GET',
-  //         headers: {
-  //           Authorization: `Bearer ${refreshToken}`,
-  //         },
-  //       });
+        const result = response.data;
 
-  //       const result = await response.json();
+        if (result.success) {
+          setReportData(result.data);
+        } else {
+          console.error('Error fetching data:', result.message);
+        }
 
-  //       if (result.success) {
-  //         // Update the reportData state with the fetched data
-  //         setReportData(result.data);
-  //       } else {
-  //         console.error('Error fetching data:', result.message);
-  //       }
-  //     } catch (error) {
-  //       console.error('Error fetching data:', error);
-  //     }
-  //   };
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        setLoading(false);
+      }
+    };
 
-  //   fetchData();
-  // }, []);
-
-  // // Filter the reportData based on search text
-  // const updateSearch = search => {
-  //   setSearch(search);
-  // };
+    fetchData();
+  }, []);
 
   const filteredReportData = reportData.filter(
     report =>
-      report.description.toLowerCase().includes(searchText.toLowerCase()) ||
-      report.label.toLowerCase().includes(searchText.toLowerCase()),
+      report.detail_masalah.toLowerCase().includes(searchText.toLowerCase()) ||
+      report.kategori_masalah.toLowerCase().includes(searchText.toLowerCase()),
+  );
+
+  const renderItem = ({item}) => (
+    <ReportCardMain
+      key={item._id}
+      imgReport={item.image_laporan}
+      descReport={item.detail_masalah}
+      category={<LabelCategory title={item.kategori_masalah} />}
+      status={<LabelStatus type={3} />}
+    />
   );
 
   return (
@@ -58,26 +68,45 @@ const ReportIndex = ({navigation}) => {
       <View>
         <View style={styles.headerMain}>
           <HeaderNavigation
-            title={'Laporan'}
+            title={'Lainnya'}
             onPress={() => {
-              console.log('kembali');
               navigation.goBack();
             }}
           />
         </View>
         <View style={styles.dividerStyle} />
-        <View style={styles.content}>
+        <View style={{marginTop: 34, marginBottom: 24, marginHorizontal: 16}}>
           <SearchBar
+            clicked={searchClicked}
             setSearchValue={text => setSearchText(text)}
             searchValue={searchText}
+            setClicked={setSearchClicked}
           />
+        </View>
+        <View style={styles.contentContainer}>
+          {loading ? (
+            <Text>Loading...</Text>
+          ) : (
+            <FlatList
+              data={filteredReportData}
+              keyExtractor={item => item._id}
+              renderItem={({item}) => (
+                <ReportCardMain
+                  key={item._id}
+                  imgReport={item.image_laporan}
+                  descReport={item.detail_masalah}
+                  category={<LabelCategory title={item.kategori_masalah} />}
+                  status={<LabelStatus type={3} />}
+                />
+              )}
+              showsVerticalScrollIndicator={false}
+            />
+          )}
         </View>
       </View>
     </View>
   );
-};
-
-export default ReportIndex;
+}
 
 const styles = StyleSheet.create({
   mainBody: {
@@ -88,29 +117,18 @@ const styles = StyleSheet.create({
     paddingTop: 32,
   },
   headerMain: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
     paddingHorizontal: 16,
     marginBottom: 16,
-  },
-  titleSection: {
-    fontFamily: Fonts.MEDIUM,
-    fontSize: 16,
-    lineHeight: 24,
-    color: Color.BLACK,
-  },
-  content: {
-    paddingHorizontal: 16,
   },
   dividerStyle: {
     height: 4,
     width: '100%',
     backgroundColor: Color.LIGHT_GRAY,
   },
-
-  searchContainer: {
-    borderRadius: 8,
-    borderColor: Color.OUTLINE_GRAY,
+  contentContainer: {
+    flexDirection: 'column',
+    gap: 24,
+    marginVertical: 20,
+    marginHorizontal: 16,
   },
 });

@@ -15,6 +15,7 @@ import BackButton from './atomics/back-button';
 import HeaderNavigation from './molecules/header-navigation';
 import SwitchInputField from './molecules/switch-inputfield';
 import CardSubMenu from './molecules/card-submenu';
+import ButtonSecondary from './atomics/button-secondary';
 
 export {
   InputField,
@@ -34,4 +35,5 @@ export {
   HeaderNavigation,
   SwitchInputField,
   CardSubMenu,
+  ButtonSecondary,
 };

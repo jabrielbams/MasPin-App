@@ -15,7 +15,9 @@ export const ENDPOINT = {
   NGROK: {
     CREATE: `${API_URL_NGROK}/api/laporan/add-laporan`,
     GET: `${API_URL_NGROK}/api/laporan/get-laporan`,
+
     LOGIN: `${API_URL_NGROK}/api/users/login`,
     VALIDASI: `${API_URL_NGROK}/api/users/validate-account`,
+    PROFILE: `${API_URL_NGROK}/api/users`,
   },
 };

@@ -12,11 +12,8 @@ import {Color} from '../../../constants';
 const SearchBar = ({clicked, searchValue, setSearchValue, setClicked}) => {
   return (
     <View style={styles.container}>
-      <View
-        style={clicked ? styles.searchBarClicked : styles.searchBarUnclicked}>
-        {/* search Icon */}
+      <View style={styles.searchBar}>
         <IcSearch weight={24} height={24} />
-        {/* Input field */}
         <TextInput
           style={styles.input}
           placeholder="Cari Layanan"
@@ -26,12 +23,7 @@ const SearchBar = ({clicked, searchValue, setSearchValue, setClicked}) => {
             setClicked(true);
           }}
         />
-        {/* cross Icon, depending on whether the search bar is clicked or not */}
-        {/* {clicked && (
-          // view after clicked
-        )} */}
       </View>
-      {/* cancel button, depending on whether the search bar is clicked or not */}
       {clicked && (
         <TouchableOpacity
           style={styles.cancelButton}
@@ -55,20 +47,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  searchBarUnclicked: {
-    padding: 12,
-    flexDirection: 'row',
-    borderRadius: 15,
-    borderColor: Color.OUTLINE_GRAY,
-    borderWidth: 1,
-    alignItems: 'center',
-  },
-  searchBarClicked: {
+  searchBar: {
     padding: 10,
     flexDirection: 'row',
-    width: '80%',
     borderRadius: 15,
-    borderColor: Color.BLACK, // Add background color for clicked state
+    borderColor: Color.BLACK,
     borderWidth: 1,
     alignItems: 'center',
     justifyContent: 'space-evenly',
@@ -76,12 +59,12 @@ const styles = StyleSheet.create({
   input: {
     fontSize: 14,
     marginLeft: 16,
-    width: '70%', // Adjust the width of the input field
+    width: '70%',
   },
   cancelButton: {
     marginLeft: 8,
   },
   cancelText: {
-    color: Color.BLUE, // Add your desired color
+    color: Color.BLUE,
   },
 });
