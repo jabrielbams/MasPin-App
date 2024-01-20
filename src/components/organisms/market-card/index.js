@@ -46,6 +46,7 @@ const styles = StyleSheet.create({
     backgroundColor: Color.WHITE,
     borderRadius: 8,
     elevation: 2,
+    marginBottom: 15,
   },
   imgStyle: {
     width: 90,
