@@ -145,7 +145,7 @@ const HomeScreen = ({navigation}) => {
                 icon={<IconBusRoute />}
                 label="Rute"
                 onPress={() => {
-                  navigation.navigate('RuteBus', {
+                  navigation.navigate('Bus', {
                     section: 'Rute Bus',
                   });
                 }}

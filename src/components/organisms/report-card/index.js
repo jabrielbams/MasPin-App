@@ -34,7 +34,7 @@ const ReportCardMain = ({imgReport, descReport, category, status, onPress}) => {
           {descReport}
         </Text>
       </View>
-    </TouchableOpacity>
+    </View>
   );
 };
 

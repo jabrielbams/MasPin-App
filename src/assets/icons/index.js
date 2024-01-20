@@ -25,7 +25,6 @@ import IconChart from './ic-chart.svg';
 import IconChartPrice from './ic-chart-price.svg';
 import IconTelephone from './ic-menu-telephone.svg';
 import IconOthers from './ic-others.svg';
-import IconTelephone from './ic-telephone.svg';
 
 // navbar icon
 import IconHomeActive from './ic-home-active.svg';

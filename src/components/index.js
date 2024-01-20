@@ -24,6 +24,7 @@ import BusCard from './organisms/bus-card';
 import DetailLaporanCard from './molecules/details-laporan-card';
 import ReportInfoCard from './molecules/report-info-card';
 import DetailReportCategory from './molecules/detail-report-category';
+import TabBar from './organisms/tab-bar';
 
 export {
   InputField,
@@ -52,4 +53,5 @@ export {
   DetailLaporanCard,
   ReportInfoCard,
   DetailReportCategory,
+  TabBar,
 };

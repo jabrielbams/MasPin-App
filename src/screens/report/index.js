@@ -75,12 +75,11 @@ export default function ReportIndex({navigation}) {
           />
         </View>
         <View style={styles.dividerStyle} />
-        <View style={{marginTop: 34, marginBottom: 24, marginHorizontal: 16}}>
+        <View style={{marginTop: 12, marginHorizontal: 16}}>
           <SearchBar
-            clicked={searchClicked}
+            placeholder={'Cari laporan'}
             setSearchValue={text => setSearchText(text)}
             searchValue={searchText}
-            setClicked={setSearchClicked}
           />
         </View>
         <View style={styles.contentContainer}>

@@ -7,15 +7,19 @@ import {
   ScrollView,
   TextInput,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {IcChevronLeft} from '../../../assets/icons';
 import {ButtonMain, NotificationIcon} from '../../../components';
 import styles from './styles';
 import {Color, FontSize, Fonts} from '../../../constants';
 import {useTax} from '../useTax';
 import {ImgStrokeDivider} from '../../../assets/images';
+import {ENDPOINT} from '../../../utils/endpoint';
 
 const DetailTax = props => {
+  const [platNomor, setPlatNomor] = useState('');
+  const [code, setCode] = useState('');
+
   const {
     uiWording,
     type1,
@@ -37,6 +41,35 @@ const DetailTax = props => {
     }
   };
 
+  const handleApiRequest = async () => {
+    try {
+      // Dapatkan refreshToken dari AsyncStorage
+      const refreshToken = await AsyncStorage.getItem('refreshToken');
+
+      // Set up header dengan token
+      const headers = {
+        Authorization: `Bearer ${refreshToken}`,
+      };
+
+      // Gabungkan platNomor dan code
+      const fullPlatNomor = `R ${platNomor} ${code}`;
+
+      const response = await axios.get(
+        `${
+          ENDPOINT.NGROK.CEK_PAJAK
+        }/api/pajak/detail-pajak-kendaraan/${encodeURIComponent(
+          fullPlatNomor,
+        )}`,
+        {headers},
+      );
+
+      // Lakukan sesuatu dengan response dari API
+      console.log('API Response:', response.data);
+    } catch (error) {
+      console.error('API Error:', error.message);
+    }
+  };
+
   const PlatNomor = () => (
     <View style={styles.containerMain}>
       <View style={styles.containerInner}>
@@ -50,13 +83,16 @@ const DetailTax = props => {
             keyboardType="number-pad"
             placeholder="0000"
             placeholderTextColor={'#3F3F3F'}
+            onChangeText={setPlatNomor}
+            value={platNomor}
           />
           <TextInput
             style={styles.rightInput}
             maxLength={2}
-            keyboardType="number-pad"
             placeholder="XX"
             placeholderTextColor={'#3F3F3F'}
+            onChangeText={setCode}
+            value={code}
           />
         </View>
       </View>
@@ -167,7 +203,11 @@ const DetailTax = props => {
             alignItems: 'flex-end',
             marginTop: 400,
           }}>
-          <ButtonMain title="Lihat" disabled={false} />
+          <ButtonMain
+            title="Lihat"
+            disabled={false}
+            onPress={handleApiRequest}
+          />
         </View>
       </View>
     </View>
