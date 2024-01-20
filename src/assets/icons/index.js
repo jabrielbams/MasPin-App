@@ -12,6 +12,10 @@ import IcPlus from './ic-plus.svg';
 import IcRound from './ic-round.svg';
 import IcSearch from './ic-search.svg';
 import IcWaiting from './ic-waiting.svg';
+import IcChevronRight from './ic-chevron-right.svg';
+import IcMapPins from './ic-map-pin.svg';
+import IcFish from './ic-fish.svg';
+import IcCopy from './ic-copy.svg';
 
 // feature list
 import IconReport from './ic-report.svg';
@@ -21,6 +25,7 @@ import IconChart from './ic-chart.svg';
 import IconChartPrice from './ic-chart-price.svg';
 import IconTelephone from './ic-menu-telephone.svg';
 import IconOthers from './ic-others.svg';
+import IconTelephone from './ic-telephone.svg';
 
 // navbar icon
 import IconHomeActive from './ic-home-active.svg';
@@ -31,6 +36,8 @@ import IconProfileActive from './ic-profile-active.svg';
 import IconProfileDisable from './ic-profile-disable.svg';
 import IconReportActive from './ic-report-active.svg';
 import IconReportDisable from './ic-report-disable.svg';
+import IcLineOperator from './ic-line-operator.svg';
+import IcBus from './ic-bus.svg';
 
 // icon on tax screen
 import IconMotorcycle from './ic-motorcycle.svg';
@@ -88,4 +95,10 @@ export {
   IcTermsCondition,
   IcSignOut,
   IconTelephone,
+  IcChevronRight,
+  IcMapPins,
+  IcFish,
+  IcLineOperator,
+  IcBus,
+  IcCopy,
 };

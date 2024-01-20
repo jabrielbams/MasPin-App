@@ -21,6 +21,6 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.REGULAR,
     fontSize: FontSize.dp_12,
     color: Color.TEXTPRIMARY,
-    marginHorizontal: 3,
+    textAlign: 'center',
   },
 });

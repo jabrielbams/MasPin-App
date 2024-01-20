@@ -20,7 +20,7 @@ const SearchBar = ({clicked, searchValue, setSearchValue, setClicked}) => {
           value={searchValue}
           onChangeText={setSearchValue}
           onFocus={() => {
-            setClicked(true);
+            setClick(true);
           }}
         />
       </View>

@@ -1,12 +1,13 @@
-import {View, Text, Image, StyleSheet} from 'react-native';
+import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import React, {useState} from 'react';
 import {ImgCar} from '../../../assets/images';
 import {LabelStatus, LabelCategory, LikeButton} from '../../../components';
 import {Color, FontSize, Fonts} from '../../../constants';
-import {TouchableOpacity} from 'react-native-gesture-handler';
-import {IcLikes} from '../../../assets/icons';
+import {IcLikes, IcLikesActive} from '../../../assets/icons';
 
-const ReportCardMain = ({imgReport, descReport, category, status}) => {
+const ReportCardMain = ({imgReport, descReport, category, status, onPress}) => {
+  const [pressed, setPressed] = useState(false);
+
   return (
     <View style={styles.cardContainer}>
       <Image
@@ -25,13 +26,15 @@ const ReportCardMain = ({imgReport, descReport, category, status}) => {
             {category && <View>{category}</View>}
             {status && <View>{status}</View>}
           </View>
-          <LikeButton />
+          <TouchableOpacity onPress={() => setPressed(!pressed)}>
+            {pressed ? <IcLikesActive /> : <IcLikes />}
+          </TouchableOpacity>
         </View>
         <Text numberOfLines={2} ellipsizeMode="tail" style={styles.descText}>
           {descReport}
         </Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -65,5 +68,9 @@ const styles = StyleSheet.create({
     color: Color.TEXTSECONDARY,
     fontSize: FontSize.dp_10,
     fontFamily: Fonts.REGULAR,
+  },
+  imgStyle: {
+    borderTopLeftRadius: 8,
+    borderBottomLeftRadius: 8,
   },
 });

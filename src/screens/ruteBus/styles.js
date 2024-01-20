@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {Color, Fonts, FontSize} from '../../constants';
+import {Color, FontSize, Fonts} from '../../constants';
 
 export default StyleSheet.create({
   mainBody: {
@@ -13,7 +13,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 20,
+    paddingHorizontal: 16,
     marginBottom: 16,
   },
   headerText: {
@@ -22,40 +22,34 @@ export default StyleSheet.create({
     color: Color.BLACK,
     fontWeight: 'bold',
   },
+  title: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 6,
+  },
   dividerStyle: {
     height: 4,
     width: '100%',
     backgroundColor: Color.LIGHT_GRAY,
   },
   content: {
-    paddingHorizontal: 18,
-  },
-  featureList: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 24,
-  },
-  sectionDivider: {
+    paddingHorizontal: 16,
     marginTop: 20,
-    marginBottom: 16,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
   },
-  sectionTitle: {
-    fontFamily: Fonts.SEMIBOLD,
-    fontSize: FontSize.dp_16,
-    color: Color.BLACK,
-  },
-  otherStyle: {
+  searchBox: {
+    backgroundColor: Color.TEXTFIELD,
     flexDirection: 'row',
-    justifyContent: 'center',
+    height: 45,
+    borderRadius: 8,
     alignItems: 'center',
-    gap: 2,
+    paddingHorizontal: 12,
+    gap: 16,
   },
-  otherText: {
-    fontFamily: Fonts.MEDIUM,
+  placeholder: {
+    color: Color.TEXTBOX,
+    fontFamily: Fonts.REGULAR,
     fontSize: FontSize.dp_14,
-    color: Color.PRIMARY,
+    width: '80%',
   },
 });

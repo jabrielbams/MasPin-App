@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {Color, Fonts, FontSize} from '../../constants';
+import {FontSize, Color, Fonts} from '../../constants';
 
 export default StyleSheet.create({
   mainBody: {
@@ -29,33 +29,21 @@ export default StyleSheet.create({
   },
   content: {
     paddingHorizontal: 18,
-  },
-  featureList: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 24,
-  },
-  sectionDivider: {
     marginTop: 20,
-    marginBottom: 16,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
   },
-  sectionTitle: {
-    fontFamily: Fonts.SEMIBOLD,
-    fontSize: FontSize.dp_16,
-    color: Color.BLACK,
-  },
-  otherStyle: {
+  searchBox: {
+    backgroundColor: Color.TEXTFIELD,
     flexDirection: 'row',
-    justifyContent: 'center',
+    height: 45,
+    borderRadius: 8,
     alignItems: 'center',
-    gap: 2,
+    paddingHorizontal: 12,
+    gap: 16,
   },
-  otherText: {
-    fontFamily: Fonts.MEDIUM,
+  placeholder: {
+    color: Color.TEXTBOX,
+    fontFamily: Fonts.REGULAR,
     fontSize: FontSize.dp_14,
-    color: Color.PRIMARY,
+    width: '80%',
   },
 });

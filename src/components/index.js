@@ -16,6 +16,14 @@ import HeaderNavigation from './molecules/header-navigation';
 import SwitchInputField from './molecules/switch-inputfield';
 import CardSubMenu from './molecules/card-submenu';
 import ButtonSecondary from './atomics/button-secondary';
+import TaxCardMain from './organisms/tax-card';
+import FeatureList from './molecules/feature-list';
+import MarketCard from './organisms/market-card';
+import InformationBadge from './atomics/information-badge';
+import BusCard from './organisms/bus-card';
+import DetailLaporanCard from './molecules/details-laporan-card';
+import ReportInfoCard from './molecules/report-info-card';
+import DetailReportCategory from './molecules/detail-report-category';
 
 export {
   InputField,
@@ -36,4 +44,12 @@ export {
   SwitchInputField,
   CardSubMenu,
   ButtonSecondary,
+  TaxCardMain,
+  FeatureList,
+  MarketCard,
+  InformationBadge,
+  BusCard,
+  DetailLaporanCard,
+  ReportInfoCard,
+  DetailReportCategory,
 };

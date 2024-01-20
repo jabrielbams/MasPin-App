@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   disabledButton: {
-    backgroundColor: 'grey',
+    backgroundColor: Color.DISABLE,
     paddingVertical: 15,
     paddingHorizontal: 28,
     borderRadius: 5,
