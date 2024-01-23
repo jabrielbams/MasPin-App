@@ -7,33 +7,18 @@ import {
   Text,
 } from 'react-native';
 import {IcSearch} from '../../../assets';
-import {Color} from '../../../constants';
+import {Color, FontSize, Fonts} from '../../../constants';
 
-const SearchBar = ({clicked, searchValue, setSearchValue, setClicked}) => {
+const SearchBar = ({placeholder, searchValue, setSearchValue}) => {
   return (
-    <View style={styles.container}>
-      <View style={styles.searchBar}>
-        <IcSearch weight={24} height={24} />
-        <TextInput
-          style={styles.input}
-          placeholder="Cari Layanan"
-          value={searchValue}
-          onChangeText={setSearchValue}
-          onFocus={() => {
-            setClicked(true);
-          }}
-        />
-      </View>
-      {clicked && (
-        <TouchableOpacity
-          style={styles.cancelButton}
-          onPress={() => {
-            Keyboard.dismiss();
-            setClicked(false);
-          }}>
-          <Text style={styles.cancelText}>Cancel</Text>
-        </TouchableOpacity>
-      )}
+    <View style={styles.searchBox}>
+      <IcSearch />
+      <TextInput
+        style={styles.placeholder}
+        placeholder={placeholder}
+        value={searchValue}
+        onChangeText={setSearchValue}
+      />
     </View>
   );
 };
@@ -42,29 +27,19 @@ export default SearchBar;
 
 // styles
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+  searchBox: {
+    backgroundColor: Color.TEXTFIELD,
     flexDirection: 'row',
+    height: 45,
+    borderRadius: 8,
+    justifyContent: 'center',
     alignItems: 'center',
+    gap: 4,
   },
-  searchBar: {
-    padding: 10,
-    flexDirection: 'row',
-    borderRadius: 15,
-    borderColor: Color.BLACK,
-    borderWidth: 1,
-    alignItems: 'center',
-    justifyContent: 'space-evenly',
-  },
-  input: {
-    fontSize: 14,
-    marginLeft: 16,
-    width: '70%',
-  },
-  cancelButton: {
-    marginLeft: 8,
-  },
-  cancelText: {
-    color: Color.BLUE,
+  placeholder: {
+    color: Color.TEXTBOX,
+    fontFamily: Fonts.REGULAR,
+    fontSize: FontSize.dp_14,
+    width: '80%',
   },
 });

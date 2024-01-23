@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unstable-nested-components */
 import {View, Text} from 'react-native';
 import React, {useEffect, useState} from 'react';
 
@@ -19,15 +20,21 @@ import {FontSize, Fonts} from '../constants';
 
 // Screens
 import HomeScreen from '../screens/home';
-import ActivityScreen from '../screens/activity';
+import ActivityScreen from '../screens/aktivitas';
 import ProfileScreen from '../screens/profile';
 import LoginScreen from '../screens/login';
 import RegisterScreen from '../screens/register';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import ReportIndex from '../screens/report';
+import TaxScreen from '../screens/tax';
+import DetailTax from '../screens/tax/detail-tax';
+import HargaPangan from '../screens/hargaPangan';
+import RuteBus from '../screens/ruteBus';
+import DetailLaporan from '../screens/detailLaporan';
+import DetailInfoTax from '../screens/tax/detail-info-tax';
+import DetailRuteBus from '../screens/ruteBus/detailRuteBus';
 import ReportForm from '../screens/report/create';
+import ReportIndex from '../screens/report';
+import OtherFeatures from '../screens/other';
 import EmergencyContact from '../screens/telephone';
-import OtherFeatures from '../screens/Other';
 
 // Screens Name
 const homeName = 'Beranda';
@@ -151,6 +158,7 @@ const MainComponent = () => {
           component={RegisterScreen}
           options={{headerShown: false}}
         />
+        {/* navbar */}
         <Stack.Screen
           name="Home"
           component={Home}
@@ -167,21 +175,6 @@ const MainComponent = () => {
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name="Tax"
-          component={Home}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="Bus"
-          component={Home}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="Market"
-          component={Home}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
           name="OtherFeatures"
           component={OtherFeatures}
           options={{headerShown: false}}
@@ -189,6 +182,48 @@ const MainComponent = () => {
         <Stack.Screen
           name="Telephone"
           component={EmergencyContact}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Activity"
+          component={ActivityScreen}
+          options={{headerShown: false}}
+        />
+        {/* feature */}
+        <Stack.Screen
+          name="Tax"
+          component={TaxScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Bus"
+          component={RuteBus}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="HargaPangan"
+          component={HargaPangan}
+          options={{headerShown: false}}
+        />
+        {/* details */}
+        <Stack.Screen
+          name="DetailTax"
+          component={DetailTax}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="DetailLaporan"
+          component={DetailLaporan}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="DetailInfoTax"
+          component={DetailInfoTax}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="DetailRuteBus"
+          component={DetailRuteBus}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

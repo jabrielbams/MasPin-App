@@ -75,12 +75,11 @@ export default function ReportIndex({navigation}) {
           />
         </View>
         <View style={styles.dividerStyle} />
-        <View style={{marginTop: 34, marginBottom: 24, marginHorizontal: 16}}>
+        <View style={{marginTop: 12, marginHorizontal: 16}}>
           <SearchBar
-            clicked={searchClicked}
+            placeholder={'Cari laporan'}
             setSearchValue={text => setSearchText(text)}
             searchValue={searchText}
-            setClicked={setSearchClicked}
           />
         </View>
         <View style={styles.contentContainer}>
@@ -115,6 +114,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignContent: 'flex-start',
     paddingTop: 32,
+    flexGrow: 1,
   },
   headerMain: {
     paddingHorizontal: 16,
@@ -126,9 +126,8 @@ const styles = StyleSheet.create({
     backgroundColor: Color.LIGHT_GRAY,
   },
   contentContainer: {
+    flex: 1,
     flexDirection: 'column',
     gap: 24,
-    marginVertical: 20,
-    marginHorizontal: 16,
   },
 });

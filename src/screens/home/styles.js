@@ -13,7 +13,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 16,
+    paddingHorizontal: 20,
     marginBottom: 16,
   },
   headerText: {
@@ -28,7 +28,7 @@ export default StyleSheet.create({
     backgroundColor: Color.LIGHT_GRAY,
   },
   content: {
-    paddingHorizontal: 16,
+    paddingHorizontal: 18,
   },
   featureList: {
     flexDirection: 'row',

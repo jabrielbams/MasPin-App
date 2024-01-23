@@ -1,11 +1,20 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {Linking, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {Color, Fonts} from '../../constants';
 import {CardSubMenu, HeaderNavigation} from '../../components';
 import SubMenu from '../../components/molecules/submenu';
 import {IconTelephone} from '../../assets/icons';
+import call from 'react-native-phone-call';
 
 export default function EmergencyContact({navigation}) {
+  const makeEmergencyCall = phoneNumber => {
+    const url = `tel:${phoneNumber}`;
+
+    Linking.openURL(url).catch(error =>
+      console.error('An error occurred', error),
+    );
+  };
+
   return (
     <View style={styles.mainBody}>
       <View>
@@ -23,28 +32,26 @@ export default function EmergencyContact({navigation}) {
             title={'Ambulans'}
             leftIcon={<IconTelephone />}
             onPress={() => {
-              navigation.navigate('Report');
+              makeEmergencyCall('118');
             }}
           />
           <CardSubMenu
             title={'Polisi'}
             leftIcon={<IconTelephone />}
             onPress={() => {
-              navigation.navigate('Tax');
+              makeEmergencyCall('110');
             }}
           />
           <CardSubMenu
             title={'Pemadam Kebakaran'}
             leftIcon={<IconTelephone />}
-            onPress={() => {
-              navigation.navigate('Bus');
-            }}
+            onPress={() => makeEmergencyCall('113')}
           />
           <CardSubMenu
             title={'Badan SAR'}
             leftIcon={<IconTelephone />}
             onPress={() => {
-              navigation.navigate('Market');
+              makeEmergencyCall('113');
             }}
           />
         </View>

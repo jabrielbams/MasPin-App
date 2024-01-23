@@ -19,5 +19,7 @@ export const ENDPOINT = {
     LOGIN: `${API_URL_NGROK}/api/users/login`,
     VALIDASI: `${API_URL_NGROK}/api/users/validate-account`,
     PROFILE: `${API_URL_NGROK}/api/users`,
+
+    CEK_PAJAK: `${API_URL_NGROK}/api//api/pajak/detail-pajak-kendaraan/:no_polisi`,
   },
 };

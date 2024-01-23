@@ -9,6 +9,7 @@ import {
   Touchable,
   TouchableOpacity,
   View,
+  Image,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {Color, FontSize, Fonts} from '../../constants';
@@ -23,6 +24,7 @@ import {
   SearchBar,
 } from '../../components';
 import styles from './styles';
+import {useHome} from './useHome';
 import {
   IcChevronRightActive,
   IconBusRoute,
@@ -111,16 +113,19 @@ const HomeScreen = ({navigation}) => {
         <ScrollView
           style={{marginBottom: 50}}
           showsVerticalScrollIndicator={false}>
+          <View
+            style={{
+              alignItems: 'center',
+              marginTop: 20,
+              marginBottom: 24,
+              paddingHorizontal: 8,
+            }}>
+            <Image
+              source={require('../../assets/images/img-banner-home.jpg')}
+              style={{width: '100%', borderRadius: 8}}
+            />
+          </View>
           <View style={styles.content}>
-            <View
-              style={{
-                backgroundColor: Color.LIGHT_GRAY,
-                borderRadius: 8,
-                height: 140,
-                width: '100%',
-                marginBottom: 24,
-                marginTop: 32,
-              }}></View>
             <View style={styles.featureList}>
               <FeatureIcon
                 icon={<IconReport />}
@@ -130,22 +135,38 @@ const HomeScreen = ({navigation}) => {
               <FeatureIcon
                 icon={<IconTax />}
                 label="Pajak"
-                onPress={() => navigation.navigate('Tax')}
+                onPress={() => {
+                  navigation.navigate('Tax', {
+                    section: 'Pajak',
+                  });
+                }}
               />
               <FeatureIcon
                 icon={<IconBusRoute />}
                 label="Rute"
-                onPress={() => navigation.navigate('Bus')}
+                onPress={() => {
+                  navigation.navigate('Bus', {
+                    section: 'Rute Bus',
+                  });
+                }}
               />
               <FeatureIcon
                 icon={<IconChartPrice />}
                 label="Harga"
-                onPress={() => navigation.navigate('Price')}
+                onPress={() => {
+                  navigation.navigate('HargaPangan', {
+                    section: 'Harga Pangan',
+                  });
+                }}
               />
               <FeatureIcon
                 icon={<IconOthers />}
                 label="Lainnya"
-                onPress={() => navigation.navigate('OtherFeatures')}
+                onPress={() => {
+                  navigation.navigate('OtherFeatures', {
+                    section: 'Lainnya',
+                  });
+                }}
               />
             </View>
           </View>
@@ -180,6 +201,11 @@ const HomeScreen = ({navigation}) => {
                       descReport={item.detail_masalah}
                       category={<LabelCategory title={item.kategori_masalah} />}
                       status={<LabelStatus type={3} />}
+                      onPress={() => {
+                        navigation.navigate('DetailLaporan', {
+                          section: 'Detail Laporan',
+                        });
+                      }}
                     />
                   )}
                   keyExtractor={item => item._id}

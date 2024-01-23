@@ -36,7 +36,9 @@ export default function OtherFeatures({navigation}) {
             title={'Cek Pajak'}
             leftIcon={<IconTax />}
             onPress={() => {
-              navigation.navigate('Tax');
+              navigation.navigate('Tax', {
+                section: 'Pajak',
+              });
             }}
           />
           <CardSubMenu
