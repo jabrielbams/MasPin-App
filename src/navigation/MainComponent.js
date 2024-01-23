@@ -31,6 +31,10 @@ import RuteBus from '../screens/ruteBus';
 import DetailLaporan from '../screens/detailLaporan';
 import DetailInfoTax from '../screens/tax/detail-info-tax';
 import DetailRuteBus from '../screens/ruteBus/detailRuteBus';
+import ReportForm from '../screens/report/create';
+import ReportIndex from '../screens/report';
+import OtherFeatures from '../screens/other';
+import EmergencyContact from '../screens/telephone';
 
 // Screens Name
 const homeName = 'Beranda';
