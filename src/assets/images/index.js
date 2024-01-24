@@ -15,6 +15,9 @@ import ImgDetailLaporan from './img-detail-laporan.jpg';
 import ImgBisTrans from './img-bis-trans.png';
 import ImgMapBus from './img-map-bus.png';
 import ImgRute from './img-rute.png';
+import ImgModalWarning from './img-modal-warning.svg';
+import ImgModalDanger from './img-modal-danger.svg';
+import ImgModalSuccess from './img-modal-success.svg';
 
 export {
   ImgNewsCovid,
@@ -34,4 +37,7 @@ export {
   ImgBisTrans,
   ImgMapBus,
   ImgRute,
+  ImgModalWarning,
+  ImgModalDanger,
+  ImgModalSuccess,
 };

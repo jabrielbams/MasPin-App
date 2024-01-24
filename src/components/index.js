@@ -19,6 +19,8 @@ import DetailLaporanCard from './molecules/details-laporan-card';
 import ReportInfoCard from './molecules/report-info-card';
 import DetailReportCategory from './molecules/detail-report-category';
 import TaxInformation from './molecules/tax-information';
+import ModalPopup from './organisms/modal-popup';
+import ButtonHorizontalMain from './molecules/button-horizontal';
 
 export {
   InputField,
@@ -42,4 +44,6 @@ export {
   ReportInfoCard,
   DetailReportCategory,
   TaxInformation,
+  ModalPopup,
+  ButtonHorizontalMain,
 };

@@ -5,23 +5,35 @@ import {
   ScrollView,
   TextInput,
   FlatList,
+  Alert,
 } from 'react-native';
 import React, {useState} from 'react';
+import Modal from 'react-native-modal';
 import {IcChevronLeft, IcFish, IcMapPins, IcSearch} from '../../assets/icons';
-import {MarketCard, NotificationIcon} from '../../components';
+import {
+  ButtonMain,
+  MarketCard,
+  ModalPopup,
+  NotificationIcon,
+} from '../../components';
 import styles from './styles';
 import {
+  ImgModalSuccess,
+  ImgModalWarning,
   ImgPasarBms,
   ImgPasarManis,
   ImgPasarPon,
   ImgPasarWage,
 } from '../../assets/images';
+import {Color, FontSize, Fonts} from '../../constants';
 
 const HargaPangan = props => {
   const {route, navigation} = props;
   const {section} = route.params;
 
   const [searchMarket, setSearchMarket] = useState('');
+  const [modalVisible, setModalVisible] = useState(true);
+
   const dataMarket = [
     {
       id: 1,
@@ -81,8 +93,8 @@ const HargaPangan = props => {
           <NotificationIcon style={{marginLeft: 'auto'}} />
         </View>
         <View style={styles.dividerStyle} />
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={styles.content}>
+        <View style={styles.content}>
+          <ScrollView showsVerticalScrollIndicator={false}>
             <View style={styles.searchBox}>
               <IcSearch />
               <TextInput
@@ -92,27 +104,28 @@ const HargaPangan = props => {
                 onChangeText={text => setSearchMarket(text)}
               />
             </View>
-            <View style={{marginTop: 24, flexDirection: 'column', gap: 20}}>
-              <FlatList
-                data={filteredMarket}
-                keyExtractor={item => item._id}
-                renderItem={({item}) => (
-                  <MarketCard
-                    imgSource={item.img}
-                    marketName={item.marketName}
-                    iconLeft={IcMapPins}
-                    textDesc={item.textDesc}
-                    iconLeftTwo={IcFish}
-                    textDescTwo={item.textDescTwo}
-                    showAddition={true}
-                    additionText={item.additionText}
-                  />
-                )}
-                showsVerticalScrollIndicator={false}
-              />
-            </View>
+          </ScrollView>
+          <View style={{marginTop: 24, flexDirection: 'column', gap: 20}}>
+            <FlatList
+              data={filteredMarket}
+              keyExtractor={item => item._id}
+              renderItem={({item}) => (
+                <MarketCard
+                  imgSource={item.img}
+                  marketName={item.marketName}
+                  iconLeft={IcMapPins}
+                  textDesc={item.textDesc}
+                  iconLeftTwo={IcFish}
+                  textDescTwo={item.textDescTwo}
+                  showAddition={true}
+                  additionText={item.additionText}
+                  onPress={() => setModalVisible(true)}
+                />
+              )}
+              showsVerticalScrollIndicator={false}
+            />
           </View>
-        </ScrollView>
+        </View>
       </View>
     </View>
   );
