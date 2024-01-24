@@ -37,6 +37,7 @@ export default StyleSheet.create({
   },
   formGroup: {
     marginTop: 32,
+    marginBottom: 32,
     gap: 24,
     flexDirection: 'column',
   },
@@ -51,7 +52,7 @@ export default StyleSheet.create({
   },
   actionSection: {
     marginTop: 15,
-    marginBottom: 40,
+    marginBottom: 35,
     gap: 4,
     // marginHorizontal: 16,
   },

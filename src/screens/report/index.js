@@ -23,7 +23,7 @@ export default function ReportIndex({navigation}) {
     const fetchData = async () => {
       try {
         const refreshToken = await AsyncStorage.getItem('refreshToken');
-        const response = await axios.get(ENDPOINT.NGROK.GET, {
+        const response = await axios.get(ENDPOINT.NGROK.REPORT_ALL, {
           headers: {
             Authorization: `Bearer ${refreshToken}`,
           },
@@ -53,7 +53,7 @@ export default function ReportIndex({navigation}) {
       report.kategori_masalah.toLowerCase().includes(searchText.toLowerCase()),
   );
 
-  const renderItem = ({item}) => (
+  const renderCard = ({item}) => (
     <ReportCardMain
       key={item._id}
       imgReport={item.image_laporan}
@@ -89,15 +89,7 @@ export default function ReportIndex({navigation}) {
             <FlatList
               data={filteredReportData}
               keyExtractor={item => item._id}
-              renderItem={({item}) => (
-                <ReportCardMain
-                  key={item._id}
-                  imgReport={item.image_laporan}
-                  descReport={item.detail_masalah}
-                  category={<LabelCategory title={item.kategori_masalah} />}
-                  status={<LabelStatus type={3} />}
-                />
-              )}
+              renderItem={renderCard}
               showsVerticalScrollIndicator={false}
             />
           )}

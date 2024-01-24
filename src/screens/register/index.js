@@ -1,4 +1,5 @@
 import {
+  Alert,
   KeyboardAvoidingView,
   SafeAreaView,
   ScrollView,
@@ -6,15 +7,103 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {InputField, ButtonMain} from '../../components';
 import {IcEyeClose, IcEyeOpen} from '../../assets/icons';
 import styles from './styles';
-import {useRegister} from './useRegister';
 import {Color} from '../../constants';
+import {useForm} from '../../utils/form';
+import axios from 'axios';
+import {ENDPOINT} from '../../utils/endpoint';
 
 const RegisterScreen = ({navigation}) => {
-  const {form, setForm} = useRegister();
+  const [disableSubmit, setDisableSubmit] = useState(true);
+  const [loading, setLoading] = useState(false);
+
+  const [form, setForm] = useForm({
+    name: {
+      value: '',
+      required: true,
+      error: false,
+      message: '',
+      label: 'Nama',
+    },
+    phone_number: {
+      value: '',
+      required: true,
+      error: false,
+      message: '',
+      label: 'Nomor Telepon',
+    },
+    email: {
+      value: '',
+      required: true,
+      error: false,
+      message: '',
+      label: 'Email',
+    },
+    password: {
+      value: '',
+      required: true,
+      error: false,
+      message: '',
+      label: 'Password',
+    },
+    confirm_password: {
+      value: '',
+      required: true,
+      error: false,
+      message: '',
+      label: 'Konfirmasi Password',
+    },
+  });
+
+  const handleDisabledSubmit = () => {
+    const isFormValid = Object.values(form).every(
+      field => !field.error && field.value.trim() !== '',
+    );
+
+    setDisableSubmit(!isFormValid);
+  };
+
+  useEffect(() => {
+    handleDisabledSubmit();
+  }, [form]);
+
+  const handleRegister = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.post(ENDPOINT.NGROK.REGISTER, {
+        nama: form.name.value,
+        noHP: form.phone_number.value,
+        email: form.email.value,
+        password: form.password.value,
+        confirmPassword: form.confirm_password.value,
+      });
+
+      const {data, success, message, status} = response.data;
+
+      if (success) {
+        Alert.alert('Register Berhasil', message);
+        navigation.replace('Login');
+      }
+    } catch (error) {
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        const errorMessageFromAPI = error.response.data.message;
+
+        Alert.alert('Register Gagal', 'Pastikan semua kolom sudah terisi!');
+      } else {
+        Alert.alert('Error', 'An unexpected error occurred. Please try again.');
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <View style={styles.mainBody}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -26,7 +115,7 @@ const RegisterScreen = ({navigation}) => {
             </Text>
             <View style={styles.formGroup}>
               <InputField
-                // type={'name'}
+                type={'name'}
                 label={form.name.label}
                 helper={form.name.message}
                 placeholder="Masukkan nama lengkap"
@@ -36,15 +125,17 @@ const RegisterScreen = ({navigation}) => {
               />
               <InputField
                 type={'phone-number'}
-                label={form.phone.label}
-                helper={form.phone.message}
+                keyboardType={'number-pad'}
+                label={form.phone_number.label}
+                helper={form.phone_number.message}
                 placeholder="Masukkan nomor"
-                required={form.phone.required}
-                value={form.phone.value}
-                onChangeText={text => setForm('phone', text)}
+                required={form.phone_number.required}
+                value={form.phone_number.value}
+                onChangeText={text => setForm('phone_number', text)}
+                maxInputLength={13}
               />
               <InputField
-                type={'email-address'}
+                type={'email'}
                 label={form.email.label}
                 placeholder="Masukkan email"
                 required={form.email.required}
@@ -79,13 +170,11 @@ const RegisterScreen = ({navigation}) => {
       <View style={styles.actionSection}>
         <View style={styles.actionButton}>
           <ButtonMain
+            disabled={loading || disableSubmit}
             onPress={() => {
-              // Handle button press event
-              console.log('Form Values:', form);
+              handleRegister();
             }}
             title="Daftar"
-            style={styles.customButton}
-            textStyle={styles.customButtonText}
           />
         </View>
         <View style={styles.actionText}>

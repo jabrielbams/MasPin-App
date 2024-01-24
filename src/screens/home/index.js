@@ -93,7 +93,24 @@ const HomeScreen = ({navigation}) => {
     }
   };
 
-  // Panggil fungsi fetchDataFromApi ketika komponen ini diload
+  const timeDifference = createdAt => {
+    const now = new Date();
+    const createdDate = new Date(createdAt);
+    const differenceInSeconds = Math.floor((now - createdDate) / 1000);
+
+    if (differenceInSeconds < 60) {
+      return `${differenceInSeconds} detik lalu`;
+    } else if (differenceInSeconds < 3600) {
+      const minutes = Math.floor(differenceInSeconds / 60);
+      return `${minutes}m lalu`;
+    } else if (differenceInSeconds < 86400) {
+      const hours = Math.floor(differenceInSeconds / 3600);
+      return `${hours}j lalu`;
+    } else {
+      const days = Math.floor(differenceInSeconds / 86400);
+      return `${days}h lalu`;
+    }
+  };
 
   useFocusEffect(() => {
     fetchDataReport();
@@ -182,35 +199,29 @@ const HomeScreen = ({navigation}) => {
               </TouchableOpacity>
             </View>
             <View>
-              {(reportData && (
-                <FlatList
-                  data={
-                    reportData
-                      ? reportData
-                          .sort(
-                            (a, b) =>
-                              new Date(b.createdAt) - new Date(a.createdAt),
-                          )
-                          .slice(0, 3)
-                      : []
-                  }
-                  renderItem={({item}) => (
+              {reportData ? (
+                reportData
+                  .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+                  .slice(0, 3)
+                  .map(item => (
                     <ReportCardMain
                       key={item._id}
                       imgReport={item.image_laporan}
                       descReport={item.detail_masalah}
                       category={<LabelCategory title={item.kategori_masalah} />}
-                      status={<LabelStatus type={3} />}
+                      status={<LabelStatus type={item.status} />}
+                      uploadDate={timeDifference(item.createdAt)}
                       onPress={() => {
                         navigation.navigate('DetailLaporan', {
                           section: 'Detail Laporan',
+                          reportData: item,
                         });
                       }}
                     />
-                  )}
-                  keyExtractor={item => item._id}
-                />
-              )) || <Text>Data tidak ada</Text>}
+                  ))
+              ) : (
+                <Text>Data tidak ada</Text>
+              )}
             </View>
             <View style={styles.sectionDivider}>
               <Text style={styles.sectionTitle}>Berita Terbaru</Text>

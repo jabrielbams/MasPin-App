@@ -97,7 +97,7 @@ export const validateName = (label, text) => {
     error = true;
     message = `${label} terlalu pendek`;
   }
-  if (text.length >= 50) {
+  if (text.length >= 30) {
     error = true;
     message = `${label} terlalu panjang`;
   }
@@ -114,7 +114,7 @@ export const validatePhoneNumber = number => {
   let error = false;
   let validateNumber = number.match(/^([0-9]*)$/);
   let validateLength = number.length >= 9;
-  let validateMaxLength = number.length <= 12;
+  let validateMaxLength = number.length < 14;
 
   if (!validateNumber) {
     message =

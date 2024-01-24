@@ -1,6 +1,7 @@
 /* eslint-disable react/no-unstable-nested-components */
 import {View, Text} from 'react-native';
 import React, {useEffect, useState} from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -26,7 +27,7 @@ import LoginScreen from '../screens/login';
 import RegisterScreen from '../screens/register';
 import TaxScreen from '../screens/tax';
 import DetailTax from '../screens/tax/detail-tax';
-import HargaPangan from '../screens/hargaPangan';
+import HargaPangan from '../screens/market';
 import RuteBus from '../screens/ruteBus';
 import DetailLaporan from '../screens/detailLaporan';
 import DetailInfoTax from '../screens/tax/detail-info-tax';
@@ -35,6 +36,7 @@ import ReportForm from '../screens/report/create';
 import ReportIndex from '../screens/report';
 import OtherFeatures from '../screens/other';
 import EmergencyContact from '../screens/telephone';
+import DetailMarket from '../screens/market/detail';
 
 // Screens Name
 const homeName = 'Beranda';
@@ -224,6 +226,11 @@ const MainComponent = () => {
         <Stack.Screen
           name="DetailRuteBus"
           component={DetailRuteBus}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="DetailMarket"
+          component={DetailMarket}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

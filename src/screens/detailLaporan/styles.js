@@ -38,5 +38,5 @@ export default StyleSheet.create({
     marginTop: 16,
     marginBottom: 20,
   },
-  listInfo: {marginTop: 20, flexDirection: 'column', gap: 25}
+  listInfo: {marginTop: 20, flexDirection: 'column', gap: 25},
 });
