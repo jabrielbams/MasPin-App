@@ -1,6 +1,6 @@
 import axios from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {ENDPOINT} from '../utils/endpoint';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const getAllReport = async () => {
   try {
@@ -8,7 +8,7 @@ export const getAllReport = async () => {
     const refreshToken = await AsyncStorage.getItem('refreshToken');
 
     // Melakukan permintaan ke API dengan menggunakan refreshToken
-    const response = await axios.get(ENDPOINT.NGROK.GET, {
+    const response = await axios.get(ENDPOINT.NGROK.REPORT_ALL, {
       headers: {
         Authorization: `Bearer ${refreshToken}`,
       },

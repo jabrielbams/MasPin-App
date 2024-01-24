@@ -5,21 +5,40 @@ import {LabelStatus, LabelCategory, LikeButton} from '../../../components';
 import {Color, FontSize, Fonts} from '../../../constants';
 import {IcLikes, IcLikesActive} from '../../../assets/icons';
 
-const ReportCardMain = ({imgReport, descReport, category, status, onPress}) => {
+const ReportCardMain = ({
+  imgReport,
+  descReport,
+  category,
+  status,
+  onPress,
+  uploadDate,
+}) => {
   const [pressed, setPressed] = useState(false);
 
   return (
-    <View style={styles.cardContainer}>
-      <Image
-        source={{uri: imgReport}}
-        style={{
-          width: 100,
-          height: 100,
-          borderBottomLeftRadius: 8,
-          borderTopLeftRadius: 8,
-          resizeMode: 'cover',
-        }}
-      />
+    <TouchableOpacity style={styles.cardContainer} onPress={onPress}>
+      <View style={{position: 'relative'}}>
+        <Image
+          source={{uri: imgReport}}
+          style={{
+            width: 100,
+            height: 100,
+            borderBottomLeftRadius: 8,
+            borderTopLeftRadius: 8,
+            resizeMode: 'cover',
+          }}
+        />
+        <View style={styles.timeContainer}>
+          <Text
+            style={{
+              fontFamily: Fonts.REGULAR,
+              fontSize: 10,
+              color: Color.BLACK,
+            }}>
+            {uploadDate}
+          </Text>
+        </View>
+      </View>
       <View style={styles.contentSection}>
         <View style={styles.header}>
           <View style={styles.category}>
@@ -34,7 +53,7 @@ const ReportCardMain = ({imgReport, descReport, category, status, onPress}) => {
           {descReport}
         </Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -49,6 +68,17 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 100,
     marginBottom: 16,
+  },
+  timeContainer: {
+    position: 'absolute',
+    top: 6,
+    right: 6,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: Color.WHITE,
+    borderRadius: 100,
+    paddingHorizontal: 6,
+    paddingVertical: 2,
   },
   contentSection: {
     flex: 1,
