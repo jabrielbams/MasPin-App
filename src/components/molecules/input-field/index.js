@@ -47,27 +47,25 @@ export default function InputField({
   const handleChangeValue = value => {
     let valueText = value;
 
-    if (type === 'phone-number') {
-      valueText = setPhoneNumber(value);
-    } else if (type === 'nik') {
+    if (type === 'nik') {
       // Remove non-numeric characters from NIK
       valueText = value.replace(/[^0-9]/g, '');
     }
     onChangeText?.(valueText);
   };
 
-  const setType = type => {
-    switch (type) {
-      case 'password':
-        return 'default';
-      case 'phone-number':
-        return 'number-pad';
-      case 'text-area':
-        return 'default';
-      default:
-        return type;
-    }
-  };
+  // const setType = type => {
+  //   switch (type) {
+  //     case 'password':
+  //       return 'default';
+  //     case 'phone-number':
+  //       return 'number-pad';
+  //     case 'text-area':
+  //       return 'default';
+  //     default:
+  //       return type;
+  //   }
+  // };
 
   return (
     <View>
@@ -83,12 +81,13 @@ export default function InputField({
           !editable ? styles.formDisabled : null,
         ]}>
         <TextInput
-          defaultValue={type === 'phone-number' ? setPhoneNumber(value) : value}
-          value={type === 'phone-number' ? setPhoneNumber(value) : value}
+          defaultValue={value}
+          value={value}
           keyboardType={
-            type === 'phone-number' || type === 'nik'
-              ? 'number-pad'
-              : setType(type)
+            // type === 'phone-number' || type === 'nik'
+            //   ? 'number-pad'
+            //   : setType(type)
+            keyboardType === 'password' ? 'default' : keyboardType
           }
           style={[
             styles.input,

@@ -42,23 +42,21 @@ export const useForm = initalForm => {
             form.password.status,
           );
         } else if (key === 'phone_number') {
-          let removeFirstZeroKey = ['phone_number'];
-          value = removeFirstZeroKey.includes(key)
-            ? text?.replace(/^0+/, '')
-            : text?.toLowerCase();
+          // let removeFirstZeroKey = ['phone_number'];
+          // value = removeFirstZeroKey.includes(key)
+          //   ? text?.replace(/^0+/, '')
+          //   : text?.toLowerCase();
           validate = validatePhoneNumber(value);
         } else if (key === 'address') {
           validate = validateMinMaxChar(label, value, 1, 345);
         } else if (key === 'name') {
           validate = validateName(label, value);
         } else if (key === 'desc') {
-          // Perubahan di sini, tambahkan key 'desc'
           validate = validateDesc(label, value);
         } else if (key === 'nik') {
           validate = validateNIK(label, value);
         } else if (key === 'dropdown') {
           // Custom validation for dropdown
-          // You can adjust this part based on the requirements for dropdown validation
           if (value === 'Pilih Label') {
             error = true;
             message = `${label} harus dipilih`;
@@ -128,28 +126,6 @@ export const useForm = initalForm => {
             },
           };
         }
-      }
-
-      if (key === 'min' || key === 'max') {
-        let {min, max} = formNew;
-        validate = validateMinMaxPrice(
-          min.label,
-          max.label,
-          Number(min.value),
-          Number(max.value),
-        );
-        validate[key].value = value;
-        formNew = {
-          ...formNew,
-          min: {
-            ...min,
-            ...validate.min,
-          },
-          max: {
-            ...max,
-            ...validate.max,
-          },
-        };
       }
 
       setForm(formNew);

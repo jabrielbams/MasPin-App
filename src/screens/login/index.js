@@ -1,4 +1,5 @@
 import {
+  Alert,
   KeyboardAvoidingView,
   ScrollView,
   StyleSheet,
@@ -17,7 +18,10 @@ import axios from 'axios';
 import {ENDPOINT} from '../../utils/endpoint';
 
 const LoginScreen = ({navigation}) => {
+  const [loginError, setLoginError] = useState(null);
   const [rememberMe, setRememberMe] = useState(false);
+  const [disableSubmit, setDisableSubmit] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const [form, setForm] = useForm({
     email: {
@@ -45,8 +49,26 @@ const LoginScreen = ({navigation}) => {
     }
   };
 
+  const handleDisabledSubmit = () => {
+    const isEmailValid = !form.email.error && form.email.value.trim() !== '';
+    const isPasswordValid =
+      !form.password.error && form.password.value.trim() !== '';
+
+    setDisableSubmit(!(isEmailValid && isPasswordValid));
+  };
+
+  useEffect(() => {
+    handleDisabledSubmit();
+  }, [
+    form.email.value,
+    form.email.error,
+    form.password.value,
+    form.password.error,
+  ]);
+
   const handleLogin = async () => {
     console.log(ENDPOINT.NGROK.LOGIN);
+    setLoading(true);
     try {
       const response = await axios.post(ENDPOINT.NGROK.LOGIN, {
         email: form.email.value,
@@ -59,12 +81,32 @@ const LoginScreen = ({navigation}) => {
         if (data.accessToken) {
           saveTokenToStorage(data.refreshToken);
           navigation.replace('Home');
+        } else {
+          console.log('Login failed:', message);
+          // Display an alert with the error message
+          Alert.alert('Login Failed', message);
         }
-        console.log('login berhasil');
       }
       console.log(data);
     } catch (error) {
-      console.error('Login error:', error.message);
+      console.error('Login error:', error.message); // Log the general error message
+
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        const errorMessageFromAPI = error.response.data.message;
+        console.log('Error message from API:', errorMessageFromAPI);
+
+        // Display an alert with the error message from the API response
+        Alert.alert('Login Gagal', errorMessageFromAPI);
+      } else {
+        // Display a generic error message for unexpected errors
+        Alert.alert('Error', 'An unexpected error occurred. Please try again.');
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -95,7 +137,10 @@ const LoginScreen = ({navigation}) => {
                   required={form.email.required}
                   helper={form.email.message}
                   value={form.email.value}
-                  onChangeText={text => setForm('email', text)}
+                  onChangeText={text => {
+                    setForm('email', text);
+                    handleDisabledSubmit();
+                  }}
                 />
                 <InputField
                   type={'password'}
@@ -106,7 +151,10 @@ const LoginScreen = ({navigation}) => {
                   required={form.password.required}
                   helper={form.password.message}
                   value={form.password.value}
-                  onChangeText={text => setForm('password', text)}
+                  onChangeText={text => {
+                    setForm('password', text);
+                    handleDisabledSubmit();
+                  }}
                   secureTextEntry={true}
                 />
               </View>
@@ -126,7 +174,7 @@ const LoginScreen = ({navigation}) => {
                   onPress={() => {
                     console.log('kepencet');
                   }}>
-                  <Text style={styles.highlightText}>Forgot Password?</Text>
+                  <Text style={styles.highlightText}>Lupa Password?</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -136,14 +184,13 @@ const LoginScreen = ({navigation}) => {
       <View style={styles.actionSection}>
         <View style={styles.actionButton}>
           <ButtonMain
+            disabled={loading || disableSubmit}
             onPress={() => {
               // Handle button press event
               handleLogin();
               console.log('Form Values:', form);
             }}
             title="Masuk"
-            style={styles.customButton}
-            textStyle={styles.customButtonText}
           />
         </View>
         <View style={styles.actionText}>

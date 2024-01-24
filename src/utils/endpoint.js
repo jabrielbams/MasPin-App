@@ -1,5 +1,5 @@
 import {API_BASE_URL1} from '@env';
-import {API_URL_NGROK} from '@env';
+import {API_URL_NGROK1} from '@env';
 
 export const ENDPOINT = {
   AUTH: {
@@ -13,13 +13,14 @@ export const ENDPOINT = {
   },
 
   NGROK: {
-    CREATE: `${API_URL_NGROK}/api/laporan/add-laporan`,
-    GET: `${API_URL_NGROK}/api/laporan/get-laporan`,
+    CREATE: `${API_URL_NGROK1}/api/laporan/add-laporan`,
+    GET: `${API_URL_NGROK1}/api/laporan/get-laporan`,
 
-    LOGIN: `${API_URL_NGROK}/api/users/login`,
-    VALIDASI: `${API_URL_NGROK}/api/users/validate-account`,
-    PROFILE: `${API_URL_NGROK}/api/users`,
+    LOGIN: `${API_URL_NGROK1}/api/users/login`,
+    REGISTER: `${API_URL_NGROK1}/api/users/register`,
+    VALIDASI: `${API_URL_NGROK1}/api/users/validate-account`,
+    PROFILE: `${API_URL_NGROK1}/api/users`,
 
-    CEK_PAJAK: `${API_URL_NGROK}/api//api/pajak/detail-pajak-kendaraan/:no_polisi`,
+    CEK_PAJAK: `${API_URL_NGROK1}/api//api/pajak/detail-pajak-kendaraan/:no_polisi`,
   },
 };
