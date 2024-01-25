@@ -5,7 +5,7 @@ import {LabelCategory, LabelStatus} from '../..';
 
 const DetailReportCategory = ({category, status, date, time}) => {
   return (
-    <View>
+    <View style={styles.cardContainer}>
       <Text style={styles.title}>Kategori dan Status Laporan</Text>
       <View style={styles.separator} />
       <View style={styles.descBox}>
@@ -14,8 +14,8 @@ const DetailReportCategory = ({category, status, date, time}) => {
           {status}
         </View>
         <View style={styles.timeBox}>
-          <Text style={styles.date}>{date}</Text>
-          <Text style={styles.time}>{time}</Text>
+          <Text style={styles.date}>{date},</Text>
+          <Text style={styles.time}> {time} WIB</Text>
         </View>
       </View>
     </View>
@@ -25,6 +25,12 @@ const DetailReportCategory = ({category, status, date, time}) => {
 export default DetailReportCategory;
 
 const styles = StyleSheet.create({
+  cardContainer: {
+    borderRadius: 8,
+    backgroundColor: Color.WHITE,
+    padding: 10,
+    elevation: 1,
+  },
   title: {
     color: Color.TEXTBOX,
     fontFamily: Fonts.REGULAR,

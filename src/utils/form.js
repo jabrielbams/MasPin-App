@@ -1,6 +1,7 @@
 import {useState} from 'react';
 import {
   validateConfirmPassword,
+  validateDesc,
   validateEmail,
   validateMediaReview,
   validateMediaSize,
@@ -8,6 +9,7 @@ import {
   validateMinMaxChar,
   validateMinMaxPrice,
   validateName,
+  validateNIK,
   validatePassword,
   validatePhoneNumber,
   validateReferal,
@@ -30,53 +32,51 @@ export const useForm = initalForm => {
       if (text) {
         if (key === 'email') {
           validate = validateEmail(value);
-          error = validate.error;
-          message = validate.message;
-          customMessage = validate.customMessage;
-        }
-        if (key === 'password' || key === 'prev_password') {
+        } else if (key === 'password' || key === 'prev_password') {
           validate = validatePassword(value, form.password.status);
-          error = validate.error;
-          message = validate.message;
-          customMessage = validate.customMessage;
-        }
-        if (key === 'confirm_password') {
+        } else if (key === 'confirm_password') {
           const {password} = formNew || form;
           validate = validateConfirmPassword(
             password.value,
             value,
             form.password.status,
           );
-          error = validate.error;
-          message = validate.message;
-          customMessage = validate.customMessage;
-        }
-        if (key === 'phone_number') {
-          let removeFirstZeroKey = ['phone_number'];
-          value = removeFirstZeroKey.includes(key)
-            ? text?.replace(/^0+/, '')
-            : text?.toLowerCase();
+        } else if (key === 'phone_number') {
+          // let removeFirstZeroKey = ['phone_number'];
+          // value = removeFirstZeroKey.includes(key)
+          //   ? text?.replace(/^0+/, '')
+          //   : text?.toLowerCase();
           validate = validatePhoneNumber(value);
-          error = validate.error;
-          message = validate.message;
-          customMessage = validate.customMessage;
-        }
-        if (key === 'address') {
-          validate = validateMinMaxChar(label, value, 5, 100);
-          error = validate.error;
-          message = validate.message;
-          customMessage = validate.customMessage;
-        }
-        if (key === 'name') {
+        } else if (key === 'address') {
+          validate = validateMinMaxChar(label, value, 1, 345);
+        } else if (key === 'name') {
           validate = validateName(label, value);
-          error = validate.error;
-          message = validate.message;
-          customMessage = validate.customMessage;
+        } else if (key === 'desc') {
+          validate = validateDesc(label, value);
+        } else if (key === 'nik') {
+          validate = validateNIK(label, value);
+        } else if (key === 'dropdown') {
+          // Custom validation for dropdown
+          if (value === 'Pilih Label') {
+            error = true;
+            message = `${label} harus dipilih`;
+            customMessage = `Pilih ${label}`;
+          }
+        } else if (key === 'imageReport') {
+          if (value === null) {
+            error = true;
+            message = `${label} harus dipilih`;
+          }
         }
+        // Add more validation conditions for other input types as needed
+        // ...
+        error = validate.error;
+        message = validate.message;
+        customMessage = validate.customMessage;
       } else {
         error = true;
         message = `${label} tidak boleh kosong`;
-        customMessage = '${label} Wajib Diisi';
+        customMessage = `${label} Wajib Diisi`;
       }
     }
 
@@ -85,13 +85,10 @@ export const useForm = initalForm => {
 
   const setFormValue = (key, value) => {
     if (key === '@reset') {
-      /* ex: setForm('@reset') */
       return setForm(initalForm);
     } else if (key === '@override') {
-      /* ex: setForm('@override', {...form, ...formNew}) */
       return setForm(value);
     } else {
-      /* ex: setForm('email', value) */
       let payload = {};
 
       let validate = validateFormValue(key, value);
@@ -129,28 +126,6 @@ export const useForm = initalForm => {
             },
           };
         }
-      }
-
-      if (key === 'min' || key === 'max') {
-        let {min, max} = formNew;
-        validate = validateMinMaxPrice(
-          min.label,
-          max.label,
-          Number(min.value),
-          Number(max.value),
-        );
-        validate[key].value = value;
-        formNew = {
-          ...formNew,
-          min: {
-            ...min,
-            ...validate.min,
-          },
-          max: {
-            ...max,
-            ...validate.max,
-          },
-        };
       }
 
       setForm(formNew);

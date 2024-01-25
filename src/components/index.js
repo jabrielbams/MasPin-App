@@ -5,11 +5,16 @@ import NotificationIcon from './atomics/notification';
 import SearchBar from './molecules/searchbar';
 import LabelCategory from './atomics/label-category';
 import LabelStatus from './atomics/label-status';
-import ReportCard from './molecules/card-report';
 import NewsCardMain from './organisms/news-card';
 import FeatureIcon from './atomics/feature-icon';
 import ReportCardMain from './organisms/report-card';
 import LikeButton from './atomics/like-button';
+import InputDropdownField from './molecules/input-dropdown';
+import BackButton from './atomics/back-button';
+import HeaderNavigation from './molecules/header-navigation';
+import SwitchInputField from './molecules/switch-inputfield';
+import CardSubMenu from './molecules/card-submenu';
+import ButtonSecondary from './atomics/button-secondary';
 import TaxCardMain from './organisms/tax-card';
 import FeatureList from './molecules/feature-list';
 import MarketCard from './organisms/market-card';
@@ -18,6 +23,7 @@ import BusCard from './organisms/bus-card';
 import DetailLaporanCard from './molecules/details-laporan-card';
 import ReportInfoCard from './molecules/report-info-card';
 import DetailReportCategory from './molecules/detail-report-category';
+import TabBar from './organisms/tab-bar';
 import TaxInformation from './molecules/tax-information';
 import ModalPopup from './organisms/modal-popup';
 import ButtonHorizontalMain from './molecules/button-horizontal';
@@ -30,11 +36,16 @@ export {
   SearchBar,
   LabelCategory,
   LabelStatus,
-  ReportCard,
   NewsCardMain,
   FeatureIcon,
   ReportCardMain,
   LikeButton,
+  InputDropdownField,
+  BackButton,
+  HeaderNavigation,
+  SwitchInputField,
+  CardSubMenu,
+  ButtonSecondary,
   TaxCardMain,
   FeatureList,
   MarketCard,
@@ -43,6 +54,7 @@ export {
   DetailLaporanCard,
   ReportInfoCard,
   DetailReportCategory,
+  TabBar,
   TaxInformation,
   ModalPopup,
   ButtonHorizontalMain,

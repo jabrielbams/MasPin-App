@@ -1,6 +1,7 @@
 /* eslint-disable react/no-unstable-nested-components */
 import {View, Text} from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -21,18 +22,21 @@ import {FontSize, Fonts} from '../constants';
 // Screens
 import HomeScreen from '../screens/home';
 import ActivityScreen from '../screens/aktivitas';
-import ReportScreen from '../screens/laporan';
 import ProfileScreen from '../screens/profile';
 import LoginScreen from '../screens/login';
 import RegisterScreen from '../screens/register';
 import TaxScreen from '../screens/tax';
 import DetailTax from '../screens/tax/detail-tax';
-import OthersScreen from '../screens/others';
-import HargaPangan from '../screens/hargaPangan';
+import HargaPangan from '../screens/market';
 import RuteBus from '../screens/ruteBus';
 import DetailLaporan from '../screens/detailLaporan';
 import DetailInfoTax from '../screens/tax/detail-info-tax';
 import DetailRuteBus from '../screens/ruteBus/detailRuteBus';
+import ReportForm from '../screens/report/create';
+import ReportIndex from '../screens/report';
+import OtherFeatures from '../screens/other';
+import EmergencyContact from '../screens/telephone';
+import DetailMarket from '../screens/market/detail';
 
 // Screens Name
 const homeName = 'Beranda';
@@ -101,7 +105,7 @@ function Home() {
       />
       <Tab.Screen
         name={reportName}
-        component={ReportScreen}
+        component={ReportForm}
         options={{headerShown: false}}
       />
       <Tab.Screen
@@ -114,10 +118,38 @@ function Home() {
 }
 
 const MainComponent = () => {
+  const [initialRoute, setInitialRoute] = useState('Login');
+  const [isReady, setIsReady] = useState(false);
+
+  useEffect(() => {
+    const checkLoggedIn = async () => {
+      try {
+        const refreshToken = await AsyncStorage.getItem('refreshToken');
+        return !!refreshToken; // Returns true if refreshToken exists, false otherwise
+      } catch (error) {
+        console.error('Error checking login status:', error.message);
+        return false;
+      }
+    };
+
+    // Determine the initial route based on login status
+    const determineInitialRoute = async () => {
+      const isLoggedIn = await checkLoggedIn();
+      setInitialRoute(isLoggedIn ? 'Home' : 'Login');
+      setIsReady(true);
+    };
+
+    determineInitialRoute();
+  }, []); // Empty dependency array ensures the effect runs only once on mount
+
+  if (!isReady) {
+    // Return a loading indicator or null while determining the initial route
+    return null;
+  }
+
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-        {/* entry */}
+      <Stack.Navigator initialRouteName={initialRoute}>
         <Stack.Screen
           name="Login"
           component={LoginScreen}
@@ -135,13 +167,28 @@ const MainComponent = () => {
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name="Aktivitas"
-          component={ActivityScreen}
+          name="Report"
+          component={ReportForm}
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name="Laporan"
-          component={ReportScreen}
+          name="ReportIndex"
+          component={ReportIndex}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="OtherFeatures"
+          component={OtherFeatures}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Telephone"
+          component={EmergencyContact}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Activity"
+          component={ActivityScreen}
           options={{headerShown: false}}
         />
         {/* feature */}
@@ -151,18 +198,13 @@ const MainComponent = () => {
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name="RuteBus"
+          name="Bus"
           component={RuteBus}
           options={{headerShown: false}}
         />
         <Stack.Screen
           name="HargaPangan"
           component={HargaPangan}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="Others"
-          component={OthersScreen}
           options={{headerShown: false}}
         />
         {/* details */}
@@ -184,6 +226,11 @@ const MainComponent = () => {
         <Stack.Screen
           name="DetailRuteBus"
           component={DetailRuteBus}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="DetailMarket"
+          component={DetailMarket}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

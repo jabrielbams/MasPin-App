@@ -7,43 +7,18 @@ import {
   Text,
 } from 'react-native';
 import {IcSearch} from '../../../assets';
-import {Color} from '../../../constants';
+import {Color, FontSize, Fonts} from '../../../constants';
 
-const SearchBar = ({
-  clicked,
-  searchPhrase,
-  setSearchPhrase,
-  setClicked,
-  customStyle,
-}) => {
-  const [click, setClick] = useState(false);
+const SearchBar = ({placeholder, searchValue, setSearchValue}) => {
   return (
-    <View style={[styles.container, customStyle]}>
-      <View
-        style={clicked ? styles.searchBarClicked : styles.searchBarUnclicked}>
-        {/* search Icon */}
-        <IcSearch weight={28} height={28} />
-        {/* Input field */}
-        <TextInput
-          style={styles.input}
-          placeholder="Cari Layanan"
-          value={searchPhrase}
-          onChangeText={setSearchPhrase}
-          onFocus={() => {
-            setClick(true);
-          }}
-        />
-      </View>
-      {clicked && (
-        <TouchableOpacity
-          style={styles.cancelButton}
-          onPress={() => {
-            Keyboard.dismiss();
-            setClicked(false);
-          }}>
-          <Text style={styles.cancelText}>Cancel</Text>
-        </TouchableOpacity>
-      )}
+    <View style={styles.searchBox}>
+      <IcSearch />
+      <TextInput
+        style={styles.placeholder}
+        placeholder={placeholder}
+        value={searchValue}
+        onChangeText={setSearchValue}
+      />
     </View>
   );
 };
@@ -52,37 +27,19 @@ export default SearchBar;
 
 // styles
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+  searchBox: {
+    backgroundColor: Color.TEXTFIELD,
     flexDirection: 'row',
+    height: 45,
+    borderRadius: 8,
+    justifyContent: 'center',
     alignItems: 'center',
+    gap: 4,
   },
-  searchBarUnclicked: {
-    padding: 12,
-    flexDirection: 'row',
-    borderRadius: 15,
-    borderColor: Color.BLACK,
-    borderWidth: 1,
-    alignItems: 'center',
-  },
-  searchBarClicked: {
-    padding: 10,
-    flexDirection: 'row',
+  placeholder: {
+    color: Color.TEXTBOX,
+    fontFamily: Fonts.REGULAR,
+    fontSize: FontSize.dp_14,
     width: '80%',
-    borderRadius: 15,
-    backgroundColor: 'rgba(0, 0, 0, 0.1)', // Add background color for clicked state
-    alignItems: 'center',
-    justifyContent: 'space-evenly',
-  },
-  input: {
-    fontSize: 14,
-    marginLeft: 16,
-    width: '70%', // Adjust the width of the input field
-  },
-  cancelButton: {
-    marginLeft: 8,
-  },
-  cancelText: {
-    color: Color.BLUE, // Add your desired color
   },
 });

@@ -1,4 +1,5 @@
 import {
+  Alert,
   KeyboardAvoidingView,
   ScrollView,
   StyleSheet,
@@ -6,14 +7,108 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {ButtonMain, CustomCheckbox, InputField} from '../../components';
 import {Color, Fonts} from './src/constants';
 import {useLogin} from './useLogin';
 import styles from './styles';
+import {useForm} from '../../utils/form';
+import axios from 'axios';
+import {ENDPOINT} from '../../utils/endpoint';
 
 const LoginScreen = ({navigation}) => {
-  const {rememberMe, setRememberMe, setForm, form} = useLogin();
+  const [loginError, setLoginError] = useState(null);
+  const [rememberMe, setRememberMe] = useState(false);
+  const [disableSubmit, setDisableSubmit] = useState(true);
+  const [loading, setLoading] = useState(false);
+
+  const [form, setForm] = useForm({
+    email: {
+      value: '',
+      required: true,
+      error: false,
+      message: '',
+      label: 'Email',
+    },
+    password: {
+      value: '',
+      required: true,
+      error: false,
+      message: '',
+      label: 'Password',
+    },
+  });
+
+  const saveTokenToStorage = async refreshToken => {
+    try {
+      await AsyncStorage.setItem('refreshToken', refreshToken);
+      console.log(refreshToken);
+    } catch (error) {
+      console.error('Error saving token to AsyncStorage:', refreshToken);
+    }
+  };
+
+  const handleDisabledSubmit = () => {
+    const isEmailValid = !form.email.error && form.email.value.trim() !== '';
+    const isPasswordValid =
+      !form.password.error && form.password.value.trim() !== '';
+
+    setDisableSubmit(!(isEmailValid && isPasswordValid));
+  };
+
+  useEffect(() => {
+    handleDisabledSubmit();
+  }, [
+    form.email.value,
+    form.email.error,
+    form.password.value,
+    form.password.error,
+  ]);
+
+  const handleLogin = async () => {
+    console.log(ENDPOINT.NGROK.LOGIN);
+    setLoading(true);
+    try {
+      const response = await axios.post(ENDPOINT.NGROK.LOGIN, {
+        email: form.email.value,
+        password: form.password.value,
+      });
+
+      const {data, success, message, status} = response.data;
+
+      if (success) {
+        if (data.accessToken) {
+          saveTokenToStorage(data.refreshToken);
+          navigation.replace('Home');
+        } else {
+          console.log('Login failed:', message);
+          // Display an alert with the error message
+          Alert.alert('Login Failed', message);
+        }
+      }
+      console.log(data);
+    } catch (error) {
+      console.error('Login error:', error.message); // Log the general error message
+
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        const errorMessageFromAPI = error.response.data.message;
+        console.log('Error message from API:', errorMessageFromAPI);
+
+        // Display an alert with the error message from the API response
+        Alert.alert('Login Gagal', errorMessageFromAPI);
+      } else {
+        // Display a generic error message for unexpected errors
+        Alert.alert('Error', 'An unexpected error occurred. Please try again.');
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <View style={styles.mainBody}>
@@ -42,7 +137,10 @@ const LoginScreen = ({navigation}) => {
                   required={form.email.required}
                   helper={form.email.message}
                   value={form.email.value}
-                  onChangeText={text => setForm('email', text)}
+                  onChangeText={text => {
+                    setForm('email', text);
+                    handleDisabledSubmit();
+                  }}
                 />
                 <InputField
                   type={'password'}
@@ -53,7 +151,10 @@ const LoginScreen = ({navigation}) => {
                   required={form.password.required}
                   helper={form.password.message}
                   value={form.password.value}
-                  onChangeText={text => setForm('password', text)}
+                  onChangeText={text => {
+                    setForm('password', text);
+                    handleDisabledSubmit();
+                  }}
                   secureTextEntry={true}
                 />
               </View>
@@ -73,7 +174,7 @@ const LoginScreen = ({navigation}) => {
                   onPress={() => {
                     console.log('kepencet');
                   }}>
-                  <Text style={styles.highlightText}>Forgot Password?</Text>
+                  <Text style={styles.highlightText}>Lupa Password?</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -83,13 +184,13 @@ const LoginScreen = ({navigation}) => {
       <View style={styles.actionSection}>
         <View style={styles.actionButton}>
           <ButtonMain
+            disabled={loading || disableSubmit}
             onPress={() => {
               // Handle button press event
+              handleLogin();
               console.log('Form Values:', form);
             }}
             title="Masuk"
-            style={styles.customButton}
-            textStyle={styles.customButtonText}
           />
         </View>
         <View style={styles.actionText}>

@@ -84,6 +84,8 @@ export const validateMinMaxChar = (label, text, min, max, type) => {
       message = `${label} tidak boleh menggunakan spesial karakter`;
     }
   }
+
+  return {message, error};
 };
 
 export const validateName = (label, text) => {
@@ -95,7 +97,7 @@ export const validateName = (label, text) => {
     error = true;
     message = `${label} terlalu pendek`;
   }
-  if (text.length >= 50) {
+  if (text.length >= 30) {
     error = true;
     message = `${label} terlalu panjang`;
   }
@@ -112,7 +114,7 @@ export const validatePhoneNumber = number => {
   let error = false;
   let validateNumber = number.match(/^([0-9]*)$/);
   let validateLength = number.length >= 9;
-  let validateMaxLength = number.length <= 12;
+  let validateMaxLength = number.length < 14;
 
   if (!validateNumber) {
     message =
@@ -142,4 +144,38 @@ export const validateEmail = email => {
   }
 
   return {message, error};
+};
+
+export const validateDesc = (label, text) => {
+  let message = '';
+  let error = false;
+
+  if (text.length < 0) {
+    error = true;
+    message = `${label} tidak boleh kosong`;
+  }
+
+  return {message, error};
+};
+
+// validation.js
+
+export const validateNIK = (label, value) => {
+  const numericValue = parseInt(value, 10); // Convert the value to an integer
+
+  if (isNaN(numericValue) || value.length !== 16) {
+    return {
+      error: true,
+      message: `${label} harus berupa angka`,
+      customMessage: `Masukkan ${label} dengan benar (16 digit)`,
+    };
+  }
+
+  // Additional conditions for NIK validation can be added here
+
+  return {
+    error: false,
+    message: '',
+    customMessage: '',
+  };
 };

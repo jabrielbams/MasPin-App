@@ -27,6 +27,7 @@ export default function InputField({
   maxLength,
   inputMode,
   customIcon,
+  maxInputLength,
 }) {
   const [isRender, setIsRender] = useState(false);
   const [hint, setHint] = useState(helper);
@@ -44,25 +45,27 @@ export default function InputField({
   }, [isRender, helper]);
 
   const handleChangeValue = value => {
-    const numberKey = ['phone-number', 'number-pad'];
-    const valueText = numberKey.includes(type)
-      ? value.replace(/[^0-9]/g, '')
-      : value;
+    let valueText = value;
+
+    if (type === 'nik') {
+      // Remove non-numeric characters from NIK
+      valueText = value.replace(/[^0-9]/g, '');
+    }
     onChangeText?.(valueText);
   };
 
-  const setType = type => {
-    switch (type) {
-      case 'password':
-        return 'default';
-      case 'phone-number':
-        return 'number-pad';
-      case 'text-area':
-        return 'default';
-      default:
-        return type;
-    }
-  };
+  // const setType = type => {
+  //   switch (type) {
+  //     case 'password':
+  //       return 'default';
+  //     case 'phone-number':
+  //       return 'number-pad';
+  //     case 'text-area':
+  //       return 'default';
+  //     default:
+  //       return type;
+  //   }
+  // };
 
   return (
     <View>
@@ -73,17 +76,19 @@ export default function InputField({
       <View
         style={[
           styles.form,
+          formStyle,
           hint ? styles.formErr : null,
           !editable ? styles.formDisabled : null,
         ]}>
         <TextInput
-          defaultValue={
-            type === 'phone-number' ? setPhoneNumber(value) : `${value ?? ''}`
+          defaultValue={value}
+          value={value}
+          keyboardType={
+            // type === 'phone-number' || type === 'nik'
+            //   ? 'number-pad'
+            //   : setType(type)
+            keyboardType === 'password' ? 'default' : keyboardType
           }
-          value={
-            type === 'phone-number' ? setPhoneNumber(value) : `${value ?? ''}`
-          }
-          keyboardType={keyboardType ? keyboardType : setType(type)}
           style={[
             styles.input,
             inputStyle,
@@ -99,13 +104,13 @@ export default function InputField({
           autoCapitalize={type === 'email-address' ? 'none' : 'sentences'}
           editable={editable}
           onFocus={() => {
-            // onFocus();
             setIsFocused(true);
           }}
           onBlur={() => {
             setIsFocused(false);
           }}
           onChangeText={handleChangeValue}
+          maxLength={maxInputLength}
         />
         {secureTextEntry && (
           <TouchableOpacity onPress={() => setSecure(!secure)}>
@@ -122,7 +127,7 @@ const styles = StyleSheet.create({
   titleSection: {
     flexDirection: 'row',
     gap: 5,
-    marginBottom: 14,
+    marginBottom: 8,
   },
   labelStyle: {
     fontFamily: Fonts.MEDIUM,
@@ -148,6 +153,10 @@ const styles = StyleSheet.create({
   },
   inputStyle: {
     flex: 1,
+  },
+  textArea: {
+    textAlignVertical: 'top',
+    paddingTop: 10,
   },
   formErr: {
     borderColor: Color.DANGER,

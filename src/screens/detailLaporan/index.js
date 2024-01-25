@@ -1,4 +1,5 @@
 import {View, Text, ScrollView, TouchableOpacity} from 'react-native';
+import Clipboard from '@react-native-clipboard/clipboard';
 import React from 'react';
 import {IcChevronLeft, IcCopy, IcLikes} from '../../assets/icons';
 import {
@@ -17,74 +18,101 @@ import {Color, FontSize, Fonts} from '../../constants';
 const DetailLaporan = props => {
   const {route, navigation} = props;
   const {section} = route.params;
+  const {reportData} = route.params;
+
+  const formatDateTime = createdAt => {
+    const options = {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric',
+      timeZoneName: 'short',
+    };
+
+    const formattedDate = new Intl.DateTimeFormat('id-ID', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    }).format(new Date(createdAt));
+
+    const formattedTime = new Intl.DateTimeFormat('id-ID', {
+      hour: 'numeric',
+      minute: 'numeric',
+    }).format(new Date(createdAt));
+
+    return {formattedDate, formattedTime};
+  };
+
+  const handlingCopy = () => {
+    Clipboard.setString(reportData._id);
+  };
 
   return (
     <View style={styles.mainBody}>
-      <View>
-        <View style={styles.headerMain}>
-          <View style={styles.title}>
-            <TouchableOpacity
-              onPress={() => {
-                navigation.goBack();
-              }}>
-              <IcChevronLeft />
-            </TouchableOpacity>
-            <Text style={styles.headerText}>{section}</Text>
-          </View>
-          <NotificationIcon style={{marginLeft: 'auto'}} />
+      <View style={styles.headerMain}>
+        <View style={styles.title}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.goBack();
+            }}>
+            <IcChevronLeft />
+          </TouchableOpacity>
+          <Text style={styles.headerText}>{section}</Text>
         </View>
-        <View style={styles.dividerStyle} />
-        <ScrollView
-          style={{marginBottom: 20}}
-          showsVerticalScrollIndicator={false}>
-          <View style={styles.content}>
-            {/* IMAGE CONTAINER */}
-            <View
-              style={{
-                backgroundColor: Color.OUTLINE_GRAY,
-                borderRadius: 8,
-                width: '100%',
-                height: 175,
-              }}
-            />
-            <View style={styles.listInfo}>
-              <DetailLaporanCard
-                isPhaseTwo={false}
-                title="Detail Laporan"
-                reportID="0A1B2C3D4F5G6HJ7I89"
-              />
-
-              <ReportInfoCard
-                receiver="Kecamatan Pereng"
-                date="20 Januari 2024,"
-                time="18.00 WIB"
-              />
-
-              <DetailReportCategory
-                category={<LabelCategory title="Lalu Lintas" />}
-                status={<LabelStatus type={1} />}
-                date="20 Januari 2024,"
-                time="18.00 WIB"
-              />
-
-              <DetailLaporanCard
-                isPhaseTwo={true}
-                title="Detail Laporan"
-                desc=" Minta tolong pak ditindaklanjuti kemacetan di daerah Jalan
-                Soedirman, sudah lebih dari 2 jam terus - terusan macet karena
-                ada jalan besar berlubang di tengah jalan raya, beberapa jalan
-                juga menjadi retak."
-              />
-              <DetailLaporanCard
-                isPhaseTwo={true}
-                title="Lokasi Laporan"
-                desc=" Jl. Jend. Soedirman No.296, Pereng, Sokanegara, Kec.
-                  Purwokerto Tim., Kabupaten Banyumas, Jawa Tengah"
-              />
-            </View>
-          </View>
-        </ScrollView>
+        <NotificationIcon style={{marginLeft: 'auto'}} />
       </View>
+      <View style={styles.dividerStyle} />
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={styles.content}>
+          {/* IMAGE CONTAINER */}
+          <View
+            style={{
+              backgroundColor: Color.OUTLINE_GRAY,
+              borderRadius: 8,
+              width: '100%',
+              height: 175,
+            }}>
+            <Image
+              source={{uri: reportData.image_laporan}}
+              style={{width: '100%', height: '100%', borderRadius: 8}}
+            />
+          </View>
+          <View style={styles.listInfo}>
+            <DetailLaporanCard
+              isPhaseTwo={false}
+              title="Id Laporan"
+              reportID={reportData._id}
+              onPressCopy={handlingCopy}
+            />
+
+            <ReportInfoCard
+              receiver="Pihak terkait"
+              date={formatDateTime(reportData.createdAt).formattedDate}
+              time={formatDateTime(reportData.createdAt).formattedTime}
+            />
+
+            <DetailReportCategory
+              category={<LabelCategory title={reportData.kategori_masalah} />}
+              status={<LabelStatus type={reportData.status} />}
+              date={formatDateTime(reportData.createdAt).formattedDate}
+              time={formatDateTime(reportData.createdAt).formattedTime}
+            />
+
+            <DetailLaporanCard
+              isPhaseTwo={true}
+              title="Detail Laporan"
+              desc={reportData.detail_masalah}
+            />
+            <DetailLaporanCard
+              isPhaseTwo={true}
+              title="Lokasi Laporan"
+              desc={reportData.lokasi}
+            />
+          </View>
+        </View>
+      </ScrollView>
     </View>
   );
 };

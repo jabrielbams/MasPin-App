@@ -1,5 +1,6 @@
 import {
   KeyboardAvoidingView,
+  PermissionsAndroid,
   SafeAreaView,
   ScrollView,
   StyleSheet,
@@ -10,7 +11,7 @@ import {
   View,
   Image,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Color, FontSize, Fonts} from '../../constants';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {
@@ -33,9 +34,90 @@ import {
   IconTax,
 } from '../../assets/icons';
 import {ImgCar, ImgNewsCovid} from '../../assets/images';
+import {getAllReport} from '../../services/reportData';
+import {FlatList} from 'react-native-gesture-handler';
+import {useFocusEffect} from '@react-navigation/native';
 
 const HomeScreen = ({navigation}) => {
-  // const {onTaxPressed} = useHome();
+  const [reportData, setReportData] = useState(null);
+
+  async function requestLocationPermission() {
+    const locationPermission = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+      {
+        title: 'Akses Lokasi Diperlukan',
+        message: 'Aplikasi ini memerlukan akses lokasi',
+      },
+    );
+    console.log(locationPermission);
+  }
+
+  const requestCameraPermission = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.CAMERA,
+        {
+          title: 'Camera Permission',
+          message:
+            'App needs access to your camera ' + 'so you can take pictures.',
+          buttonNeutral: 'Ask Me Later',
+          buttonNegative: 'Cancel',
+          buttonPositive: 'OK',
+        },
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        console.log('You can use the camera');
+      } else {
+        console.log('Camera permission denied');
+      }
+    } catch (err) {
+      console.warn(err);
+    }
+  };
+
+  const requestPermissions = async () => {
+    await requestCameraPermission();
+    await requestLocationPermission();
+  };
+
+  const handleReportIndexButton = () => {
+    navigation.navigate('ReportIndex');
+  };
+
+  const fetchDataReport = async () => {
+    try {
+      const allReport = await getAllReport();
+      setReportData(allReport);
+    } catch (error) {
+      console.error('Error fetching user profile:', error.message);
+    }
+  };
+
+  const timeDifference = createdAt => {
+    const now = new Date();
+    const createdDate = new Date(createdAt);
+    const differenceInSeconds = Math.floor((now - createdDate) / 1000);
+
+    if (differenceInSeconds < 60) {
+      return `${differenceInSeconds} detik lalu`;
+    } else if (differenceInSeconds < 3600) {
+      const minutes = Math.floor(differenceInSeconds / 60);
+      return `${minutes}m lalu`;
+    } else if (differenceInSeconds < 86400) {
+      const hours = Math.floor(differenceInSeconds / 3600);
+      return `${hours}j lalu`;
+    } else {
+      const days = Math.floor(differenceInSeconds / 86400);
+      return `${days}h lalu`;
+    }
+  };
+
+  useFocusEffect(() => {
+    fetchDataReport();
+  });
+  useEffect(() => {
+    requestPermissions();
+  }, []);
 
   return (
     <View style={styles.mainBody}>
@@ -62,7 +144,11 @@ const HomeScreen = ({navigation}) => {
           </View>
           <View style={styles.content}>
             <View style={styles.featureList}>
-              <FeatureIcon icon={<IconReport />} label="Laporan" />
+              <FeatureIcon
+                icon={<IconReport />}
+                label="Laporan"
+                onPress={() => navigation.navigate('Report')}
+              />
               <FeatureIcon
                 icon={<IconTax />}
                 label="Pajak"
@@ -76,7 +162,7 @@ const HomeScreen = ({navigation}) => {
                 icon={<IconBusRoute />}
                 label="Rute"
                 onPress={() => {
-                  navigation.navigate('RuteBus', {
+                  navigation.navigate('Bus', {
                     section: 'Rute Bus',
                   });
                 }}
@@ -94,7 +180,7 @@ const HomeScreen = ({navigation}) => {
                 icon={<IconOthers />}
                 label="Lainnya"
                 onPress={() => {
-                  navigation.navigate('Others', {
+                  navigation.navigate('OtherFeatures', {
                     section: 'Lainnya',
                   });
                 }}
@@ -105,38 +191,37 @@ const HomeScreen = ({navigation}) => {
           <View style={styles.content}>
             <View style={styles.sectionDivider}>
               <Text style={styles.sectionTitle}>Laporan</Text>
-              <TouchableOpacity style={styles.otherStyle}>
+              <TouchableOpacity
+                style={styles.otherStyle}
+                onPress={handleReportIndexButton}>
                 <Text style={styles.otherText}>Lainnya</Text>
                 <IcChevronRightActive />
               </TouchableOpacity>
             </View>
             <View>
-              <ReportCardMain
-                imgReport={ImgCar}
-                descReport="Minta tolong pak ditindaklanjuti kemacetan di daerah Jalan Gereja,
-                sudah 5 minggu mangkrak dipinggir jalan"
-                category={<LabelCategory title="Lalu Lintas" />}
-                status={<LabelStatus type={1} />}
-                onPress={() => {
-                  navigation.navigate('DetailLaporan', {
-                    section: 'Detail Laporan',
-                  });
-                }}
-              />
-              <ReportCardMain
-                imgReport={ImgCar}
-                descReport="Minta tolong pak ditindaklanjuti kemacetan di daerah Jalan Gereja,
-                sudah 5 minggu mangkrak dipinggir jalan"
-                category={<LabelCategory title="Lalu Lintas" />}
-                status={<LabelStatus type={1} />}
-              />
-              <ReportCardMain
-                imgReport={ImgCar}
-                descReport="Minta tolong pak ditindaklanjuti kemacetan di daerah Jalan Gereja,
-                sudah 5 minggu mangkrak dipinggir jalan"
-                category={<LabelCategory title="Lalu Lintas" />}
-                status={<LabelStatus type={1} />}
-              />
+              {reportData ? (
+                reportData
+                  .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+                  .slice(0, 3)
+                  .map(item => (
+                    <ReportCardMain
+                      key={item._id}
+                      imgReport={item.image_laporan}
+                      descReport={item.detail_masalah}
+                      category={<LabelCategory title={item.kategori_masalah} />}
+                      status={<LabelStatus type={item.status} />}
+                      uploadDate={timeDifference(item.createdAt)}
+                      onPress={() => {
+                        navigation.navigate('DetailLaporan', {
+                          section: 'Detail Laporan',
+                          reportData: item,
+                        });
+                      }}
+                    />
+                  ))
+              ) : (
+                <Text>Data tidak ada</Text>
+              )}
             </View>
             <View style={styles.sectionDivider}>
               <Text style={styles.sectionTitle}>Berita Terbaru</Text>

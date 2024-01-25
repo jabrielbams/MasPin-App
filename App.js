@@ -1,17 +1,9 @@
-import 'react-native-gesture-handler';
-import React, {useState} from 'react';
-
-// Import Navigators from React Navigation
-import {createStackNavigator} from '@react-navigation/stack';
-import {NavigationContainer} from '@react-navigation/native';
-
-// Import screens
-import LoginScreen from './src/screens/login';
-import RegisterScreen from './src/screens/register';
-import HomeScreen from './src/screens/home';
+import React from 'react';
 import MainComponent from './src/navigation/MainComponent';
-
-const Stack = createStackNavigator();
+import ValidationAccount from './src/screens/verification';
+import OtherFeatures from './src/screens/other';
+import EmergencyContact from './src/screens/telephone';
+import MainModal from './src/components/organisms/main-modal';
 
 const App = () => {
   return <MainComponent />;

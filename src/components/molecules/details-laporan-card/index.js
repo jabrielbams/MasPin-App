@@ -2,6 +2,7 @@ import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import React, {useState} from 'react';
 import {Color, FontSize, Fonts} from '../../../constants';
 import {IcCopy, IcLikes} from '../../../assets/icons';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 const DetailLaporanCard = ({
   isPhaseTwo,
@@ -12,7 +13,7 @@ const DetailLaporanCard = ({
   onPressLike,
 }) => {
   return (
-    <View>
+    <View style={styles.cardContainer}>
       <Text style={styles.title}>{title}</Text>
       <View style={styles.separator} />
       {isPhaseTwo ? (
@@ -37,6 +38,12 @@ const DetailLaporanCard = ({
 export default DetailLaporanCard;
 
 const styles = StyleSheet.create({
+  cardContainer: {
+    borderRadius: 8,
+    backgroundColor: Color.WHITE,
+    padding: 10,
+    elevation: 1,
+  },
   title: {
     color: Color.TEXTBOX,
     fontFamily: Fonts.REGULAR,
