@@ -42,7 +42,7 @@ import IconProfileDisable from './ic-profile-disable.svg';
 import IconReportActive from './ic-report-active.svg';
 import IconReportDisable from './ic-report-disable.svg';
 import IcLineOperator from './ic-line-operator.svg';
-import IcBus from './ic-bus.svg';
+import IcBus from './ic-bus-halte.svg';
 import IcHalteBus from './ic-halte-bus.svg';
 
 // icon on tax screen

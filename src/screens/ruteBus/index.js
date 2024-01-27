@@ -21,26 +21,26 @@ const RuteBus = props => {
     {
       id: 1,
       busName: 'Trans Banyumas 042',
-      halteName: 'Ht. Pancurawis',
-      destinationName: 'Ht. Ps Manis',
+      halteName: 'Ht. SMAN 1 ',
+      destinationName: 'Ht. Telkom',
     },
     {
       id: 2,
       busName: 'Trans Banyumas 030',
-      halteName: 'Ht. Bruderan',
-      destinationName: 'Ht. Baturraden',
+      halteName: 'Ht. Gerilya',
+      destinationName: 'Ht. UMP',
     },
     {
       id: 3,
       busName: 'Trans Banyumas 012',
       halteName: 'Ht. UMP',
-      destinationName: 'Ht. UMP',
+      destinationName: 'Ht. Gerilya',
     },
     {
       id: 4,
       busName: 'Trans Banyumas 016',
       halteName: 'Ht. Notog',
-      destinationName: 'Ht. Rita Supermall',
+      destinationName: 'Ht. RSM',
     },
   ];
 

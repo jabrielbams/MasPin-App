@@ -27,9 +27,10 @@ import TabBar from './organisms/tab-bar';
 import TaxInformation from './molecules/tax-information';
 import ModalPopup from './organisms/modal-popup';
 import ButtonHorizontalMain from './molecules/button-horizontal';
-import TimeBox from './molecules/time-box';
-import BusSchedule from './organisms/bus-schedule';
-import LineSchedule from './atomics/line-schedule';
+import TimeBox from './atomics/time-box';
+import HalteBoxCard from './atomics/halte-card';
+import BusScheduleTime from './molecules/time-schedule-bus';
+import BusScheduleLine from './organisms/bus-schedule-line';
 
 //Skeleton
 import ReportCardMainSkeleton from './organisms/skeleton-card-report';
@@ -66,6 +67,7 @@ export {
   ButtonHorizontalMain,
   ReportCardMainSkeleton,
   TimeBox,
-  BusSchedule,
-  LineSchedule,
+  HalteBoxCard,
+  BusScheduleTime,
+  BusScheduleLine,
 };

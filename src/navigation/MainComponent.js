@@ -34,7 +34,7 @@ import DetailInfoTax from '../screens/tax/detail-info-tax';
 import DetailRuteBus from '../screens/ruteBus/detailRuteBus';
 import ReportForm from '../screens/report/create';
 import ReportIndex from '../screens/report';
-import OtherFeatures from '../screens/Other';
+import OtherFeatures from '../screens/other';
 import EmergencyContact from '../screens/telephone';
 import ValidationAccount from '../screens/verification';
 import DetailMarket from '../screens/market/detailMarket';
@@ -120,7 +120,7 @@ function Home() {
   );
 }
 
-const MainComponent = () => {
+const MainComponent = ({navigation}) => {
   const [initialRoute, setInitialRoute] = useState('Login');
   const [isReady, setIsReady] = useState(false);
   const [userData, setUserData] = useState(null);
@@ -171,7 +171,7 @@ const MainComponent = () => {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName={initialRoute}>
+      <Stack.Navigator initialRouteName={'Home'}>
         <Stack.Screen
           name="Login"
           component={LoginScreen}

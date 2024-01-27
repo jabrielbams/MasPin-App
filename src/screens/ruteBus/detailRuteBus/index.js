@@ -2,14 +2,17 @@ import {View, Text, TouchableOpacity, ScrollView, Image} from 'react-native';
 import React from 'react';
 import {IcChevronLeft, IcClock} from '../../../assets/icons';
 import {
-  BusSchedule,
-  LineSchedule,
+  BusScheduleLine,
+  BusScheduleTime,
+  HalteBoxCard,
   NotificationIcon,
   TimeBox,
 } from '../../../components';
 import styles from './styles';
 import {ImgMapBus, ImgRute} from '../../../assets/images';
 import {Color, FontSize, Fonts} from '../../../constants';
+import LineSchedule from '../../../components/atomics/line-schedule';
+import BusScheduleCard from '../../../components/molecules/bus-schedule-card';
 
 const DetailRuteBus = props => {
   const {route, navigation} = props;
@@ -65,7 +68,7 @@ const DetailRuteBus = props => {
             </Text>
           </View>
 
-          <View>
+          <View style={{flexDirection: 'column', gap: 8}}>
             <Text
               style={{
                 color: Color.BLACK,
@@ -74,12 +77,15 @@ const DetailRuteBus = props => {
               }}>
               Rute
             </Text>
-            <BusSchedule
-              departure="08.00 WIB"
-              arrival="08.04"
-              halteName="Ht. Pancurawis"
-            />
-            <LineSchedule />
+            <View>
+              <BusScheduleLine
+                halteName="Ht. Pancurawis"
+                timeDeparture="08.04"
+                timeArrival="08.10"
+                lineActive={true}
+                dotActive={true}
+              />
+            </View>
           </View>
         </View>
       </ScrollView>
