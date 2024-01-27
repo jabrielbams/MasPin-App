@@ -31,6 +31,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginVertical: 16,
+    padding: 4,
+    borderRadius: 8,
+    backgroundColor: Color.LIGHT_GRAY,
   },
   tabItem: {
     flex: 1,

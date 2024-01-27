@@ -1,16 +1,16 @@
 import {View, Text, StyleSheet} from 'react-native';
 import React from 'react';
-import {IcMapPins, IcFish} from '../../../assets/icons';
+import {IcMapPins, IcFish, IcHalte} from '../../../assets/icons';
 import {Color, FontSize, Fonts} from '../../../constants';
 
-const InformationBadge = ({icon, text, additionText, showAddition}) => {
+const InformationBadge = ({icon, text, additionText, showAddition, isUsed}) => {
   return (
     <View style={styles.container}>
       {icon}
       {showAddition ? (
         <Text style={styles.additionText}>{additionText}</Text>
       ) : null}
-      <Text style={styles.text}>{text}</Text>
+      <Text style={isUsed ? styles.text : styles.textTwo}>{text}</Text>
     </View>
   );
 };
@@ -31,6 +31,12 @@ const styles = StyleSheet.create({
   text: {
     fontFamily: Fonts.REGULAR,
     fontSize: FontSize.dp_10,
+    color: Color.BLACK,
+    lineHeight: 22,
+  },
+  textTwo: {
+    fontFamily: Fonts.REGULAR,
+    fontSize: FontSize.dp_12,
     color: Color.BLACK,
     lineHeight: 22,
   },

@@ -16,6 +16,7 @@ import {
   InputField,
   LabelCategory,
   LabelStatus,
+  ModalPopup,
   ReportCardMain,
   SwitchInputField,
 } from '../../components';
@@ -38,6 +39,7 @@ import {useFocusEffect} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import {ENDPOINT} from '../../utils/endpoint';
+import {launchCameraAndHandleLocation} from './camera';
 
 const ReportForm = ({navigation}) => {
   const [userData, setUserData] = useState();
@@ -54,7 +56,8 @@ const ReportForm = ({navigation}) => {
   const [filteredData, setFilteredData] = useState(dropdownData);
 
   const [loading, setLoading] = useState(false);
-  const [showModal, setShowModal] = useState(false);
+  const [showModalConfirmation, setShowModalConfirmation] = useState(false);
+  const [showModalSuccess, setModalSuccess] = useState(false);
 
   const [form, setForm] = useForm({
     label: {
@@ -93,6 +96,9 @@ const ReportForm = ({navigation}) => {
   const isFormValid = () => {
     return (
       !!selectedImage &&
+      !!form.label.value &&
+      !!form.desc.value &&
+      !!form.address.value &&
       !form.label.error &&
       !form.desc.error &&
       !form.address.error &&
@@ -124,44 +130,12 @@ const ReportForm = ({navigation}) => {
     setShowDropdown(false);
   };
 
-  // Function to handle opening the confirmation modal
-  const handleOpenModal = () => {
-    setShowModal(true);
+  const handleOpenModalConfirmation = () => {
+    setShowModalConfirmation(true);
   };
 
-  // Function to handle closing the confirmation modal
   const handleCloseModal = () => {
-    setShowModal(false);
-  };
-
-  const getPhotoLocation = () => {
-    Geolocation.getCurrentPosition(position => {
-      const {latitude, longitude} = position.coords;
-      setLocation({latitude, longitude});
-      getAddress(latitude, longitude, setAddress);
-    });
-  };
-
-  const handleCameraLaunch = () => {
-    const options = {
-      mediaType: 'photo',
-      includeBase64: false,
-      maxHeight: 2000,
-      maxWidth: 2000,
-    };
-    launchCamera(options, response => {
-      if (response.didCancel) {
-        console.log('User cancelled camera');
-        navigation.goBack();
-      } else if (response.error) {
-        console.log('Camera Error: ', response.error);
-        navigation.goBack();
-      } else {
-        let imageUri = response.uri || response.assets?.[0]?.uri;
-        setSelectedImage(imageUri);
-        getPhotoLocation();
-      }
-    });
+    setShowModalConfirmation(false);
   };
 
   const handleSubmit = async () => {
@@ -196,14 +170,15 @@ const ReportForm = ({navigation}) => {
       }
 
       // Make the API request
-      const response = await axios.post(ENDPOINT.NGROK.CREATE, formData, {
+      const response = await axios.post(ENDPOINT.REPORT.CREATE, formData, {
         headers: {
           Authorization: `Bearer ${refreshToken}`,
           'Content-Type': 'multipart/form-data',
         },
       });
       // Handle the response from the API
-      handleCloseModal();
+
+      resetFormState();
       navigation.replace('Activity');
       console.log('API Response:', response.data);
     } catch (error) {
@@ -213,18 +188,14 @@ const ReportForm = ({navigation}) => {
     }
   };
 
-  // useEffect(() => {
-  //   const fetchUserProfile = async () => {
-  //     try {
-  //       const profileData = await getUserProfile();
-  //       setUserData(profileData);
-  //       handleValidationAccount(profileData);
-  //     } catch (error) {
-  //       console.error('Error fetching user profile:', error.message);
-  //     }
-  //   };
-  //   fetchUserProfile();
-  // }, []);
+  const handleCameraLaunch = useCallback(() => {
+    launchCameraAndHandleLocation(
+      setSelectedImage,
+      setLocation,
+      setAddress,
+      navigation,
+    );
+  }, [navigation]);
 
   useFocusEffect(
     useCallback(() => {
@@ -354,43 +325,36 @@ const ReportForm = ({navigation}) => {
             disabled={!isFormValid()}
             onPress={() => {
               // Handle button press event
-              handleOpenModal();
+              handleOpenModalConfirmation();
             }}
             title="Buat laporan"
           />
 
           {/* Confirmation Modal */}
-          <Modal
-            animationType="slide"
-            transparent={true}
-            visible={showModal}
-            onRequestClose={handleCloseModal}>
-            <View style={styles.modalContainer}>
-              <View style={styles.modalContent}>
-                <Text style={{marginBottom: 10, textAlign: 'center'}}>
-                  Pastikan semua sudah benar sebelum mengirim laporan!
-                </Text>
-                <View style={styles.buttonContainer}>
-                  <Pressable
-                    style={[styles.button, styles.cancelButton]}
-                    onPress={handleCloseModal}
-                    disabled={loading}>
-                    <Text style={{color: 'white', textAlign: 'center'}}>
-                      Cancel
-                    </Text>
-                  </Pressable>
-                  <Pressable
-                    style={[styles.button, styles.submitButton]}
-                    onPress={handleSubmit}
-                    disabled={loading}>
-                    <Text style={{color: 'white', textAlign: 'center'}}>
-                      Submit
-                    </Text>
-                  </Pressable>
-                </View>
-              </View>
-            </View>
-          </Modal>
+          <ModalPopup
+            isVisible={showModalConfirmation}
+            type={'alert'}
+            titleModal={'Kirim Laporan Sekarang?'}
+            descModal={'Pastikan semua data yang kamu inputkan sudah benar'}
+            leftButtonTitle={'Kembali'}
+            rightButtonTitle={'Kirim'}
+            onPressLeft={handleCloseModal}
+            onPressRight={handleSubmit}
+          />
+          <ModalPopup
+            isVisible={showModalConfirmation}
+            type={'success'}
+            titleModal={'Laporan Berhasil Dibuat!'}
+            descModal={
+              'Laporan kamu berhasil dibuat dan akan segera ditindak lanjuti'
+            }
+            leftButtonTitle={'Tutup'}
+            rightButtonTitle={'Lihat'}
+            onPressLeft={() => {
+              navigation.replace('Home');
+            }}
+            onPressRight={handleSubmit}
+          />
         </View>
       </View>
     </View>

@@ -14,13 +14,13 @@ const BusCard = ({imgSource, busName, halteName, destinationName, onPress}) => {
         <Text style={styles.nameBus}>{busName}</Text>
         <View style={styles.routeSection}>
           <InformationBadge
-            icon={IcHalteBus}
+            icon={<IcHalte />}
             showAddition={false}
             text={halteName}
           />
           <IcLineOperator />
           <InformationBadge
-            icon={IcHalteBus}
+            icon={<IcHalte />}
             showAddition={false}
             text={destinationName}
           />

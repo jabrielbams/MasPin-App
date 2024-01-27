@@ -16,7 +16,7 @@ import {
   ImgPasarPon,
   ImgPasarWage,
 } from '../../assets/images';
-import DetailMarket from './detail';
+import DetailMarket from './detailMarket';
 
 const HargaPangan = props => {
   const {route, navigation} = props;
@@ -68,55 +68,53 @@ const HargaPangan = props => {
 
   return (
     <View style={styles.mainBody}>
-      <View>
-        <View style={styles.headerMain}>
-          <View style={styles.title}>
-            <TouchableOpacity
-              onPress={() => {
-                navigation.goBack();
-              }}>
-              <IcChevronLeft />
-            </TouchableOpacity>
-            <Text style={styles.headerText}>{section}</Text>
-          </View>
-          <NotificationIcon style={{marginLeft: 'auto'}} />
+      <View style={styles.headerMain}>
+        <View style={styles.title}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.goBack();
+            }}>
+            <IcChevronLeft />
+          </TouchableOpacity>
+          <Text style={styles.headerText}>{section}</Text>
         </View>
-        <View style={styles.dividerStyle} />
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={styles.content}>
-            <View style={styles.searchBox}>
-              <IcSearch />
-              <TextInput
-                placeholder="Cari pasar"
-                style={styles.placeholder}
-                value={searchMarket}
-                onChangeText={text => setSearchMarket(text)}
+        <NotificationIcon style={{marginLeft: 'auto'}} />
+      </View>
+      <View style={styles.dividerStyle} />
+      <View style={styles.content}>
+        <View style={styles.searchBox}>
+          <IcSearch />
+          <TextInput
+            placeholder="Cari pasar"
+            style={styles.placeholder}
+            value={searchMarket}
+            onChangeText={text => setSearchMarket(text)}
+          />
+        </View>
+        <View style={{marginTop: 24, flexDirection: 'column', gap: 20}}>
+          <FlatList
+            data={filteredMarket}
+            keyExtractor={item => item._id}
+            renderItem={({item}) => (
+              <MarketCard
+                onPress={() => {
+                  navigation.navigate('DetailMarket', {
+                    section: 'Harga Pangan',
+                  });
+                }}
+                imgSource={item.img}
+                marketName={item.marketName}
+                iconLeft={IcMapPins}
+                textDesc={item.textDesc}
+                iconLeftTwo={IcFish}
+                textDescTwo={item.textDescTwo}
+                showAddition={true}
+                additionText={item.additionText}
               />
-            </View>
-            <View style={{marginTop: 24, flexDirection: 'column', gap: 20}}>
-              <FlatList
-                data={filteredMarket}
-                keyExtractor={item => item._id}
-                renderItem={({item}) => (
-                  <MarketCard
-                    onPress={() => {
-                      navigation.navigate(DetailMarket);
-                    }}
-                    imgSource={item.img}
-                    marketName={item.marketName}
-                    iconLeft={IcMapPins}
-                    textDesc={item.textDesc}
-                    iconLeftTwo={IcFish}
-                    textDescTwo={item.textDescTwo}
-                    showAddition={true}
-                    additionText={item.additionText}
-                  />
-                )}
-                showsVerticalScrollIndicator={false}
-              />
-            </View>
-          </View>
-        </ScrollView>
+            )}
+            showsVerticalScrollIndicator={false}
+          />
+        </View>
       </View>
     </View>
   );

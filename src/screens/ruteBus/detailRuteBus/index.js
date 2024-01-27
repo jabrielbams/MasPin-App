@@ -1,7 +1,12 @@
 import {View, Text, TouchableOpacity, ScrollView, Image} from 'react-native';
 import React from 'react';
-import {IcChevronLeft} from '../../../assets/icons';
-import {NotificationIcon} from '../../../components';
+import {IcChevronLeft, IcClock} from '../../../assets/icons';
+import {
+  BusSchedule,
+  LineSchedule,
+  NotificationIcon,
+  TimeBox,
+} from '../../../components';
 import styles from './styles';
 import {ImgMapBus, ImgRute} from '../../../assets/images';
 import {Color, FontSize, Fonts} from '../../../constants';
@@ -32,7 +37,13 @@ const DetailRuteBus = props => {
       <View style={styles.dividerStyle} />
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.content}>
-          <Image source={ImgMapBus} />
+          <View
+            style={{
+              width: '100%',
+              backgroundColor: Color.LIGHT_GRAY,
+              height: 130,
+            }}
+          />
           <View style={{marginVertical: 20, flexDirection: 'column', gap: 8}}>
             <Text
               style={{
@@ -53,7 +64,23 @@ const DetailRuteBus = props => {
               waktu operasi dari jam 9 pagi sampai 5 sore.
             </Text>
           </View>
-          <Image source={ImgRute} />
+
+          <View>
+            <Text
+              style={{
+                color: Color.BLACK,
+                fontFamily: Fonts.SEMIBOLD,
+                fontSize: FontSize.dp_16,
+              }}>
+              Rute
+            </Text>
+            <BusSchedule
+              departure="08.00 WIB"
+              arrival="08.04"
+              halteName="Ht. Pancurawis"
+            />
+            <LineSchedule />
+          </View>
         </View>
       </ScrollView>
     </View>

@@ -8,7 +8,7 @@ export const getUserProfile = async () => {
     const refreshToken = await AsyncStorage.getItem('refreshToken');
 
     // Melakukan permintaan ke API dengan menggunakan refreshToken
-    const response = await axios.get(ENDPOINT.NGROK.PROFILE, {
+    const response = await axios.get(ENDPOINT.PROFILE.USER, {
       headers: {
         Authorization: `Bearer ${refreshToken}`,
       },

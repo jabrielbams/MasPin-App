@@ -1,12 +1,13 @@
 import ImgNewsCovid from './img-covid.jpg';
 import ImgCar from './img-car.jpg';
 import ImgStrokeDivider from './img-stroke-divider.png';
-import ImgBawangMerah from './img-bawang-merah.svg';
-import ImgBawangPutih from './img-bawang-putih.svg';
-import ImgGulaMerah from './img-gula-merah.svg';
-import ImgKentang from './img-kentang.svg';
-import ImgBeras from './img-beras.svg';
+import ImgBawangMerah from './img-bawang-merah.jpg';
+import ImgBawangPutih from './img-bawang-putih.jpg';
+import ImgGulaMerah from './img-gula-merah.jpg';
+import ImgKentang from './img-kentang.jpg';
+import ImgBeras from './img-beras.jpg';
 import ImgCabai from './img-cabai.svg';
+import ImgCabaiMerah from './img-cabai-merah.jpg';
 import ImgPasarManis from './img-pasar-manis.jpg';
 import ImgPasarWage from './img-pasar-wage.jpg';
 import ImgPasarPon from './img-pasar-pon.jpg';
@@ -46,4 +47,5 @@ export {
   ImgModalWarning,
   ImgModalDanger,
   ImgModalSuccess,
+  ImgCabaiMerah,
 };

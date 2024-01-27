@@ -10,6 +10,7 @@ import {
 import React, {useState} from 'react';
 import {IcChevronLeft} from '../../../assets/icons';
 import {ButtonMain, NotificationIcon} from '../../../components';
+import {CodeField, Cursor} from 'react-native-confirmation-code-field';
 import styles from './styles';
 import {Color, FontSize, Fonts} from '../../../constants';
 import {useTax} from '../useTax';
@@ -43,6 +44,10 @@ const DetailTax = props => {
     }
   };
 
+  const onCodeChange = value => {
+    setPlatNomor(value);
+  };
+
   const handleApiRequest = async () => {
     try {
       // Dapatkan refreshToken dari AsyncStorage
@@ -58,7 +63,7 @@ const DetailTax = props => {
 
       const response = await axios.get(
         `${
-          ENDPOINT.NGROK.CEK_PAJAK
+          ENDPOINT.TAX.CEK_PAJAK
         }/api/pajak/detail-pajak-kendaraan/${encodeURIComponent(
           fullPlatNomor,
         )}`,
@@ -79,14 +84,22 @@ const DetailTax = props => {
           <View style={styles.statisBox}>
             <Text style={styles.statisText}>R</Text>
           </View>
-          <TextInput
-            style={styles.centerInput}
-            maxLength={4}
-            keyboardType="number-pad"
-            placeholder="0000"
-            placeholderTextColor={'#3F3F3F'}
-            onChangeText={() => setPlatNomor()}
+          <CodeField
             value={platNomor}
+            onChangeText={onCodeChange}
+            cellCount={4} // Jumlah karakter yang diinginkan
+            rootStyle={styles.codeFieldRoot}
+            keyboardType="number-pad"
+            textContentType="oneTimeCode"
+            renderCell={({index, symbol, isFocused}) => (
+              <View
+                key={index}
+                style={[styles.cellRoot, isFocused && styles.focusCell]}>
+                <Text style={styles.cellText}>
+                  {symbol || (isFocused ? <Cursor /> : null)}
+                </Text>
+              </View>
+            )}
           />
           <TextInput
             style={styles.rightInput}

@@ -3,14 +3,19 @@ import React from 'react';
 import Modal from 'react-native-modal';
 import {Color, FontSize, Fonts} from '../../../constants';
 import {ButtonHorizontalMain} from '../..';
+import {
+  ImgModalDanger,
+  ImgModalSuccess,
+  ImgModalWarning,
+} from '../../../assets/images';
 
 const ModalPopup = ({
   isVisible,
-  iconModal,
+  type,
   titleModal,
   descModal,
-  titlePrimary,
-  titleSecondary,
+  rightButtonTitle,
+  leftButtonTitle,
   onPressLeft,
   onPressRight,
 }) => {
@@ -19,14 +24,14 @@ const ModalPopup = ({
       <Modal isVisible={isVisible}>
         <View style={styles.container}>
           <View style={{justifyContent: 'center', alignItems: 'center'}}>
-            {iconModal}
+            {renderIcon(type)}
             <View style={styles.textBox}>
               <Text style={styles.titleModal}>{titleModal}</Text>
               <Text style={styles.descModal}>{descModal}</Text>
             </View>
             <ButtonHorizontalMain
-              titlePrimary={titlePrimary}
-              titleSecondary={titleSecondary}
+              titlePrimary={rightButtonTitle}
+              titleSecondary={leftButtonTitle}
               onPressLeft={onPressLeft}
               onPressRight={onPressRight}
             />
@@ -35,6 +40,31 @@ const ModalPopup = ({
       </Modal>
     </View>
   );
+};
+
+const renderIcon = type => {
+  let iconSource;
+  switch (type) {
+    case 'alert':
+      iconSource = <ImgModalWarning />;
+      break;
+    case 'failed':
+      iconSource = <ImgModalDanger />;
+      break;
+    case 'success':
+      iconSource = <ImgModalSuccess />;
+      break;
+    default:
+      // Default to a generic icon or no icon
+      iconSource = null;
+      break;
+  }
+
+  if (iconSource) {
+    return <>{iconSource}</>;
+  } else {
+    return null;
+  }
 };
 
 export default ModalPopup;

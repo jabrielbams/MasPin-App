@@ -30,7 +30,10 @@ export default StyleSheet.create({
   content: {
     paddingHorizontal: 16,
   },
-  headerBox: {marginTop: 20, marginBottom: 24},
+  headerBox: {
+    marginTop: 20,
+    marginBottom: 24,
+  },
   title: {
     fontSize: FontSize.dp_16,
     fontFamily: Fonts.MEDIUM,
@@ -81,8 +84,6 @@ export default StyleSheet.create({
   centerInput: {
     lineHeight: 120,
     color: 'white',
-    borderBottomWidth: 1,
-    borderColor: '#ffffff',
     fontSize: 34,
     fontFamily: Fonts.BOLD,
     width: '45%',
@@ -92,12 +93,8 @@ export default StyleSheet.create({
   rightInput: {
     lineHeight: 120,
     color: 'white',
-    borderBottomWidth: 1,
-    borderColor: '#ffffff',
     fontSize: 32,
     fontFamily: Fonts.BOLD,
-    alignItems: 'center',
-    justifyContent: 'center',
     width: '22%',
     letterSpacing: 10,
     textAlign: 'center',
@@ -152,5 +149,24 @@ export default StyleSheet.create({
     paddingHorizontal: 16,
     alignItems: 'flex-end',
     marginTop: 400,
+  },
+  codeFieldRoot: {
+    marginTop: 20,
+  },
+  cellRoot: {
+    width: 40,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderBottomWidth: 1,
+    borderColor: Color.BLACK,
+  },
+  focusCell: {
+    borderColor: Color.PRIMARY,
+  },
+  cellText: {
+    color: Color.BLACK,
+    fontSize: 24,
+    textAlign: 'center',
   },
 });

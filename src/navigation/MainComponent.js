@@ -34,9 +34,12 @@ import DetailInfoTax from '../screens/tax/detail-info-tax';
 import DetailRuteBus from '../screens/ruteBus/detailRuteBus';
 import ReportForm from '../screens/report/create';
 import ReportIndex from '../screens/report';
-import OtherFeatures from '../screens/other';
+import OtherFeatures from '../screens/Other';
 import EmergencyContact from '../screens/telephone';
-import DetailMarket from '../screens/market/detail';
+import ValidationAccount from '../screens/verification';
+import DetailMarket from '../screens/market/detailMarket';
+import {getUserProfile} from '../services/profile';
+import {ModalPopup} from '../components';
 
 // Screens Name
 const homeName = 'Beranda';
@@ -120,6 +123,8 @@ function Home() {
 const MainComponent = () => {
   const [initialRoute, setInitialRoute] = useState('Login');
   const [isReady, setIsReady] = useState(false);
+  const [userData, setUserData] = useState(null);
+  const [modalVisibility, setModalVisibility] = useState(false);
 
   useEffect(() => {
     const checkLoggedIn = async () => {
@@ -142,8 +147,25 @@ const MainComponent = () => {
     determineInitialRoute();
   }, []); // Empty dependency array ensures the effect runs only once on mount
 
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        const profileData = await getUserProfile();
+        setUserData(profileData);
+        // Periksa status verifikasi di sini
+        if (!profileData.statusValidate && initialRoute === 'ReportForm') {
+          // Jika status verifikasi adalah false dan rute awal adalah ReportForm, tampilkan modal
+          setModalVisibility(true);
+        }
+      } catch (error) {
+        console.error('Error fetching user profile:', error.message);
+      }
+    };
+
+    fetchUserProfile();
+  }, [initialRoute]);
+
   if (!isReady) {
-    // Return a loading indicator or null while determining the initial route
     return null;
   }
 
@@ -153,6 +175,11 @@ const MainComponent = () => {
         <Stack.Screen
           name="Login"
           component={LoginScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Validation"
+          component={ValidationAccount}
           options={{headerShown: false}}
         />
         <Stack.Screen
@@ -234,6 +261,22 @@ const MainComponent = () => {
           options={{headerShown: false}}
         />
       </Stack.Navigator>
+
+      {/* Modal untuk verifikasi KTP */}
+      <ModalPopup
+        isVisible={modalVisibility}
+        type={'alert'}
+        titleModal={'Verifikasi KTP Kamu!'}
+        descModal={'Verifikasi KTP diperlukan untuk menggunakan semua fitur'}
+        rightButtonTitle={'Verifikasi'}
+        leftButtonTitle={'Tutup'}
+        onPressLeft={() => setModalVisibility(false)}
+        onPressRight={() => {
+          // Navigasi ke layar verifikasi KTP
+          navigation.navigate('Validation');
+          setModalVisibility(false);
+        }}
+      />
     </NavigationContainer>
   );
 };

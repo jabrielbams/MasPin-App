@@ -12,6 +12,7 @@ import {
   LabelStatus,
 } from '../../components';
 import {ENDPOINT} from '../../utils/endpoint';
+import {getAllReport} from '../../services/reportData';
 
 export default function ReportIndex({navigation}) {
   const [reportData, setReportData] = useState([]);
@@ -19,32 +20,21 @@ export default function ReportIndex({navigation}) {
   const [loading, setLoading] = useState(true);
   const [searchClicked, setSearchClicked] = useState(false);
 
+  const fetchAPI = async () => {
+    setLoading(true);
+    try {
+      const allReport = await getAllReport();
+      setReportData(allReport);
+      console.log('fetch success', reportData);
+    } catch (error) {
+      console.error('Error fetching:', error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const refreshToken = await AsyncStorage.getItem('refreshToken');
-        const response = await axios.get(ENDPOINT.NGROK.REPORT_ALL, {
-          headers: {
-            Authorization: `Bearer ${refreshToken}`,
-          },
-        });
-
-        const result = response.data;
-
-        if (result.success) {
-          setReportData(result.data);
-        } else {
-          console.error('Error fetching data:', result.message);
-        }
-
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-        setLoading(false);
-      }
-    };
-
-    fetchData();
+    fetchAPI();
   }, []);
 
   const filteredReportData = reportData.filter(
@@ -59,7 +49,7 @@ export default function ReportIndex({navigation}) {
       imgReport={item.image_laporan}
       descReport={item.detail_masalah}
       category={<LabelCategory title={item.kategori_masalah} />}
-      status={<LabelStatus type={3} />}
+      status={<LabelStatus type={item.status} />}
     />
   );
 
@@ -87,7 +77,7 @@ export default function ReportIndex({navigation}) {
             <Text>Loading...</Text>
           ) : (
             <FlatList
-              data={filteredReportData}
+              data={reportData}
               keyExtractor={item => item._id}
               renderItem={renderCard}
               showsVerticalScrollIndicator={false}

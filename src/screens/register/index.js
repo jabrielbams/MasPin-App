@@ -73,7 +73,7 @@ const RegisterScreen = ({navigation}) => {
   const handleRegister = async () => {
     setLoading(true);
     try {
-      const response = await axios.post(ENDPOINT.NGROK.REGISTER, {
+      const response = await axios.post(ENDPOINT.AUTH.REGISTER, {
         nama: form.name.value,
         noHP: form.phone_number.value,
         email: form.email.value,

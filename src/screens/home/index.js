@@ -18,9 +18,11 @@ import {
   FeatureIcon,
   LabelCategory,
   LabelStatus,
+  ModalPopup,
   NewsCardMain,
   NotificationIcon,
   ReportCardMain,
+  ReportCardMainSkeleton,
   SearchBar,
 } from '../../components';
 import styles from './styles';
@@ -37,9 +39,17 @@ import {ImgCar, ImgNewsCovid} from '../../assets/images';
 import {getAllReport} from '../../services/reportData';
 import {FlatList} from 'react-native-gesture-handler';
 import {useFocusEffect} from '@react-navigation/native';
+import {getUserProfile} from '../../services/profile';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const HomeScreen = ({navigation}) => {
+  const LAST_NOTIFICATION_CLOSE_DATE_KEY = 'lastNotificationCloseDate';
   const [reportData, setReportData] = useState(null);
+  const [userData, setUserData] = useState(null);
+
+  const [loading, setLoading] = useState(false);
+
+  const [modalVisibility, setModalVisibility] = useState(false);
 
   async function requestLocationPermission() {
     const locationPermission = await PermissionsAndroid.request(
@@ -49,7 +59,6 @@ const HomeScreen = ({navigation}) => {
         message: 'Aplikasi ini memerlukan akses lokasi',
       },
     );
-    console.log(locationPermission);
   }
 
   const requestCameraPermission = async () => {
@@ -66,7 +75,6 @@ const HomeScreen = ({navigation}) => {
         },
       );
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        console.log('You can use the camera');
       } else {
         console.log('Camera permission denied');
       }
@@ -84,13 +92,71 @@ const HomeScreen = ({navigation}) => {
     navigation.navigate('ReportIndex');
   };
 
-  const fetchDataReport = async () => {
+  const fetchAPI = async () => {
+    setLoading(true);
     try {
       const allReport = await getAllReport();
+      const userData = await getUserProfile();
       setReportData(allReport);
+      setUserData(userData);
     } catch (error) {
-      console.error('Error fetching user profile:', error.message);
+      console.error('Error fetching:', error.message);
+    } finally {
+      setLoading(false);
     }
+  };
+
+  const saveLastNotificationCloseDate = async () => {
+    try {
+      await AsyncStorage.setItem(
+        LAST_NOTIFICATION_CLOSE_DATE_KEY,
+        new Date().toISOString(),
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const canShowNotification = async () => {
+    try {
+      const lastNotificationCloseDate = await AsyncStorage.getItem(
+        LAST_NOTIFICATION_CLOSE_DATE_KEY,
+      );
+      if (!lastNotificationCloseDate) {
+        return true;
+      } else {
+        const currentDate = new Date();
+        const lastCloseDate = new Date(lastNotificationCloseDate);
+        const oneDay = 24 * 60 * 60 * 1000;
+        const diffDays = Math.round(
+          Math.abs((currentDate - lastCloseDate) / oneDay),
+        );
+
+        return diffDays >= 1;
+      }
+    } catch (error) {
+      return true;
+    }
+  };
+
+  const handlingVerificationModal = async () => {
+    const shouldShowNotification = await canShowNotification();
+
+    if (!!userData?.statusValidate && shouldShowNotification) {
+      setModalVisibility(true);
+    } else {
+      setModalVisibility(false);
+    }
+  };
+
+  const handleCloseModal = () => {
+    setModalVisibility(false);
+    saveLastNotificationCloseDate();
+  };
+
+  const handleVerificationButton = () => {
+    setModalVisibility(false);
+    navigation.navigate('Validation');
   };
 
   const timeDifference = createdAt => {
@@ -112,19 +178,17 @@ const HomeScreen = ({navigation}) => {
     }
   };
 
-  useFocusEffect(() => {
-    fetchDataReport();
-  });
   useEffect(() => {
+    fetchAPI();
     requestPermissions();
-  }, []);
+    handlingVerificationModal();
+  }, [reportData, userData]);
 
   return (
     <View style={styles.mainBody}>
       <View>
         <View style={styles.headerMain}>
           <Text style={styles.headerText}>Beranda</Text>
-          <NotificationIcon style={{marginLeft: 'auto'}} />
         </View>
         <View style={styles.dividerStyle} />
         <ScrollView
@@ -139,7 +203,7 @@ const HomeScreen = ({navigation}) => {
             }}>
             <Image
               source={require('../../assets/images/img-banner-home.jpg')}
-              style={{width: '100%', borderRadius: 8}}
+              style={{borderRadius: 8}}
             />
           </View>
           <View style={styles.content}>
@@ -220,7 +284,7 @@ const HomeScreen = ({navigation}) => {
                     />
                   ))
               ) : (
-                <Text>Data tidak ada</Text>
+                <ReportCardMainSkeleton />
               )}
             </View>
             <View style={styles.sectionDivider}>
@@ -245,6 +309,19 @@ const HomeScreen = ({navigation}) => {
               />
             </View>
           </View>
+
+          <ModalPopup
+            isVisible={modalVisibility}
+            type={'alert'}
+            titleModal={'Verifikasi KTP Kamu!'}
+            descModal={
+              'Verifikasi KTP diperlukan untuk menggunakan semua fitur'
+            }
+            rightButtonTitle={'Verifikasi'}
+            leftButtonTitle={'Tutup'}
+            onPressLeft={handleCloseModal}
+            onPressRight={handleVerificationButton}
+          />
         </ScrollView>
       </View>
     </View>

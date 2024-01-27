@@ -1,9 +1,16 @@
 import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import React, {useState} from 'react';
 import {ImgCar} from '../../../assets/images';
-import {LabelStatus, LabelCategory, LikeButton} from '../../../components';
+import {
+  LabelStatus,
+  LabelCategory,
+  LikeButton,
+  ReportCardMainSkeleton,
+} from '../../../components';
 import {Color, FontSize, Fonts} from '../../../constants';
 import {IcLikes, IcLikesActive} from '../../../assets/icons';
+import {ENDPOINT} from '../../../utils/endpoint';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const ReportCardMain = ({
   imgReport,
@@ -12,8 +19,40 @@ const ReportCardMain = ({
   status,
   onPress,
   uploadDate,
+  reportId,
 }) => {
-  const [pressed, setPressed] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
+
+  const handleLike = async () => {
+    const refreshToken = await AsyncStorage.getItem('refreshToken');
+    try {
+      const response = await fetch(
+        `${ENDPOINT.NGROK.LIKE_REPORT}/${reportId}`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${refreshToken}`,
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+
+      if (response.ok) {
+        setIsLiked(!isLiked);
+      } else {
+        Alert.alert(
+          'Error',
+          'Failed to like the report. Please try again later.',
+        );
+      }
+    } catch (error) {
+      console.error('Error liking the report:', error);
+      Alert.alert(
+        'Error',
+        'Failed to like the report. Please try again later.',
+      );
+    }
+  };
 
   return (
     <TouchableOpacity style={styles.cardContainer} onPress={onPress}>
@@ -46,7 +85,7 @@ const ReportCardMain = ({
             {status && <View>{status}</View>}
           </View>
           <TouchableOpacity onPress={() => setPressed(!pressed)}>
-            {pressed ? <IcLikesActive /> : <IcLikes />}
+            {isLiked ? <IcLikesActive /> : <IcLikes />}
           </TouchableOpacity>
         </View>
         <Text numberOfLines={2} ellipsizeMode="tail" style={styles.descText}>

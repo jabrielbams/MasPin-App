@@ -22,18 +22,18 @@ const RuteBus = props => {
       id: 1,
       busName: 'Trans Banyumas 042',
       halteName: 'Ht. Pancurawis',
-      destinationName: 'Ht. Pasar Manis',
+      destinationName: 'Ht. Ps Manis',
     },
     {
       id: 2,
       busName: 'Trans Banyumas 030',
-      halteName: 'Ht. Rita Supermall',
+      halteName: 'Ht. Bruderan',
       destinationName: 'Ht. Baturraden',
     },
     {
       id: 3,
       busName: 'Trans Banyumas 012',
-      halteName: 'Ht. SMK Telkom Purwokerto',
+      halteName: 'Ht. UMP',
       destinationName: 'Ht. UMP',
     },
     {

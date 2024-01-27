@@ -16,7 +16,12 @@ import IcChevronRight from './ic-chevron-right.svg';
 import IcMapPins from './ic-map-pin.svg';
 import IcFish from './ic-fish.svg';
 import IcCopy from './ic-copy.svg';
-import IcHalte from './ic-halte.svg';
+import IcHalte from './ic-halte-bus.svg';
+import IcClock from './ic-clock.svg';
+import IcLineActive from './ic-line-active.svg';
+import IcLineDisabled from './ic-line-disabled.svg';
+import IcDotActive from './ic-dot-active.svg';
+import IcDotDisabled from './ic-dot-disabled.svg';
 
 // feature list
 import IconReport from './ic-report.svg';
@@ -104,4 +109,9 @@ export {
   IcCopy,
   IcHalte,
   IcHalteBus,
+  IcClock,
+  IcLineActive,
+  IcLineDisabled,
+  IcDotActive,
+  IcDotDisabled,
 };

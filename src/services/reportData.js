@@ -8,7 +8,7 @@ export const getAllReport = async () => {
     const refreshToken = await AsyncStorage.getItem('refreshToken');
 
     // Melakukan permintaan ke API dengan menggunakan refreshToken
-    const response = await axios.get(ENDPOINT.NGROK.REPORT_ALL, {
+    const response = await axios.get(ENDPOINT.REPORT.REPORT_ALL, {
       headers: {
         Authorization: `Bearer ${refreshToken}`,
       },
@@ -17,6 +17,23 @@ export const getAllReport = async () => {
     return response.data.data;
   } catch (error) {
     // Menangani kesalahan jika permintaan gagal
+    throw error;
+  }
+};
+
+export const getReportByUserId = async () => {
+  try {
+    const refreshToken = await AsyncStorage.getItem('refreshToken');
+
+    // Melakukan permintaan ke API dengan menggunakan refreshToken
+    const response = await axios.get(ENDPOINT.REPORT.REPORT_BY_USER, {
+      headers: {
+        Authorization: `Bearer ${refreshToken}`,
+      },
+    });
+
+    return response.data.data;
+  } catch (error) {
     throw error;
   }
 };

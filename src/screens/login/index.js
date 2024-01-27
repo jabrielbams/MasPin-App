@@ -10,12 +10,11 @@ import {
 import React, {useEffect, useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {ButtonMain, CustomCheckbox, InputField} from '../../components';
-import {Color, Fonts} from './src/constants';
-import {useLogin} from './useLogin';
-import styles from './styles';
+import {ENDPOINT} from '../../utils/endpoint';
 import {useForm} from '../../utils/form';
 import axios from 'axios';
-import {ENDPOINT} from '../../utils/endpoint';
+
+import styles from './styles';
 
 const LoginScreen = ({navigation}) => {
   const [loginError, setLoginError] = useState(null);
@@ -67,10 +66,9 @@ const LoginScreen = ({navigation}) => {
   ]);
 
   const handleLogin = async () => {
-    console.log(ENDPOINT.NGROK.LOGIN);
     setLoading(true);
     try {
-      const response = await axios.post(ENDPOINT.NGROK.LOGIN, {
+      const response = await axios.post(ENDPOINT.AUTH.LOGIN, {
         email: form.email.value,
         password: form.password.value,
       });
@@ -83,13 +81,12 @@ const LoginScreen = ({navigation}) => {
           navigation.replace('Home');
         } else {
           console.log('Login failed:', message);
-          // Display an alert with the error message
           Alert.alert('Login Failed', message);
         }
       }
       console.log(data);
     } catch (error) {
-      console.error('Login error:', error.message); // Log the general error message
+      console.error('Login error:', error.message);
 
       if (
         error.response &&
@@ -99,10 +96,8 @@ const LoginScreen = ({navigation}) => {
         const errorMessageFromAPI = error.response.data.message;
         console.log('Error message from API:', errorMessageFromAPI);
 
-        // Display an alert with the error message from the API response
         Alert.alert('Login Gagal', errorMessageFromAPI);
       } else {
-        // Display a generic error message for unexpected errors
         Alert.alert('Error', 'An unexpected error occurred. Please try again.');
       }
     } finally {
@@ -172,7 +167,7 @@ const LoginScreen = ({navigation}) => {
                 />
                 <TouchableOpacity
                   onPress={() => {
-                    console.log('kepencet');
+                    navigation.navigate('ForgotPassword'); // Navigasi ke halaman "ForgotPassword"
                   }}>
                   <Text style={styles.highlightText}>Lupa Password?</Text>
                 </TouchableOpacity>

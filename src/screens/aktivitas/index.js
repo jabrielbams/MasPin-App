@@ -1,5 +1,7 @@
-import {View, Text, FlatList} from 'react-native';
 import React, {useEffect, useState} from 'react';
+import {View, Text, FlatList} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 import {
   LabelCategory,
   LabelStatus,
@@ -7,47 +9,30 @@ import {
   ReportCardMain,
   TabBar,
 } from '../../components';
-import styles from './styles';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios from 'axios';
 import {ENDPOINT} from '../../utils/endpoint';
+import {getReportByUserId} from '../../services/reportData';
+import styles from './styles';
 
 const ActivityScreen = () => {
   const [reportData, setReportData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState(1);
 
+  const fetchReportData = async () => {
+    setLoading(true);
+    try {
+      const data = await getReportByUserId();
+      setReportData(data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const refreshToken = await AsyncStorage.getItem('refreshToken');
-        const response = await axios.get(ENDPOINT.NGROK.GET, {
-          headers: {
-            Authorization: `Bearer ${refreshToken}`,
-          },
-        });
-
-        const result = response.data;
-
-        if (result.success) {
-          setReportData(result.data);
-        } else {
-          console.error('Error fetching data:', result.message);
-        }
-
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-        setLoading(false);
-      }
-    };
-
-    fetchData();
+    fetchReportData();
   }, []);
-
-  const filteredReportData = reportData.filter(
-    report => report.status === activeTab,
-  );
 
   const renderItem = ({item}) => (
     <ReportCardMain
@@ -59,6 +44,10 @@ const ActivityScreen = () => {
     />
   );
 
+  const filteredReportData = reportData.filter(
+    report => report.status === activeTab,
+  );
+
   return (
     <View style={styles.mainBody}>
       <View>
@@ -68,29 +57,20 @@ const ActivityScreen = () => {
         </View>
         <View style={styles.dividerStyle} />
         <View style={{marginHorizontal: 16}}>
-          {/* Tab Bar */}
           <TabBar
             tabs={[
-              {title: 'Status 1', onPress: () => setActiveTab(1)},
-              {title: 'Status 2', onPress: () => setActiveTab(2)},
-              {title: 'Status 3', onPress: () => setActiveTab(3)},
+              {title: 'Menunggu', onPress: () => setActiveTab(1)},
+              {title: 'Proses', onPress: () => setActiveTab(2)},
+              {title: 'Selesai', onPress: () => setActiveTab(3)},
             ]}
             activeTab={activeTab}
           />
-
-          {/* Laporan List */}
           <View style={styles.contentContainer}>
             {loading ? (
               <Text>Loading...</Text>
             ) : (
               <FlatList
-                data={
-                  filteredReportData
-                    ? filteredReportData.sort(
-                        (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
-                      )
-                    : []
-                }
+                data={filteredReportData}
                 keyExtractor={item => item._id}
                 renderItem={renderItem}
                 showsVerticalScrollIndicator={false}
