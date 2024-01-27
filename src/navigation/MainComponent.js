@@ -171,7 +171,7 @@ const MainComponent = ({navigation}) => {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName={'Home'}>
+      <Stack.Navigator initialRouteName={initialRoute}>
         <Stack.Screen
           name="Login"
           component={LoginScreen}
