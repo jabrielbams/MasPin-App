@@ -16,6 +16,12 @@ export default StyleSheet.create({
     paddingHorizontal: 16,
     marginBottom: 16,
   },
+  innerHeader: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 6,
+  },
   headerText: {
     fontFamily: Fonts.BOLD,
     fontSize: 24,
@@ -30,5 +36,20 @@ export default StyleSheet.create({
   content: {
     paddingHorizontal: 16,
     marginTop: 20,
+  },
+  sectionText: {
+    color: Color.BLACK,
+    fontFamily: Fonts.SEMIBOLD,
+    fontSize: FontSize.dp_16,
+  },
+  descBus: {
+    color: Color.TEXTPRIMARY,
+    fontFamily: Fonts.REGULAR,
+    fontSize: FontSize.dp_12,
+    lineHeight: 20,
+  },
+  busSection: {marginVertical: 20, flexDirection: 'column', gap: 8},
+  map: {
+    ...StyleSheet.absoluteFillObject,
   },
 });

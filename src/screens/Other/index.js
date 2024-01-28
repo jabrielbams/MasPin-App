@@ -10,6 +10,7 @@ import {
   IconTax,
   IconTelephone,
 } from '../../assets/icons';
+import styles from './styles';
 
 export default function OtherFeatures({navigation}) {
   return (
