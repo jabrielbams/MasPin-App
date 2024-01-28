@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {View, Text, StyleSheet} from 'react-native';
 import React from 'react';
 import {Color, FontSize, Fonts} from '../../../constants';

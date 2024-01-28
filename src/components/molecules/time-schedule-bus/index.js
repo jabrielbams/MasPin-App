@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {View, Text, Image, StyleSheet} from 'react-native';
 import React from 'react';
 import {TimeBox} from '../..';

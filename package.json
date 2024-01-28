@@ -21,7 +21,7 @@
     "axios": "^1.6.5",
     "cache": "^3.0.0",
     "react": "18.2.0",
-    "react-native": "0.73.1",
+    "react-native": "^0.73.2",
     "react-native-config": "^1.5.1",
     "react-native-confirmation-code-field": "^7.3.2",
     "react-native-document-picker": "^9.1.0",

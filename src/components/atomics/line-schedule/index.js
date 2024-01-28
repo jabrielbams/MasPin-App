@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {View, Text, StyleSheet} from 'react-native';
 import React from 'react';
 import {Color} from '../../../constants';
@@ -18,7 +19,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     gap: 6,
-    paddingVertical: 3,
+    paddingVertical: 5,
   },
   dotActive: {
     backgroundColor: Color.PRIMARY,
@@ -36,7 +37,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: Color.PRIMARY,
     width: 2,
-    height: 45,
+    height: 40,
     borderStyle: 'dashed',
   },
   borderDisable: {
