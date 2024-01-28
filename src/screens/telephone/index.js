@@ -69,6 +69,7 @@ const styles = StyleSheet.create({
     paddingTop: 32,
   },
   headerMain: {
+    alignItems: 'flex-start',
     paddingHorizontal: 16,
     marginBottom: 16,
   },

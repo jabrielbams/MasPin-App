@@ -109,7 +109,9 @@ const ReportIndex = ({navigation}) => {
         </View>
         <View style={styles.contentContainer}>
           <FlatList
-            data={allReportData}
+            data={allReportData.sort(
+              (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
+            )}
             renderItem={renderItem}
             keyExtractor={item => item._id}
           />

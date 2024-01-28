@@ -29,7 +29,9 @@ export default function OtherFeatures({navigation}) {
             title={'Lapor Masalah'}
             leftIcon={<IconReport />}
             onPress={() => {
-              navigation.navigate('Report');
+              navigation.navigate('Report', {
+                section: 'Laporan',
+              });
             }}
           />
           <CardSubMenu
@@ -54,7 +56,9 @@ export default function OtherFeatures({navigation}) {
             title={'Harga Bahan Pangan'}
             leftIcon={<IconChartPrice />}
             onPress={() => {
-              navigation.navigate('HargaPangan');
+              navigation.navigate('HargaPangan', {
+                section: 'Pasar',
+              });
             }}
           />
           <CardSubMenu
