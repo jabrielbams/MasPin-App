@@ -16,6 +16,9 @@ export default StyleSheet.create({
     paddingHorizontal: 20,
     marginBottom: 16,
   },
+  contentContainer: {
+    marginVertical: 12,
+  },
   headerText: {
     fontFamily: Fonts.BOLD,
     fontSize: 24,

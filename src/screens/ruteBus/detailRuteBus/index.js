@@ -10,6 +10,7 @@ import {
 import styles from './styles';
 import {ImgMapBus, ImgRute} from '../../../assets/images';
 import {Color, FontSize, Fonts} from '../../../constants';
+import HalteScheduleCard from '../../../components/organisms/halte-schedule-card';
 
 const DetailRuteBus = props => {
   const {route, navigation} = props;
@@ -74,12 +75,11 @@ const DetailRuteBus = props => {
               }}>
               Rute
             </Text>
-            <BusSchedule
-              departure="08.00 WIB"
-              arrival="08.04"
-              halteName="Ht. Pancurawis"
+            <HalteScheduleCard
+              halteName="Ht.Gerilya"
+              timeArrival="08.00 WIB"
+              timeDeparture="08.05 WIB"
             />
-            <LineSchedule />
           </View>
         </View>
       </ScrollView>

@@ -15,7 +15,7 @@ import ImgPasarBms from './img-pasar-bms.jpg';
 import ImgBusTrans from './img-bus-trans.svg';
 import ImgDetailLaporan from './img-detail-laporan.jpg';
 import ImgProfile from './img-profile.svg';
-import ImgHomeBanner from './img-home-banner.svg';
+import ImgHomeBanner from './banner-home.svg';
 import ImgBisTrans from './img-bis-trans.png';
 import ImgMapBus from './img-map-bus.png';
 import ImgRute from './img-rute.png';

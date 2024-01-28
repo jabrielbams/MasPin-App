@@ -6,9 +6,9 @@ import {
   TextInput,
   FlatList,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {IcChevronLeft, IcFish, IcMapPins, IcSearch} from '../../assets/icons';
-import {MarketCard, NotificationIcon} from '../../components';
+import {LoadingIndicator, MarketCard, NotificationIcon} from '../../components';
 import styles from './styles';
 import {
   ImgPasarBms,
@@ -17,54 +17,68 @@ import {
   ImgPasarWage,
 } from '../../assets/images';
 import DetailMarket from './detailMarket';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
+import {ENDPOINT} from '../../utils/endpoint';
 
 const HargaPangan = props => {
   const {route, navigation} = props;
   const {section} = route.params;
 
-  const [searchMarket, setSearchMarket] = useState('');
-  const dataMarket = [
-    {
-      id: 1,
-      marketName: 'Pasar Wage',
-      textDesc: 'Jl. Vihara, Purwokerto Wetan',
-      textDescTwo: 'detail harga pangan',
-      additionText: '50',
-      img: require('../../assets/images/img-pasar-wage.jpg'),
-    },
-    {
-      id: 2,
-      marketName: 'Pasar Manis',
-      textDesc: 'Jl. Jend. Gatot Subroto, Purwokerto Barat',
-      textDescTwo: 'detail harga pangan',
-      additionText: '40',
-      img: require('../../assets/images/img-pasar-manis.jpg'),
-    },
-    {
-      id: 3,
-      marketName: 'Pasar Pon',
-      textDesc: 'Bantarsoka, Purwokerto Barat',
-      textDescTwo: 'detail harga pangan',
-      additionText: '20',
-      img: require('../../assets/images/img-pasar-pon.jpg'),
-    },
-    {
-      id: 4,
-      marketName: 'Pasar Banyumas',
-      textDesc: 'Jl. Gatot Subroto, Banyumas',
-      textDescTwo: 'detail harga pangan',
-      additionText: '30',
-      img: require('../../assets/images/img-pasar-bms.jpg'),
-    },
-  ];
+  const [loading, setLoading] = useState(false);
 
-  const filteredMarket = dataMarket.filter(
-    dataMarket =>
-      dataMarket.marketName
-        .toLowerCase()
-        .includes(searchMarket.toLowerCase()) ||
-      dataMarket.textDesc.toLowerCase().includes(searchMarket.toLowerCase()),
+  const [searchMarket, setSearchMarket] = useState('');
+  const [dataMarket, setDataMarket] = useState();
+
+  const getMarketList = async () => {
+    setLoading(true);
+    try {
+      const refreshToken = await AsyncStorage.getItem('refreshToken');
+      const response = await axios.get(ENDPOINT.MARKET.GET_PASAR, {
+        headers: {
+          Authorization: `Bearer ${refreshToken}`,
+        },
+      });
+      setDataMarket(response.data.data); // Perhatikan penggunaan response.data.data karena data pasar berada dalam properti "data"
+      console.log(response.data);
+    } catch (error) {
+      console.error('Error fetching user profile:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const renderCard = ({item}) => (
+    <MarketCard
+      key={item._id}
+      onPress={() => {
+        navigation.navigate('DetailMarket', {
+          section: 'Harga Pangan',
+          dataMarket: dataMarket,
+        });
+      }}
+      imgSource={item.gambar_pasar} // Perhatikan penggunaan item.gambar_pasar untuk mengakses URL gambar pasar
+      marketName={item.nama_pasar} // Perhatikan penggunaan item.nama_pasar untuk mengakses nama pasar
+      iconLeft={IcMapPins}
+      textDesc={item.lokasi_pasar} // Perhatikan penggunaan item.lokasi_pasar untuk mengakses lokasi pasar
+      iconLeftTwo={IcFish}
+      textDescTwo={item.detail_pasar} // Perhatikan penggunaan item.detail_pasar untuk mengakses detail pasar
+      showAddition={true}
+      additionText={item.additionText} // Perhatikan bahwa item.additionText belum ada dalam respons, sesuaikan jika diperlukan
+    />
   );
+
+  // const filteredMarket = dataMarket.filter(
+  //   dataMarket =>
+  //     dataMarket.marketName
+  //       .toLowerCase()
+  //       .includes(searchMarket.toLowerCase()) ||
+  //     dataMarket.textDesc.toLowerCase().includes(searchMarket.toLowerCase()),
+  // );
+
+  useEffect(() => {
+    getMarketList();
+  }, []);
 
   return (
     <View style={styles.mainBody}>
@@ -93,29 +107,14 @@ const HargaPangan = props => {
         </View>
         <View style={{marginTop: 24, flexDirection: 'column', gap: 20}}>
           <FlatList
-            data={filteredMarket}
+            data={dataMarket}
             keyExtractor={item => item._id}
-            renderItem={({item}) => (
-              <MarketCard
-                onPress={() => {
-                  navigation.navigate('DetailMarket', {
-                    section: 'Harga Pangan',
-                  });
-                }}
-                imgSource={item.img}
-                marketName={item.marketName}
-                iconLeft={IcMapPins}
-                textDesc={item.textDesc}
-                iconLeftTwo={IcFish}
-                textDescTwo={item.textDescTwo}
-                showAddition={true}
-                additionText={item.additionText}
-              />
-            )}
+            renderItem={renderCard}
             showsVerticalScrollIndicator={false}
           />
         </View>
       </View>
+      {loading && <LoadingIndicator />}
     </View>
   );
 };

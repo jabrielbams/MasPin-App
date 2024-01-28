@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {IcChevronLeft, IcSearch} from '../../../assets/icons';
 import {MarketCard, NotificationIcon} from '../../../components';
 import {
@@ -20,93 +20,66 @@ import {
 import {Color, FontSize, Fonts} from '../../../constants';
 import styles from './styles';
 import CardItemsMain from '../../../components/molecules/card-items-main';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
+import {ENDPOINT} from '../../../utils/endpoint';
 
 const DetailMarket = props => {
   const {route, navigation} = props;
   const {section} = route.params;
+  const {dataMarket} = route.params;
+
+  const [loading, setLoading] = useState(false);
 
   const [searchItem, setSearchItem] = useState('');
+  const [dataItem, setDataItem] = useState();
+  const [isTwoItems, setIsTwoItems] = useState(false);
 
-  const dataItem = [
-    {
-      id: 1,
-      itemsImg: require('../../../assets/images/img-cabai-merah.jpg'),
-      itemsName: 'Cabai Merah',
-      itemsPrice: 'Rp 10.000',
-      itemsQty: 'kg',
-      itemsCategory: 'Cabai',
-    },
-    {
-      id: 2,
-      itemsImg: require('../../../assets/images/img-bawang-merah.jpg'),
-      itemsName: 'Bawang Merah',
-      itemsPrice: 'Rp 12.000',
-      itemsQty: 'kg',
-      itemsCategory: 'Bawang',
-    },
-    {
-      id: 3,
-      itemsImg: require('../../../assets/images/img-beras.jpg'),
-      itemsName: 'Beras',
-      itemsPrice: 'Rp 15.000',
-      itemsQty: 'kg',
-      itemsCategory: 'Beras',
-    },
-    {
-      id: 4,
-      itemsImg: require('../../../assets/images/img-kentang.jpg'),
-      itemsName: 'Kentang',
-      itemsPrice: 'Rp 8.000',
-      itemsQty: 'kg',
-      itemsCategory: 'Kentang',
-    },
-    {
-      id: 5,
-      itemsImg: require('../../../assets/images/img-gula-merah.jpg'),
-      itemsName: 'Gula Merah',
-      itemsPrice: 'Rp 12.000',
-      itemsQty: 'kg',
-      itemsCategory: 'Gula',
-    },
-    {
-      id: 6,
-      itemsImg: require('../../../assets/images/img-bawang-putih.jpg'),
-      itemsName: 'Bawang Putih',
-      itemsPrice: 'Rp 18.000',
-      itemsQty: 'kg',
-      itemsCategory: 'Bawang',
-    },
-    {
-      id: 7,
-      itemsImg: require('../../../assets/images/img-telur.jpg'),
-      itemsName: 'Telur',
-      itemsPrice: 'Rp 15.000',
-      itemsQty: 'kg',
-      itemsCategory: 'Telur',
-    },
-    {
-      id: 8,
-      itemsImg: require('../../../assets/images/img-paha-ayam.jpg'),
-      itemsName: 'Paha Ayam',
-      itemsPrice: 'Rp 25.000',
-      itemsQty: 'kg',
-      itemsCategory: 'Ayam',
-    },
-  ];
+  const getItems = async (searchQuery = '') => {
+    setLoading(true);
+    try {
+      const refreshToken = await AsyncStorage.getItem('refreshToken');
+      const idPasar = dataMarket[0]._id;
+      const response = await axios.get(
+        `${ENDPOINT.MARKET.GET_DETAIL}/${idPasar}?nama_barang=${searchQuery}`,
+        {
+          headers: {
+            Authorization: `Bearer ${refreshToken}`,
+          },
+        },
+      );
+      setDataItem(response.data.data);
+      setIsTwoItems(response.data.data.length === 2);
+      console.log(response.data.data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  const filteredItems = dataItem.filter(dataItem =>
-    dataItem.itemsName.toLowerCase().includes(searchItem.toLowerCase()),
-  );
-
-  const renderCard = ({item}) => (
+  const renderCard = ({item, index}) => (
     <CardItemsMain
-      itemsCategory={item.itemsCategory}
-      itemsImg={item.itemsImg}
-      itemsName={item.itemsName}
-      itemsPrice={item.itemsPrice}
-      itemsQty={item.itemsQty}
+      key={item._id}
+      itemsImg={item.gambar_barang}
+      itemsName={item.nama_barang}
+      itemsPrice={item.harga_barang}
+      itemsQty={item.satuan}
+      isLastItem={index === dataItem.length - 1 && !isTwoItems}
     />
   );
+
+  const searchAndUpdate = searchQuery => {
+    getItems(searchQuery);
+  };
+
+  useEffect(() => {
+    searchAndUpdate('');
+  }, []);
+
+  useEffect(() => {
+    getItems(searchItem);
+  }, [searchItem]);
 
   return (
     <View style={styles.mainBody}>
@@ -163,15 +136,17 @@ const DetailMarket = props => {
         </View>
       </View>
       {/* Item List */}
-      <View style={styles.content}>
+      <View style={styles.contentItems}>
         <FlatList
-          data={filteredItems}
-          keyExtractor={item => item.id}
+          data={dataItem}
+          keyExtractor={item => item._id}
           renderItem={renderCard}
           numColumns={2}
           contentContainerStyle={{
+            flexGrow: 1, // Tambahkan flexGrow untuk memastikan FlatList mengisi ruang yang tersedia
+            paddingBottom: 28, // Tambahkan padding di bagian bawah untuk menghindari pemotongan data
             marginTop: 16,
-            gap: 12,
+            paddingHorizontal: 8,
           }}
           showsVerticalScrollIndicator={false}
         />

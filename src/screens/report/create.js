@@ -16,6 +16,7 @@ import {
   InputField,
   LabelCategory,
   LabelStatus,
+  LoadingIndicator,
   ModalPopup,
   ReportCardMain,
   SwitchInputField,
@@ -58,6 +59,7 @@ const ReportForm = ({navigation}) => {
   const [loading, setLoading] = useState(false);
   const [showModalConfirmation, setShowModalConfirmation] = useState(false);
   const [showModalSuccess, setModalSuccess] = useState(false);
+  const [showModalFailure, setModalFailure] = useState(false);
 
   const [form, setForm] = useForm({
     label: {
@@ -98,7 +100,6 @@ const ReportForm = ({navigation}) => {
       !!selectedImage &&
       !!form.label.value &&
       !!form.desc.value &&
-      !!form.address.value &&
       !form.label.error &&
       !form.desc.error &&
       !form.address.error &&
@@ -121,6 +122,36 @@ const ReportForm = ({navigation}) => {
     setSearchText(text);
   };
 
+  const getPhotoLocation = () => {
+    Geolocation.getCurrentPosition(position => {
+      const {latitude, longitude} = position.coords;
+      setLocation({latitude, longitude});
+      getAddress(latitude, longitude, setAddress);
+    });
+  };
+
+  const handleCameraLaunch = () => {
+    const options = {
+      mediaType: 'photo',
+      includeBase64: false,
+      maxHeight: 2000,
+      maxWidth: 2000,
+    };
+    launchCamera(options, response => {
+      if (response.didCancel) {
+        console.log('User cancelled camera');
+        navigation.goBack();
+      } else if (response.error) {
+        console.log('Camera Error: ', response.error);
+        navigation.goBack();
+      } else {
+        let imageUri = response.uri || response.assets?.[0]?.uri;
+        setSelectedImage(imageUri);
+        getPhotoLocation();
+      }
+    });
+  };
+
   const handlePressDropdown = () => {
     setShowDropdown(!showDropdown);
   };
@@ -139,8 +170,8 @@ const ReportForm = ({navigation}) => {
   };
 
   const handleSubmit = async () => {
+    setLoading(true);
     try {
-      setLoading(true);
       const formData = new FormData();
       const refreshToken = await AsyncStorage.getItem('refreshToken');
 
@@ -178,24 +209,18 @@ const ReportForm = ({navigation}) => {
       });
       // Handle the response from the API
 
-      resetFormState();
-      navigation.replace('Activity');
+      setShowModalConfirmation(false);
+      setModalSuccess(true);
       console.log('API Response:', response.data);
     } catch (error) {
       console.log('API Error:', error.message);
+      setShowModalConfirmation(false);
+      setModalFailure(true);
     } finally {
       setLoading(false);
+      resetFormState();
     }
   };
-
-  const handleCameraLaunch = useCallback(() => {
-    launchCameraAndHandleLocation(
-      setSelectedImage,
-      setLocation,
-      setAddress,
-      navigation,
-    );
-  }, [navigation]);
 
   useFocusEffect(
     useCallback(() => {
@@ -210,15 +235,17 @@ const ReportForm = ({navigation}) => {
   return (
     <View style={styles.mainBody}>
       <FlatList
-        data={[{key: 'header'}]} // Add any necessary data for your use case
+        data={[{key: 'header'}]}
         renderItem={() => (
           <>
-            <HeaderNavigation
-              onPress={() => {
-                navigation.goBack();
-              }}
-              title={'Buat Laporan'}
-            />
+            <View style={styles.headerMain}>
+              <HeaderNavigation
+                title={'Lainnya'}
+                onPress={() => {
+                  navigation.goBack();
+                }}
+              />
+            </View>
             <View style={styles.dividerStyle} />
             <View style={styles.content}>
               <View style={styles.sectionDivider}>
@@ -339,10 +366,29 @@ const ReportForm = ({navigation}) => {
             leftButtonTitle={'Kembali'}
             rightButtonTitle={'Kirim'}
             onPressLeft={handleCloseModal}
-            onPressRight={handleSubmit}
+            onPressRight={() => {
+              handleSubmit();
+            }}
+            disableButton={loading}
           />
+
           <ModalPopup
-            isVisible={showModalConfirmation}
+            isVisible={showModalFailure}
+            type={'failed'}
+            titleModal={'Laporan Gagal Dibuat!'}
+            descModal={'Terdapat masalah pada sistem kami, coba lagi'}
+            leftButtonTitle={'Batal'}
+            rightButtonTitle={'Ulangi'}
+            onPressLeft={() => {
+              navigation.replace('Home');
+            }}
+            onPressRight={() => {
+              setModalFailure(false);
+            }}
+          />
+
+          <ModalPopup
+            isVisible={showModalSuccess}
             type={'success'}
             titleModal={'Laporan Berhasil Dibuat!'}
             descModal={
@@ -353,7 +399,9 @@ const ReportForm = ({navigation}) => {
             onPressLeft={() => {
               navigation.replace('Home');
             }}
-            onPressRight={handleSubmit}
+            onPressRight={() => {
+              navigation.replace('Activity');
+            }}
           />
         </View>
       </View>

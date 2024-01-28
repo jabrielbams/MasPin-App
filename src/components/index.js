@@ -30,6 +30,10 @@ import ButtonHorizontalMain from './molecules/button-horizontal';
 import TimeBox from './molecules/time-box';
 import BusSchedule from './organisms/bus-schedule';
 import LineSchedule from './atomics/line-schedule';
+import LoadingIndicator from './atomics/loading';
+import BusScheduleTime from './molecules/time-schedule-bus';
+import BusScheduleCard from './molecules/bus-schedule-card';
+import TabBarButton from './atomics/tab-bar-button';
 
 //Skeleton
 import ReportCardMainSkeleton from './organisms/skeleton-card-report';
@@ -68,4 +72,6 @@ export {
   TimeBox,
   BusSchedule,
   LineSchedule,
+  LoadingIndicator,
+  TabBarButton,
 };

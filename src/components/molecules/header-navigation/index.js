@@ -6,11 +6,11 @@ import {Color, Fonts} from '../../../constants';
 
 export default function HeaderNavigation({onPress, title}) {
   return (
-    <TouchableOpacity onPress={onPress} style={styles.container}>
-      <View style={styles.icon}>
+    <TouchableOpacity onPress={onPress}>
+      <View style={styles.title}>
         <IcChevronLeft />
+        <Text style={styles.headerText}>{title}</Text>
       </View>
-      <Text style={styles.headerText}>{title}</Text>
     </TouchableOpacity>
   );
 }
@@ -19,10 +19,18 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
+  },
+  title: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 6,
   },
   headerText: {
-    fontFamily: Fonts.SEMIBOLD,
-    fontSize: 20,
+    fontFamily: Fonts.BOLD,
+    fontSize: 22,
     color: Color.BLACK,
+    fontWeight: 'bold',
   },
 });

@@ -1,55 +1,90 @@
-import React, {useEffect, useState} from 'react';
-import {StyleSheet, View, FlatList, Text, ScrollView} from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, {useState, useEffect} from 'react';
+import {
+  View,
+  Text,
+  FlatList,
+  Image,
+  ActivityIndicator,
+  StyleSheet,
+} from 'react-native';
 import axios from 'axios';
-import {Color, Fonts, FontSize} from '../../constants';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {ENDPOINT} from '../../utils/endpoint';
 import {
   HeaderNavigation,
-  SearchBar,
-  ReportCard,
-  ReportCardMain,
   LabelCategory,
   LabelStatus,
+  ReportCardMain,
+  SearchBar,
 } from '../../components';
-import {ENDPOINT} from '../../utils/endpoint';
-import {getAllReport} from '../../services/reportData';
+import {Color} from '../../constants';
 
-export default function ReportIndex({navigation}) {
-  const [reportData, setReportData] = useState([]);
-  const [searchText, setSearchText] = useState('');
+const ReportIndex = ({navigation}) => {
   const [loading, setLoading] = useState(true);
-  const [searchClicked, setSearchClicked] = useState(false);
+  const [error, setError] = useState('');
 
-  const fetchAPI = async () => {
+  const [searchReport, setSearchReport] = useState('');
+  const [allReportData, setAllReportData] = useState([]);
+
+  const getReport = async searchQuery => {
     setLoading(true);
     try {
-      const allReport = await getAllReport();
-      setReportData(allReport);
-      console.log('fetch success', reportData);
+      const refreshToken = await AsyncStorage.getItem('refreshToken');
+      const response = await axios.get(
+        `${ENDPOINT.REPORT.REPORT_ALL}?detail_masalah=${searchQuery}`,
+        {
+          headers: {
+            Authorization: `Bearer ${refreshToken}`,
+          },
+        },
+      );
+      setAllReportData(response.data.data);
+      console.log('search success', response.data.data);
     } catch (error) {
-      console.error('Error fetching:', error.message);
+      console.error('Error searching:', error.message);
+      setError('Terjadi kesalahan saat mencari data. Silakan coba lagi.');
     } finally {
       setLoading(false);
     }
   };
 
+  const timeDifference = createdAt => {
+    const now = new Date();
+    const createdDate = new Date(createdAt);
+    const differenceInSeconds = Math.floor((now - createdDate) / 1000);
+
+    if (differenceInSeconds < 60) {
+      return `${differenceInSeconds} detik lalu`;
+    } else if (differenceInSeconds < 3600) {
+      const minutes = Math.floor(differenceInSeconds / 60);
+      return `${minutes}m lalu`;
+    } else if (differenceInSeconds < 86400) {
+      const hours = Math.floor(differenceInSeconds / 3600);
+      return `${hours}j lalu`;
+    } else {
+      const days = Math.floor(differenceInSeconds / 86400);
+      return `${days}h lalu`;
+    }
+  };
+
   useEffect(() => {
-    fetchAPI();
-  }, []);
+    getReport(searchReport);
+  }, [searchReport]);
 
-  const filteredReportData = reportData.filter(
-    report =>
-      report.detail_masalah.toLowerCase().includes(searchText.toLowerCase()) ||
-      report.kategori_masalah.toLowerCase().includes(searchText.toLowerCase()),
-  );
-
-  const renderCard = ({item}) => (
+  const renderItem = ({item}) => (
     <ReportCardMain
       key={item._id}
       imgReport={item.image_laporan}
       descReport={item.detail_masalah}
       category={<LabelCategory title={item.kategori_masalah} />}
       status={<LabelStatus type={item.status} />}
+      uploadDate={timeDifference(item.createdAt)}
+      onPress={() => {
+        navigation.navigate('DetailLaporan', {
+          section: 'Detail Laporan',
+          reportData: item,
+        });
+      }}
     />
   );
 
@@ -58,7 +93,7 @@ export default function ReportIndex({navigation}) {
       <View>
         <View style={styles.headerMain}>
           <HeaderNavigation
-            title={'Lainnya'}
+            title={'Laporan'}
             onPress={() => {
               navigation.goBack();
             }}
@@ -68,26 +103,23 @@ export default function ReportIndex({navigation}) {
         <View style={{marginTop: 12, marginHorizontal: 16}}>
           <SearchBar
             placeholder={'Cari laporan'}
-            setSearchValue={text => setSearchText(text)}
-            searchValue={searchText}
+            setSearchValue={text => setSearchReport(text)}
+            searchValue={searchReport}
           />
         </View>
         <View style={styles.contentContainer}>
-          {loading ? (
-            <Text>Loading...</Text>
-          ) : (
-            <FlatList
-              data={reportData}
-              keyExtractor={item => item._id}
-              renderItem={renderCard}
-              showsVerticalScrollIndicator={false}
-            />
-          )}
+          <FlatList
+            data={allReportData}
+            renderItem={renderItem}
+            keyExtractor={item => item._id}
+          />
         </View>
       </View>
     </View>
   );
-}
+};
+
+export default ReportIndex;
 
 const styles = StyleSheet.create({
   mainBody: {
@@ -99,6 +131,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   headerMain: {
+    alignItems: 'flex-start',
     paddingHorizontal: 16,
     marginBottom: 16,
   },
@@ -108,8 +141,14 @@ const styles = StyleSheet.create({
     backgroundColor: Color.LIGHT_GRAY,
   },
   contentContainer: {
-    flex: 1,
     flexDirection: 'column',
     gap: 24,
+    marginHorizontal: 16,
+    marginTop: 16,
+  },
+  errorText: {
+    margin: 16,
+    color: 'red',
+    textAlign: 'center',
   },
 });

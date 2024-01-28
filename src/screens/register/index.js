@@ -86,6 +86,8 @@ const RegisterScreen = ({navigation}) => {
       if (success) {
         Alert.alert('Register Berhasil', message);
         navigation.replace('Login');
+      } else {
+        Alert.alert('Register Gagal!', message);
       }
     } catch (error) {
       if (
@@ -95,7 +97,7 @@ const RegisterScreen = ({navigation}) => {
       ) {
         const errorMessageFromAPI = error.response.data.message;
 
-        Alert.alert('Register Gagal', 'Pastikan semua kolom sudah terisi!');
+        Alert.alert('Register Gagal', errorMessageFromAPI);
       } else {
         Alert.alert('Error', 'An unexpected error occurred. Please try again.');
       }
@@ -175,6 +177,7 @@ const RegisterScreen = ({navigation}) => {
               handleRegister();
             }}
             title="Daftar"
+            loading={loading}
           />
         </View>
         <View style={styles.actionText}>

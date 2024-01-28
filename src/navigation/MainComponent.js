@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unstable-nested-components */
-import {View, Text} from 'react-native';
+import {View, Text, TouchableOpacity} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -39,7 +39,8 @@ import EmergencyContact from '../screens/telephone';
 import ValidationAccount from '../screens/verification';
 import DetailMarket from '../screens/market/detailMarket';
 import {getUserProfile} from '../services/profile';
-import {ModalPopup} from '../components';
+import {ModalPopup, TabBarButton} from '../components';
+import NewsIndex from '../screens/news';
 
 // Screens Name
 const homeName = 'Beranda';
@@ -51,72 +52,86 @@ const profileName = 'Profil';
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
-function Home() {
-  return (
-    <Tab.Navigator
-      initialRouteName={homeName}
-      screenOptions={({route}) => ({
-        tabBarIcon: ({focused, color, size}) => {
-          let rn = route.name;
+function Home({navigation}) {
+  const [userData, setUserData] = useState(null);
 
-          if (rn === homeName) {
-            if (focused) {
-              return <IconHomeActive />;
-            } else {
-              return <IconHomeDisable />;
+  useEffect(() => {
+    // Fetch user profile data from API
+    const fetchUserProfile = async () => {
+      try {
+        const userProfile = await getUserProfile(); // Assume this function fetches user profile data from your API
+        setUserData(userProfile);
+      } catch (error) {
+        console.error('Error fetching user profile:', error);
+      }
+    };
+
+    // Call the fetchUserProfile function when component mounts
+    fetchUserProfile();
+  }, []);
+
+  return (
+    <>
+      <Tab.Navigator
+        initialRouteName={homeName}
+        screenOptions={({route}) => ({
+          tabBarIcon: ({focused}) => {
+            let icon;
+            if (route.name === homeName) {
+              icon = focused ? <IconHomeActive /> : <IconHomeDisable />;
+            } else if (route.name === activityName) {
+              icon = focused ? <IconListActive /> : <IconListDisable />;
+            } else if (route.name === reportName) {
+              icon = focused ? <IconReportActive /> : <IconReportDisable />;
+            } else if (route.name === profileName) {
+              icon = focused ? <IconProfileActive /> : <IconProfileDisable />;
             }
-          } else if (rn === activityName) {
-            if (focused) {
-              return <IconListActive />;
-            } else {
-              return <IconListDisable />;
-            }
-          } else if (rn === reportName) {
-            if (focused) {
-              return <IconReportActive />;
-            } else {
-              return <IconReportDisable />;
-            }
-          } else if (rn === profileName) {
-            if (focused) {
-              return <IconProfileActive />;
-            } else {
-              return <IconProfileDisable />;
-            }
-          }
-        },
-        tabBarLabelStyle: {
-          fontSize: FontSize.dp_10,
-          fontFamily: Fonts.SEMIBOLD,
-        },
-        tabBarStyle: {
-          height: 65,
-          paddingTop: 5,
-          paddingBottom: 5,
-          elevation: 3,
-        },
-      })}>
-      <Tab.Screen
-        name={homeName}
-        component={HomeScreen}
-        options={{headerShown: false}}
-      />
-      <Tab.Screen
-        name={activityName}
-        component={ActivityScreen}
-        options={{headerShown: false}}
-      />
-      <Tab.Screen
-        name={reportName}
-        component={ReportForm}
-        options={{headerShown: false}}
-      />
-      <Tab.Screen
-        name={profileName}
-        component={ProfileScreen}
-        options={{headerShown: false}}
-      />
-    </Tab.Navigator>
+            return icon;
+          },
+          tabBarLabelStyle: {
+            fontSize: FontSize.dp_10,
+            fontFamily: Fonts.SEMIBOLD,
+          },
+          tabBarStyle: {
+            height: 65,
+            paddingTop: 5,
+            paddingBottom: 5,
+            elevation: 3,
+          },
+          tabBarButton: props =>
+            // Hide the tab button if the route name is "Laporan" and user status is not validated
+            route.name === reportName &&
+            userData &&
+            !userData.statusValidate ? null : (
+              <TabBarButton
+                {...props}
+                onPress={() => navigation.navigate(route.name)}
+              />
+            ),
+          tabBarTouchable: 'auto',
+        })}>
+        <Tab.Screen
+          name={homeName}
+          component={HomeScreen}
+          options={{headerShown: false}}
+        />
+        <Tab.Screen
+          name={activityName}
+          component={ActivityScreen}
+          options={{headerShown: false}}
+        />
+        <Tab.Screen
+          name={reportName}
+          component={ReportForm}
+          options={{headerShown: false}}
+        />
+        <Tab.Screen
+          name={profileName}
+          component={ProfileScreen}
+          options={{headerShown: false}}
+        />
+      </Tab.Navigator>
+    </>
   );
 }
 
@@ -232,6 +247,11 @@ const MainComponent = () => {
         <Stack.Screen
           name="HargaPangan"
           component={HargaPangan}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="NewsIndex"
+          component={NewsIndex}
           options={{headerShown: false}}
         />
         {/* details */}

@@ -3,10 +3,10 @@ import React from 'react';
 import {ImgBisTrans, ImgNewsCovid} from '../../../assets/images';
 import {Color, FontSize, Fonts} from '../../../constants';
 
-const NewsCardMain = ({category, titleNews, descNews}) => {
+const NewsCardMain = ({category, titleNews, descNews, imageNews}) => {
   return (
     <View style={styles.cardContainer}>
-      <Image source={ImgNewsCovid} style={styles.imgView} />
+      <Image source={{uri: imageNews}} style={styles.imgView} />
       <View style={{flex: 1, paddingHorizontal: 16, paddingVertical: 10}}>
         <Text style={styles.category} numberOfLines={1}>
           {category}

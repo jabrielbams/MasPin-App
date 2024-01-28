@@ -2,7 +2,11 @@ import {View, Text, Image, TouchableOpacity} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import styles from './styles';
 import {Color, Fonts} from '../../constants';
-import {HeaderNavigation, NotificationIcon} from '../../components';
+import {
+  HeaderNavigation,
+  LoadingIndicator,
+  NotificationIcon,
+} from '../../components';
 import {
   IcChangePassword,
   IcChevronRightActive,
@@ -24,15 +28,19 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const ProfileScreen = ({navigation}) => {
   const [userData, setUserData] = useState(null);
   const [isValid, setIsValid] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchUserProfile = async () => {
+      setLoading(true);
       try {
         const profileData = await getUserProfile();
         setUserData(profileData);
         handleValidationAccount(profileData);
       } catch (error) {
         console.error('Error fetching user profile:', error.message);
+      } finally {
+        setLoading(false);
       }
     };
     fetchUserProfile();
@@ -145,7 +153,7 @@ const ProfileScreen = ({navigation}) => {
           </View>
         </View>
       ) : (
-        <Text>Loading...</Text>
+        <LoadingIndicator />
       )}
     </View>
   );

@@ -45,14 +45,16 @@ export default function OtherFeatures({navigation}) {
             title={'Rute & Jadwal Bus'}
             leftIcon={<IconBusRoute />}
             onPress={() => {
-              navigation.navigate('Bus');
+              navigation.navigate('Bus', {
+                section: 'Rute Bus',
+              });
             }}
           />
           <CardSubMenu
             title={'Harga Bahan Pangan'}
             leftIcon={<IconChartPrice />}
             onPress={() => {
-              navigation.navigate('Market');
+              navigation.navigate('HargaPangan');
             }}
           />
           <CardSubMenu
@@ -77,6 +79,8 @@ const styles = StyleSheet.create({
     paddingTop: 32,
   },
   headerMain: {
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
     paddingHorizontal: 16,
     marginBottom: 16,
   },

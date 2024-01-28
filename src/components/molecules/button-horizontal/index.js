@@ -7,13 +7,21 @@ const ButtonHorizontalMain = ({
   onPressRight,
   titlePrimary,
   titleSecondary,
+  leftDisable,
+  rightDisable,
 }) => {
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.btnSecondary} onPress={onPressLeft}>
+      <TouchableOpacity
+        style={styles.btnSecondary}
+        onPress={onPressLeft}
+        disabled={leftDisable}>
         <Text style={styles.textSecondary}>{titleSecondary}</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.btnPrimary} onPress={onPressRight}>
+      <TouchableOpacity
+        style={styles.btnPrimary}
+        onPress={onPressRight}
+        disabled={rightDisable}>
         <Text style={styles.textPrimary}>{titlePrimary}</Text>
       </TouchableOpacity>
     </View>

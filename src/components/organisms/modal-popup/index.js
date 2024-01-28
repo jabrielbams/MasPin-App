@@ -2,7 +2,7 @@ import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import React from 'react';
 import Modal from 'react-native-modal';
 import {Color, FontSize, Fonts} from '../../../constants';
-import {ButtonHorizontalMain} from '../..';
+import {ButtonHorizontalMain, ButtonMain} from '../..';
 import {
   ImgModalDanger,
   ImgModalSuccess,
@@ -18,6 +18,12 @@ const ModalPopup = ({
   leftButtonTitle,
   onPressLeft,
   onPressRight,
+  disableButton,
+  oneButtonModal,
+  oneButtonTitle,
+  oneButtonPress,
+  oneButtonLoading,
+  oneButtonDisable,
 }) => {
   return (
     <View>
@@ -29,12 +35,23 @@ const ModalPopup = ({
               <Text style={styles.titleModal}>{titleModal}</Text>
               <Text style={styles.descModal}>{descModal}</Text>
             </View>
-            <ButtonHorizontalMain
-              titlePrimary={rightButtonTitle}
-              titleSecondary={leftButtonTitle}
-              onPressLeft={onPressLeft}
-              onPressRight={onPressRight}
-            />
+            {oneButtonModal ? (
+              <ButtonMain
+                title={oneButtonTitle}
+                onPress={oneButtonPress}
+                disabled={oneButtonDisable}
+                loading={oneButtonLoading}
+              />
+            ) : (
+              <ButtonHorizontalMain
+                titlePrimary={rightButtonTitle}
+                titleSecondary={leftButtonTitle}
+                onPressLeft={onPressLeft}
+                onPressRight={onPressRight}
+                leftDisable={disableButton}
+                rightDisable={disableButton}
+              />
+            )}
           </View>
         </View>
       </Modal>

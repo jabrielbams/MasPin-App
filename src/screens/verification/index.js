@@ -1,4 +1,5 @@
 import {
+  Alert,
   Image,
   KeyboardAvoidingView,
   SafeAreaView,
@@ -15,8 +16,11 @@ import {Color, FontSize, Fonts} from '../../constants';
 import {useForm} from '../../utils/form';
 import {ENDPOINT} from '../../utils/endpoint';
 import {launchCamera} from 'react-native-image-picker';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
-export default function ValidationAccount() {
+export default function ValidationAccount({navigation}) {
+  const [loading, setLoading] = useState(false);
   const [selectedImage, setSelectedImage] = useState();
   const [form, setForm] = useForm({
     nik: {
@@ -49,6 +53,7 @@ export default function ValidationAccount() {
   };
 
   const handleSubmit = async () => {
+    setLoading(true);
     try {
       const formData = new FormData();
       const refreshToken = await AsyncStorage.getItem('refreshToken');
@@ -59,7 +64,7 @@ export default function ValidationAccount() {
         const filename = selectedImage.split('/').pop();
         const match = /\.(\w+)$/.exec(filename);
         const type = match ? `image/${match[1]}` : 'image';
-        formData.append('image_laporan', {
+        formData.append('ktp', {
           uri: selectedImage,
           type,
           name: filename,
@@ -67,16 +72,26 @@ export default function ValidationAccount() {
       }
 
       // Make the API request
-      const response = await axios.post(ENDPOINT.NGROK.VALIDASI, formData, {
+      const response = await axios.put(ENDPOINT.AUTH.VALIDASI, formData, {
         headers: {
           Authorization: `Bearer ${refreshToken}`,
           'Content-Type': 'multipart/form-data',
         },
       });
+
+      const {success, data, message, status} = response.data;
       // Handle the response from the API
       console.log('API Response:', response.data);
+      if (success) {
+        navigation.replace('Home');
+        Alert.alert('Verifikasi Berhasil!', message);
+      } else {
+        Alert.alert('Verifikasi Gagal!', message);
+      }
     } catch (error) {
       console.log('API Error:', error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -147,9 +162,10 @@ export default function ValidationAccount() {
       <View style={styles.actionSection}>
         <View style={styles.actionButton}>
           <ButtonMain
+            loading={loading}
             onPress={() => {
-              // Handle button press event
-              console.log('Form Values:', form);
+              handleSubmit();
+              console.log(form);
             }}
             title="Lanjut"
             style={styles.customButton}

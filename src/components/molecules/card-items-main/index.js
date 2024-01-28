@@ -9,18 +9,16 @@ const CardItemsMain = ({
   itemsPrice,
   itemsQty,
   itemsCategory,
+  isLastItem,
 }) => {
   return (
-    <View style={styles.container}>
-      <View
-        style={{
-          marginHorizontal: 13,
-          width: 130,
-        }}>
-        <Image source={itemsImg} style={{resizeMode: 'cover'}} />
-        <View style={styles.itemsCategory}>
+    <View style={[styles.container, isLastItem && styles.lastItem]}>
+      <View style={styles.imageContainer}>
+        <Image source={{uri: itemsImg}} style={styles.image} />
+
+        {/* <View style={styles.itemsCategory}>
           <Text style={styles.categoryText}>{itemsCategory}</Text>
-        </View>
+        </View> */}
       </View>
       <Text style={styles.itemsName}>{itemsName}</Text>
       <View style={styles.priceBox}>
@@ -36,17 +34,32 @@ export default CardItemsMain;
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     backgroundColor: Color.WHITE,
     elevation: 2,
     borderRadius: 8,
     paddingHorizontal: 8,
     paddingVertical: 6,
     margin: 5,
+    flexDirection: 'column',
+  },
+  imageContainer: {
+    position: 'relative',
+    width: '100%', // Set lebar gambar 100%
+    aspectRatio: 16 / 9, // Tetapkan rasio aspek 1:1 untuk gambar
+  },
+  image: {
+    flex: 1,
+    resizeMode: 'contain',
   },
   itemsName: {
     fontFamily: Fonts.MEDIUM,
     fontSize: FontSize.dp_16,
     color: Color.BLACK,
+    marginTop: 5,
+  },
+  lastItem: {
+    flex: 0.5,
   },
   priceBox: {
     flexDirection: 'row',

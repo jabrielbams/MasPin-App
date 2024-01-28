@@ -9,7 +9,12 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import {IcChevronLeft} from '../../../assets/icons';
-import {ButtonMain, NotificationIcon} from '../../../components';
+import {
+  ButtonMain,
+  LoadingIndicator,
+  ModalPopup,
+  NotificationIcon,
+} from '../../../components';
 import {CodeField, Cursor} from 'react-native-confirmation-code-field';
 import styles from './styles';
 import {Color, FontSize, Fonts} from '../../../constants';
@@ -20,8 +25,27 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 
 const DetailTax = props => {
-  const [platNomor, setPlatNomor] = useState('');
-  const [code, setCode] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [platNomor, setPlatNomor] = useState(['', '', '', '', '']);
+  const [taxData, setTaxData] = useState([]);
+
+  const [showModalFailure, setShowModalFailure] = useState(false);
+
+  const handleChangeNumber = (text, index) => {
+    if (/^\d{0,1}$/.test(text)) {
+      const newPlatNomor = [...platNomor];
+      newPlatNomor[index] = text;
+      setPlatNomor(newPlatNomor);
+    }
+  };
+
+  const handleChangeLetter = (text, index) => {
+    if (/^[A-Z]{0,1}$/.test(text)) {
+      const newPlatNomor = [...platNomor];
+      newPlatNomor[index] = text.toUpperCase();
+      setPlatNomor(newPlatNomor);
+    }
+  };
 
   const {
     uiWording,
@@ -44,11 +68,12 @@ const DetailTax = props => {
     }
   };
 
-  const onCodeChange = value => {
-    setPlatNomor(value);
-  };
+  // const onCodeChange = value => {
+  //   setPlatNomor(value);
+  // };
 
   const handleApiRequest = async () => {
+    setLoading(true);
     try {
       // Dapatkan refreshToken dari AsyncStorage
       const refreshToken = await AsyncStorage.getItem('refreshToken');
@@ -58,22 +83,23 @@ const DetailTax = props => {
         Authorization: `Bearer ${refreshToken}`,
       };
 
-      // Gabungkan platNomor dan code
-      const fullPlatNomor = `R ${platNomor} ${code}`;
+      const fullPlatNomor = `R ${platNomor.slice(0, 4).join('')} ${platNomor
+        .slice(4, 6)
+        .join('')}`;
 
       const response = await axios.get(
-        `${
-          ENDPOINT.TAX.CEK_PAJAK
-        }/api/pajak/detail-pajak-kendaraan/${encodeURIComponent(
-          fullPlatNomor,
-        )}`,
+        `${ENDPOINT.TAX.CEK_PAJAK}/${fullPlatNomor}`,
         {headers},
       );
 
-      // Lakukan sesuatu dengan response dari API
+      setTaxData(response.data);
+      navigation.navigate('DetailInfoTax', {taxData: response.data});
       console.log('API Response:', response.data);
     } catch (error) {
+      setShowModalFailure(true);
       console.error('API Error:', error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -81,34 +107,37 @@ const DetailTax = props => {
     <View style={styles.containerMain}>
       <View style={styles.containerInner}>
         <View style={styles.innerBox}>
-          <View style={styles.statisBox}>
-            <Text style={styles.statisText}>R</Text>
-          </View>
-          <CodeField
-            value={platNomor}
-            onChangeText={onCodeChange}
-            cellCount={4} // Jumlah karakter yang diinginkan
-            rootStyle={styles.codeFieldRoot}
-            keyboardType="number-pad"
-            textContentType="oneTimeCode"
-            renderCell={({index, symbol, isFocused}) => (
-              <View
+          <View style={styles.container}>
+            <TextInput style={styles.codeArea} value="R" editable={false} />
+            {platNomor.slice(0, 4).map((digit, index) => (
+              <TextInput
                 key={index}
-                style={[styles.cellRoot, isFocused && styles.focusCell]}>
-                <Text style={styles.cellText}>
-                  {symbol || (isFocused ? <Cursor /> : null)}
-                </Text>
-              </View>
-            )}
-          />
-          <TextInput
-            style={styles.rightInput}
-            maxLength={2}
-            placeholder="XX"
-            placeholderTextColor={'#3F3F3F'}
-            onChangeText={() => setCode()}
-            value={code}
-          />
+                placeholder="0"
+                placeholderTextColor={'#ffffff50'}
+                style={styles.input}
+                value={digit}
+                onChangeText={text => handleChangeNumber(text, index)}
+                keyboardType="numeric"
+                maxLength={1}
+              />
+            ))}
+            <TextInput
+              style={styles.inputLetter}
+              placeholder="X"
+              placeholderTextColor={'#ffffff50'}
+              value={platNomor[4]}
+              onChangeText={text => handleChangeLetter(text, 4)}
+              maxLength={1}
+            />
+            <TextInput
+              style={styles.inputLetter}
+              placeholder="X"
+              placeholderTextColor={'#ffffff50'}
+              value={platNomor[5]}
+              onChangeText={text => handleChangeLetter(text, 5)}
+              maxLength={1}
+            />
+          </View>
         </View>
       </View>
     </View>
@@ -168,14 +197,25 @@ const DetailTax = props => {
           <ButtonMain
             title="Lihat"
             disabled={false}
-            onPress={() => {
-              navigation.navigate('DetailInfoTax', {
-                section: 'Detail Pajak',
-              });
-            }}
+            onPress={handleApiRequest}
+            loading={loading}
           />
         </View>
       </View>
+
+      <ModalPopup
+        isVisible={showModalFailure}
+        oneButtonModal={true}
+        type={'failed'}
+        titleModal={'Data Pajak Tidak Ditemukan!'}
+        descModal={
+          'Periksa kembali nomor kendaraan, dan pastikan nomor yang diinputkan sudah benar'
+        }
+        oneButtonTitle={'Kembali'}
+        oneButtonPress={() => {
+          setShowModalFailure(false);
+        }}
+      />
     </View>
   );
 };

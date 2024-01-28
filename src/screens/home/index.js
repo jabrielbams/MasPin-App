@@ -41,11 +41,13 @@ import {FlatList} from 'react-native-gesture-handler';
 import {useFocusEffect} from '@react-navigation/native';
 import {getUserProfile} from '../../services/profile';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {getAllNews} from '../../services/news';
 
 const HomeScreen = ({navigation}) => {
   const LAST_NOTIFICATION_CLOSE_DATE_KEY = 'lastNotificationCloseDate';
   const [reportData, setReportData] = useState(null);
   const [userData, setUserData] = useState(null);
+  const [newsData, setNewsData] = useState(null);
 
   const [loading, setLoading] = useState(false);
 
@@ -88,17 +90,15 @@ const HomeScreen = ({navigation}) => {
     await requestLocationPermission();
   };
 
-  const handleReportIndexButton = () => {
-    navigation.navigate('ReportIndex');
-  };
-
   const fetchAPI = async () => {
     setLoading(true);
     try {
       const allReport = await getAllReport();
-      const userData = await getUserProfile();
+      const allUserData = await getUserProfile();
+      const allNewsData = await getAllNews();
       setReportData(allReport);
-      setUserData(userData);
+      setUserData(allUserData);
+      setNewsData(allNewsData);
     } catch (error) {
       console.error('Error fetching:', error.message);
     } finally {
@@ -117,32 +117,8 @@ const HomeScreen = ({navigation}) => {
     }
   };
 
-  const canShowNotification = async () => {
-    try {
-      const lastNotificationCloseDate = await AsyncStorage.getItem(
-        LAST_NOTIFICATION_CLOSE_DATE_KEY,
-      );
-      if (!lastNotificationCloseDate) {
-        return true;
-      } else {
-        const currentDate = new Date();
-        const lastCloseDate = new Date(lastNotificationCloseDate);
-        const oneDay = 24 * 60 * 60 * 1000;
-        const diffDays = Math.round(
-          Math.abs((currentDate - lastCloseDate) / oneDay),
-        );
-
-        return diffDays >= 1;
-      }
-    } catch (error) {
-      return true;
-    }
-  };
-
   const handlingVerificationModal = async () => {
-    const shouldShowNotification = await canShowNotification();
-
-    if (!!userData?.statusValidate && shouldShowNotification) {
+    if (!!userData && !userData.statusValidate) {
       setModalVisibility(true);
     } else {
       setModalVisibility(false);
@@ -151,7 +127,18 @@ const HomeScreen = ({navigation}) => {
 
   const handleCloseModal = () => {
     setModalVisibility(false);
-    saveLastNotificationCloseDate();
+  };
+
+  const navigateToReportScreen = () => {
+    if (userData && userData.statusValidate) {
+      navigation.navigate('Report');
+    } else {
+      setModalVisibility(true);
+    }
+  };
+
+  const handleReportTabClick = () => {
+    navigateToReportScreen();
   };
 
   const handleVerificationButton = () => {
@@ -182,7 +169,7 @@ const HomeScreen = ({navigation}) => {
     fetchAPI();
     requestPermissions();
     handlingVerificationModal();
-  }, [reportData, userData]);
+  }, []);
 
   return (
     <View style={styles.mainBody}>
@@ -211,7 +198,9 @@ const HomeScreen = ({navigation}) => {
               <FeatureIcon
                 icon={<IconReport />}
                 label="Laporan"
-                onPress={() => navigation.navigate('Report')}
+                onPress={() => {
+                  navigateToReportScreen();
+                }}
               />
               <FeatureIcon
                 icon={<IconTax />}
@@ -257,7 +246,9 @@ const HomeScreen = ({navigation}) => {
               <Text style={styles.sectionTitle}>Laporan</Text>
               <TouchableOpacity
                 style={styles.otherStyle}
-                onPress={handleReportIndexButton}>
+                onPress={() => {
+                  navigation.navigate('ReportIndex');
+                }}>
                 <Text style={styles.otherText}>Lainnya</Text>
                 <IcChevronRightActive />
               </TouchableOpacity>
@@ -289,24 +280,32 @@ const HomeScreen = ({navigation}) => {
             </View>
             <View style={styles.sectionDivider}>
               <Text style={styles.sectionTitle}>Berita Terbaru</Text>
-              <TouchableOpacity style={styles.otherStyle}>
+              <TouchableOpacity
+                style={styles.otherStyle}
+                onPress={() => {
+                  navigation.navigate('NewsIndex');
+                }}>
                 <Text style={styles.otherText}>Lainnya</Text>
                 <IcChevronRightActive />
               </TouchableOpacity>
             </View>
             <View>
-              <NewsCardMain
-                imgNews={ImgNewsCovid}
-                category="KESEHATAN"
-                titleNews="COVID-19 Kembali Meningkat di Kabupaten Banyumas"
-                descNews="Kabupaten Banyumas kembali meng-alamai lonjakan COVID-19. Masyarakat dihimbau untuk kembali untuk tetap menggunakan masker dan membawa hand sanitizer"
-              />
-              <NewsCardMain
-                imgNews={ImgNewsCovid}
-                category="KESEHATAN"
-                titleNews="COVID-19 Kembali Meningkat di Kabupaten Banyumas"
-                descNews="Kabupaten Banyumas kembali meng-alamai lonjakan COVID-19. Masyarakat dihimbau untuk kembali untuk tetap menggunakan masker dan membawa hand sanitizer"
-              />
+              {newsData ? (
+                newsData
+                  .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+                  .slice(0, 2)
+                  .map(item => (
+                    <NewsCardMain
+                      key={item._id}
+                      imageNews={item.gambar_berita}
+                      titleNews={item.judul}
+                      descNews={item.isi.deskripsi}
+                      category={item.kategori}
+                    />
+                  ))
+              ) : (
+                <ReportCardMainSkeleton />
+              )}
             </View>
           </View>
 

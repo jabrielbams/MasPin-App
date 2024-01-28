@@ -37,6 +37,10 @@ export default StyleSheet.create({
     paddingHorizontal: 16,
     marginTop: 20,
   },
+  contentItems: {
+    flex: 1,
+    flexDirection: 'column',
+  },
   searchBox: {
     backgroundColor: Color.TEXTFIELD,
     flexDirection: 'row',

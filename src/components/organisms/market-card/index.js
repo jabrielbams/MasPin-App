@@ -18,7 +18,7 @@ const MarketCard = ({
 }) => {
   return (
     <TouchableOpacity style={styles.container} onPress={onPress}>
-      <Image source={imgSource} style={styles.imgStyle} />
+      <Image source={{uri: imgSource}} style={styles.imgStyle} />
       <View style={{flexDirection: 'column', gap: 10}}>
         <Text style={styles.title}>{marketName}</Text>
         <View>

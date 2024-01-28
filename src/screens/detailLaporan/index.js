@@ -3,6 +3,7 @@ import Clipboard from '@react-native-clipboard/clipboard';
 import React from 'react';
 import {IcChevronLeft, IcCopy, IcLikes} from '../../assets/icons';
 import {
+  ButtonMain,
   DetailLaporanCard,
   DetailReportCategory,
   LabelCategory,
