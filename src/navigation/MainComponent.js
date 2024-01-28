@@ -34,13 +34,13 @@ import DetailInfoTax from '../screens/tax/detail-info-tax';
 import DetailRuteBus from '../screens/ruteBus/detailRuteBus';
 import ReportForm from '../screens/report/create';
 import ReportIndex from '../screens/report';
-import OtherFeatures from '../screens/other';
 import EmergencyContact from '../screens/telephone';
 import ValidationAccount from '../screens/verification';
 import DetailMarket from '../screens/market/detailMarket';
 import {getUserProfile} from '../services/profile';
 import {ModalPopup, TabBarButton} from '../components';
 import NewsIndex from '../screens/news';
+import OtherFeatures from '../screens/Other';
 
 // Screens Name
 const homeName = 'Beranda';
