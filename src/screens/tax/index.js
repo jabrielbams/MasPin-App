@@ -67,7 +67,6 @@ const TaxScreen = props => {
             </TouchableOpacity>
             <Text style={styles.headerText}>{section}</Text>
           </View>
-          <NotificationIcon style={{marginLeft: 'auto'}} />
         </View>
         <View style={styles.dividerStyle} />
         <ScrollView
@@ -97,24 +96,6 @@ const TaxScreen = props => {
                     descDetail="Detail & Bayar"
                     iconDetail={<IcChevronRightActive />}
                     onPress={navigateRodaEmpat}
-                  />
-                  <TaxCardMain
-                    iconRight={<IconHouse />}
-                    title="Pajak Bumi dan Bangunan"
-                    descDetail="Detail & Bayar"
-                    iconDetail={<IcChevronRightActive />}
-                  />
-                </View>
-              </View>
-              <View style={{marginVertical: 24}}>
-                <Text style={styles.sectionTitle}>Layanan Lainnya</Text>
-                <View style={styles.sectionList}>
-                  <TaxCardMain
-                    iconRight={<IconHouse />}
-                    title="Cek Kode Bayar"
-                    descDetail="Detail & Bayar"
-                    iconDetail={<IcChevronRightActive />}
-                    onPress={navigateKodeBayar}
                   />
                 </View>
               </View>

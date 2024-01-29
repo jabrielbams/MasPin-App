@@ -17,6 +17,7 @@ export default StyleSheet.create({
     marginBottom: 16,
   },
   contentContainer: {
+    marginHorizontal: 16,
     marginVertical: 12,
   },
   headerText: {

@@ -21,38 +21,36 @@ const ReportCardMain = ({
   uploadDate,
   reportId,
 }) => {
-  const [isLiked, setIsLiked] = useState(false);
+  // const handleLike = async () => {
+  //   const refreshToken = await AsyncStorage.getItem('refreshToken');
+  //   try {
+  //     const response = await fetch(
+  //       `${ENDPOINT.NGROK.LIKE_REPORT}/${reportId}`,
+  //       {
+  //         method: 'POST',
+  //         headers: {
+  //           Authorization: `Bearer ${refreshToken}`,
+  //           'Content-Type': 'application/json',
+  //         },
+  //       },
+  //     );
 
-  const handleLike = async () => {
-    const refreshToken = await AsyncStorage.getItem('refreshToken');
-    try {
-      const response = await fetch(
-        `${ENDPOINT.NGROK.LIKE_REPORT}/${reportId}`,
-        {
-          method: 'POST',
-          headers: {
-            Authorization: `Bearer ${refreshToken}`,
-            'Content-Type': 'application/json',
-          },
-        },
-      );
-
-      if (response.ok) {
-        setIsLiked(!isLiked);
-      } else {
-        Alert.alert(
-          'Error',
-          'Failed to like the report. Please try again later.',
-        );
-      }
-    } catch (error) {
-      console.error('Error liking the report:', error);
-      Alert.alert(
-        'Error',
-        'Failed to like the report. Please try again later.',
-      );
-    }
-  };
+  //     if (response.ok) {
+  //       setIsLiked(!isLiked);
+  //     } else {
+  //       Alert.alert(
+  //         'Error',
+  //         'Failed to like the report. Please try again later.',
+  //       );
+  //     }
+  //   } catch (error) {
+  //     console.error('Error liking the report:', error);
+  //     Alert.alert(
+  //       'Error',
+  //       'Failed to like the report. Please try again later.',
+  //     );
+  //   }
+  // };
 
   return (
     <TouchableOpacity style={styles.cardContainer} onPress={onPress}>
@@ -84,9 +82,9 @@ const ReportCardMain = ({
             {category && <View>{category}</View>}
             {status && <View>{status}</View>}
           </View>
-          <TouchableOpacity onPress={() => setPressed(!pressed)}>
+          {/* <TouchableOpacity onPress={() => setPressed(!pressed)}>
             {isLiked ? <IcLikesActive /> : <IcLikes />}
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
         <Text numberOfLines={2} ellipsizeMode="tail" style={styles.descText}>
           {descReport}

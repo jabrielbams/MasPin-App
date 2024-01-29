@@ -123,11 +123,7 @@ const ReportForm = ({navigation}) => {
   };
 
   const getPhotoLocation = () => {
-    Geolocation.getCurrentPosition(position => {
-      const {latitude, longitude} = position.coords;
-      setLocation({latitude, longitude});
-      getAddress(latitude, longitude, setAddress);
-    });
+    setAddress('Semarang City, Central Java 50131');
   };
 
   const handleCameraLaunch = () => {
@@ -278,7 +274,6 @@ const ReportForm = ({navigation}) => {
                 placeholder="Pilih Label"
                 dropdownData={dropdownData}
                 Icon={showDropdown ? <IcChevronUp /> : <IcChevronDown />}
-                onChangeText={handleSearch}
               />
               <SwitchInputField
                 required={true}

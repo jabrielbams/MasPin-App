@@ -11,8 +11,8 @@ export default StyleSheet.create({
   },
   headerMain: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    justifyContent: 'flex-start',
+    alignItems: 'start',
     paddingHorizontal: 16,
     marginBottom: 16,
   },

@@ -79,6 +79,7 @@ const NewsIndex = ({navigation}) => {
               data={newsData}
               keyExtractor={item => item._id}
               renderItem={renderCard}
+              showsVerticalScrollIndicator={false}
             />
           ) : (
             <Text>Server Error</Text>

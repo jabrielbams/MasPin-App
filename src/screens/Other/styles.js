@@ -1,7 +1,7 @@
 import {StyleSheet} from 'react-native';
 import {Color, FontSize, Fonts} from '../../constants';
 
-export default StyleSheet.create({
+export const styles = StyleSheet.create({
   mainBody: {
     flex: 1,
     backgroundColor: '#FFFFFF',
@@ -10,6 +10,8 @@ export default StyleSheet.create({
     paddingTop: 32,
   },
   headerMain: {
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
     paddingHorizontal: 16,
     marginBottom: 16,
   },

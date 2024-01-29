@@ -14,7 +14,9 @@ const NewsCardMain = ({category, titleNews, descNews, imageNews}) => {
         <Text style={styles.titleNews} numberOfLines={2}>
           {titleNews}
         </Text>
-        <Text style={styles.descNews}>{descNews}</Text>
+        <Text style={styles.descNews} numberOfLines={4}>
+          {descNews}
+        </Text>
       </View>
     </View>
   );

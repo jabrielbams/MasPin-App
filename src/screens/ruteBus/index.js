@@ -64,7 +64,6 @@ const RuteBus = props => {
             </TouchableOpacity>
             <Text style={styles.headerText}>{section}</Text>
           </View>
-          <NotificationIcon style={{marginLeft: 'auto'}} />
         </View>
         <View style={styles.dividerStyle} />
         <ScrollView showsVerticalScrollIndicator={false}>

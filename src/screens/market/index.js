@@ -30,15 +30,18 @@ const HargaPangan = props => {
   const [searchMarket, setSearchMarket] = useState('');
   const [dataMarket, setDataMarket] = useState();
 
-  const getMarketList = async () => {
+  const getMarketList = async searchQuery => {
     setLoading(true);
     try {
       const refreshToken = await AsyncStorage.getItem('refreshToken');
-      const response = await axios.get(ENDPOINT.MARKET.GET_PASAR, {
-        headers: {
-          Authorization: `Bearer ${refreshToken}`,
+      const response = await axios.get(
+        `${ENDPOINT.MARKET.GET_PASAR}?nama_pasar=${searchQuery}`,
+        {
+          headers: {
+            Authorization: `Bearer ${refreshToken}`,
+          },
         },
-      });
+      );
       setDataMarket(response.data.data); // Perhatikan penggunaan response.data.data karena data pasar berada dalam properti "data"
       console.log(response.data);
     } catch (error) {
@@ -77,8 +80,8 @@ const HargaPangan = props => {
   // );
 
   useEffect(() => {
-    getMarketList();
-  }, []);
+    getMarketList(searchMarket);
+  }, [searchMarket]);
 
   return (
     <View style={styles.mainBody}>
@@ -92,7 +95,6 @@ const HargaPangan = props => {
           </TouchableOpacity>
           <Text style={styles.headerText}>{section}</Text>
         </View>
-        <NotificationIcon style={{marginLeft: 'auto'}} />
       </View>
       <View style={styles.dividerStyle} />
       <View style={styles.content}>

@@ -93,7 +93,6 @@ const DetailMarket = props => {
           </TouchableOpacity>
           <Text style={styles.headerText}>{section}</Text>
         </View>
-        <NotificationIcon style={{marginLeft: 'auto'}} />
       </View>
       <View style={styles.dividerStyle} />
       <View style={styles.content}>

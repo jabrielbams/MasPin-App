@@ -100,35 +100,35 @@ const ActivityScreen = ({navigation}) => {
             ]}
             activeTab={activeTab}
           />
-          <View style={styles.contentContainer}>
-            {reportData.length === 0 ? (
-              <View
+        </View>
+        <View style={styles.contentContainer}>
+          {reportData.length === 0 ? (
+            <View
+              style={{
+                flexGrow: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: '80%',
+              }}>
+              <ImgModalDanger />
+              <Text
                 style={{
-                  flexGrow: 1,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  height: '80%',
+                  fontFamily: Fonts.MEDIUM,
+                  fontSize: 16,
+                  color: Color.BLACK,
+                  marginTop: 8,
                 }}>
-                <ImgModalDanger />
-                <Text
-                  style={{
-                    fontFamily: Fonts.MEDIUM,
-                    fontSize: 16,
-                    color: Color.BLACK,
-                    marginTop: 8,
-                  }}>
-                  Belum Ada Laporan!
-                </Text>
-              </View>
-            ) : (
-              <FlatList
-                data={filteredReportData}
-                keyExtractor={item => item._id}
-                renderItem={renderItem}
-                showsVerticalScrollIndicator={false}
-              />
-            )}
-          </View>
+                Belum Ada Laporan!
+              </Text>
+            </View>
+          ) : (
+            <FlatList
+              data={filteredReportData}
+              keyExtractor={item => item._id}
+              renderItem={renderItem}
+              showsVerticalScrollIndicator={false}
+            />
+          )}
         </View>
       </View>
 
