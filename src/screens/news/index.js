@@ -51,6 +51,12 @@ const NewsIndex = ({navigation}) => {
       titleNews={item.judul}
       descNews={item.isi.deskripsi}
       category={item.kategori}
+      onPress={() => {
+        navigation.navigate('DetailNews', {
+          section: 'Detail Berita',
+          newsData: item,
+        });
+      }}
     />
   );
 

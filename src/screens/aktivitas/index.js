@@ -26,8 +26,16 @@ const ActivityScreen = ({navigation}) => {
   const fetchReportData = async () => {
     setLoading(true);
     try {
-      const data = await getReportByUserId();
-      setReportData(data);
+      const refreshToken = await AsyncStorage.getItem('refreshToken');
+
+      // Melakukan permintaan ke API dengan menggunakan refreshToken
+      const response = await axios.get(ENDPOINT.REPORT.REPORT_BY_USER, {
+        headers: {
+          Authorization: `Bearer ${refreshToken}`,
+        },
+      });
+
+      setReportData(response.data.data);
     } catch (error) {
       console.error('Error fetching data:', error);
     } finally {
@@ -56,6 +64,7 @@ const ActivityScreen = ({navigation}) => {
 
   useEffect(() => {
     fetchReportData();
+    console.log(reportData);
   }, []);
 
   const renderItem = ({item}) => (
@@ -123,7 +132,9 @@ const ActivityScreen = ({navigation}) => {
             </View>
           ) : (
             <FlatList
-              data={filteredReportData}
+              data={filteredReportData.sort(
+                (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
+              )}
               keyExtractor={item => item._id}
               renderItem={renderItem}
               showsVerticalScrollIndicator={false}

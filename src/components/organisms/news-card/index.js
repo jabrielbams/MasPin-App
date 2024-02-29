@@ -1,11 +1,11 @@
-import {View, Text, Image, StyleSheet} from 'react-native';
+import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {ImgBisTrans, ImgNewsCovid} from '../../../assets/images';
 import {Color, FontSize, Fonts} from '../../../constants';
 
-const NewsCardMain = ({category, titleNews, descNews, imageNews}) => {
+const NewsCardMain = ({category, titleNews, descNews, imageNews, onPress}) => {
   return (
-    <View style={styles.cardContainer}>
+    <TouchableOpacity onPress={onPress} style={styles.cardContainer}>
       <Image source={{uri: imageNews}} style={styles.imgView} />
       <View style={{flex: 1, paddingHorizontal: 16, paddingVertical: 10}}>
         <Text style={styles.category} numberOfLines={1}>
@@ -18,7 +18,7 @@ const NewsCardMain = ({category, titleNews, descNews, imageNews}) => {
           {descNews}
         </Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

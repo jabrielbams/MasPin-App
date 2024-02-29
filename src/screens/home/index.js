@@ -34,6 +34,7 @@ import {
   IconOthers,
   IconReport,
   IconTax,
+  IconTelephone,
 } from '../../assets/icons';
 import {ImgCar, ImgNewsCovid} from '../../assets/images';
 import {getAllReport} from '../../services/reportData';
@@ -212,11 +213,11 @@ const HomeScreen = ({navigation}) => {
                 }}
               />
               <FeatureIcon
-                icon={<IconBusRoute />}
-                label="Rute"
+                icon={<IconTelephone />}
+                label="Darurat"
                 onPress={() => {
-                  navigation.navigate('Bus', {
-                    section: 'Rute Bus',
+                  navigation.navigate('Telephone', {
+                    section: 'Nomor Darurat',
                   });
                 }}
               />
@@ -301,6 +302,12 @@ const HomeScreen = ({navigation}) => {
                       titleNews={item.judul}
                       descNews={item.isi.deskripsi}
                       category={item.kategori}
+                      onPress={() => {
+                        navigation.navigate('DetailNews', {
+                          section: 'Detail Berita',
+                          newsData: item,
+                        });
+                      }}
                     />
                   ))
               ) : (

@@ -74,49 +74,38 @@ const DetailRuteBus = props => {
           </TouchableOpacity>
           <Text style={styles.headerText}>{section}</Text>
         </View>
-        <NotificationIcon style={{marginLeft: 'auto'}} />
       </View>
       <View style={styles.dividerStyle} />
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={styles.content}>
-          <View
-            style={{
-              width: '100%',
-              backgroundColor: Color.LIGHT_GRAY,
-              height: 130,
-              // ...StyleSheet.absoluteFillObject,
-            }}>
-            {/* <MapView style={styles.map} provider={PROVIDER_GOOGLE}></MapView> */}
-          </View>
-          <View style={styles.busSection}>
-            <Text style={styles.sectionText}>Trans Banyumas 042</Text>
-            <Text style={styles.descBus}>
-              Trans banyumas dengan kode 042 memiliki 12 rute perjalanan dengan
-              waktu operasi dari jam 9 pagi sampai 5 sore.
-            </Text>
-          </View>
+      <View style={styles.content}>
+        <Image source={ImgMapBus} />
+        <View style={styles.busSection}>
+          <Text style={styles.sectionText}>Trans Banyumas 042</Text>
+          <Text style={styles.descBus}>
+            Trans banyumas dengan kode 042 memiliki 12 rute perjalanan dengan
+            waktu operasi dari jam 9 pagi sampai 5 sore.
+          </Text>
+        </View>
 
-          <View style={{flexDirection: 'column', gap: 8}}>
-            <Text style={styles.sectionText}>Rute</Text>
-            <View>
-              <FlatList
-                data={dataBus}
-                keyExtractor={item => item._id}
-                renderItem={({item}) => (
-                  <BusScheduleLine
-                    halteName={item.halteName}
-                    timeDeparture={item.timeDeparture}
-                    timeArrival={item.timeArrival}
-                    lineActive={item.lineActive}
-                    dotActive={item.dotActive}
-                  />
-                )}
-                showsVerticalScrollIndicator={false}
-              />
-            </View>
+        <View style={{flexDirection: 'column', gap: 8}}>
+          <Text style={styles.sectionText}>Rute</Text>
+          <View>
+            <FlatList
+              data={dataBus}
+              keyExtractor={item => item._id}
+              renderItem={({item}) => (
+                <BusScheduleLine
+                  halteName={item.halteName}
+                  timeDeparture={item.timeDeparture}
+                  timeArrival={item.timeArrival}
+                  lineActive={item.lineActive}
+                  dotActive={item.dotActive}
+                />
+              )}
+              showsVerticalScrollIndicator={false}
+            />
           </View>
         </View>
-      </ScrollView>
+      </View>
     </View>
   );
 };

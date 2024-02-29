@@ -41,6 +41,7 @@ import {getUserProfile} from '../services/profile';
 import {ModalPopup, TabBarButton} from '../components';
 import NewsIndex from '../screens/news';
 import OtherFeatures from '../screens/Other';
+import DetailNews from '../screens/news/detailNews';
 
 // Screens Name
 const homeName = 'Beranda';
@@ -278,6 +279,11 @@ const MainComponent = ({navigation}) => {
         <Stack.Screen
           name="DetailMarket"
           component={DetailMarket}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="DetailNews"
+          component={DetailNews}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

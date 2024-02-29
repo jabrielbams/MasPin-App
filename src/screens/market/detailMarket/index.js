@@ -129,7 +129,7 @@ const DetailMarket = props => {
                 paddingHorizontal: 10,
                 borderRadius: 10,
               }}>
-              <Text style={{color: Color.PRIMARY}}>12 Januari 2024</Text>
+              <Text style={{color: Color.PRIMARY}}>29 Januari 2024</Text>
             </View>
           </View>
         </View>
