@@ -22,6 +22,7 @@ import IcLineActive from './ic-line-active.svg';
 import IcLineDisabled from './ic-line-disabled.svg';
 import IcDotActive from './ic-dot-active.svg';
 import IcDotDisabled from './ic-dot-disabled.svg';
+import IcMaspin from './ic-maspin.svg';
 
 // feature list
 import IconReport from './ic-report.svg';
@@ -114,4 +115,5 @@ export {
   IcLineDisabled,
   IcDotActive,
   IcDotDisabled,
+  IcMaspin,
 };

@@ -7,6 +7,9 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
 
+import {getUserProfile} from '../services/profile';
+import {ModalPopup, TabBarButton} from '../components';
+
 import {
   IconHomeActive,
   IconHomeDisable,
@@ -36,11 +39,12 @@ import ReportIndex from '../screens/report';
 import EmergencyContact from '../screens/telephone';
 import ValidationAccount from '../screens/verification';
 import DetailMarket from '../screens/market/detailMarket';
-import {getUserProfile} from '../services/profile';
-import {ModalPopup, TabBarButton} from '../components';
 import NewsIndex from '../screens/news';
 import OtherFeatures from '../screens/lainnya';
 import DetailNews from '../screens/news/detailNews';
+import Terms from '../screens/terms';
+import PrivacyPolicy from '../screens/privacyPolicy';
+import AboutMaspin from '../screens/aboutMaspin';
 
 // Screens Name
 const homeName = 'Beranda';
@@ -287,6 +291,23 @@ const MainComponent = ({navigation}) => {
         <Stack.Screen
           name="DetailNews"
           component={DetailNews}
+          options={{headerShown: false}}
+        />
+
+        {/* others */}
+        <Stack.Screen
+          name="AboutMaspin"
+          component={AboutMaspin}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Terms"
+          component={Terms}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="PrivacyPolicy"
+          component={PrivacyPolicy}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

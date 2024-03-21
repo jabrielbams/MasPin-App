@@ -146,11 +146,15 @@ const ProfileScreen = ({navigation}) => {
           <View style={styles.dividerStyle} />
           <View style={styles.settingsContainer}>
             <Text style={styles.titleSection}>Pengaturan Umum</Text>
-            <SubMenu leftIcon={<IcChangePassword />} title={'Ubah Password'} />
             <SubMenu leftIcon={<IcLanguage />} title={'Pengaturan Bahasa'} />
             <SubMenu
               leftIcon={<IcPrivacySecurity />}
-              title={'Privasi dan Keamanan'}
+              title={'Kebijakan Privasi'}
+              onPress={() => {
+                navigation.navigate('PrivacyPolicy', {
+                  section: 'Kebijakan Privasi',
+                });
+              }}
             />
             <SubMenu
               leftIcon={<IcPermissions />}
@@ -160,10 +164,23 @@ const ProfileScreen = ({navigation}) => {
           <View style={styles.dividerStyle} />
           <View style={styles.settingsContainer}>
             <Text style={styles.titleSection}>Pengaturan Lainnya</Text>
-            <SubMenu leftIcon={<IcInfo />} title={'Tentang Maspin'} />
+            <SubMenu
+              leftIcon={<IcInfo />}
+              title={'Tentang Maspin'}
+              onPress={() => {
+                navigation.navigate('AboutMaspin', {
+                  section: 'Tentang Maspin',
+                });
+              }}
+            />
             <SubMenu
               leftIcon={<IcTermsCondition />}
               title={'Syarat dan Ketentuan'}
+              onPress={() => {
+                navigation.navigate('Terms', {
+                  section: 'Syarat & Ketentuan',
+                });
+              }}
             />
             <SubMenu
               leftIcon={<IcPrivacyPolicy />}
