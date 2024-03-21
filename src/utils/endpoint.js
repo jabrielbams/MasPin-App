@@ -1,4 +1,4 @@
-import {BASE_URL, BASE_URL_FIX} from '@env';
+import {BASE_URL_FIX} from '@env';
 
 export const ENDPOINT = {
   AUTH: {
