@@ -10,12 +10,18 @@ import {
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {IcChevronLeft, IcSearch} from '../../../assets/icons';
-import {MarketCard, NotificationIcon} from '../../../components';
+import {
+  HeaderMain,
+  MarketCard,
+  NotificationIcon,
+  SearchBar,
+} from '../../../components';
 import {
   ImgBawang,
   ImgBawangMerah,
   ImgCabai,
   ImgCabaiMerah,
+  ImgTelurFix,
 } from '../../../assets/images';
 import {Color, FontSize, Fonts} from '../../../constants';
 import styles from './styles';
@@ -65,12 +71,40 @@ const DetailMarket = props => {
       itemsName={item.nama_barang}
       itemsPrice={item.harga_barang}
       itemsQty={item.satuan}
+      // itemsCategory={item.category_barang}
       isLastItem={index === dataItem.length - 1 && !isTwoItems}
     />
   );
 
   const searchAndUpdate = searchQuery => {
     getItems(searchQuery);
+  };
+
+  const getCurrentDate = () => {
+    const currentDate = new Date();
+    const day = currentDate.getDate();
+    const month = currentDate.getMonth() + 1;
+    const year = currentDate.getFullYear();
+
+    return `${day} ${getMonthName(month)} ${year}`;
+  };
+
+  const getMonthName = month => {
+    const monthNames = [
+      'Januari',
+      'Februari',
+      'Maret',
+      'April',
+      'Mei',
+      'Juni',
+      'Juli',
+      'Agustus',
+      'September',
+      'Oktober',
+      'November',
+      'Desember',
+    ];
+    return monthNames[month - 1];
   };
 
   useEffect(() => {
@@ -83,57 +117,31 @@ const DetailMarket = props => {
 
   return (
     <View style={styles.mainBody}>
-      <View style={styles.headerMain}>
-        <View style={styles.title}>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.goBack();
-            }}>
-            <IcChevronLeft />
-          </TouchableOpacity>
-          <Text style={styles.headerText}>{section}</Text>
-        </View>
-      </View>
-      <View style={styles.dividerStyle} />
+      {/* HEADER */}
+      <HeaderMain
+        sectionTitle={section}
+        showLeftButton={true}
+        onPressBack={() => navigation.goBack()}
+      />
       <View style={styles.content}>
         {/* Search Box */}
-        <View style={styles.searchBox}>
-          <IcSearch />
-          <TextInput
-            placeholder="Cari bahan"
-            style={styles.placeholder}
-            onChangeText={text => setSearchItem(text)}
-            value={searchItem}
-          />
-        </View>
+        <SearchBar
+          placeholder="Cari bahan"
+          setSearchValue={text => setSearchItem(text)}
+          searchValue={searchItem}
+        />
 
         {/* Daftar Harga */}
-        <View
-          style={{
-            marginTop: 24,
-            flexDirection: 'column',
-          }}>
-          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <Text
-              style={{
-                fontFamily: Fonts.MEDIUM,
-                fontSize: FontSize.dp_16,
-                color: Color.BLACK,
-              }}>
-              Daftar Harga
-            </Text>
-            <View
-              style={{
-                backgroundColor: Color.DISABLE,
-                paddingVertical: 4,
-                paddingHorizontal: 10,
-                borderRadius: 10,
-              }}>
-              <Text style={{color: Color.PRIMARY}}>29 Januari 2024</Text>
+        <View style={{marginTop: 24}}>
+          <View style={styles.sectionBox}>
+            <Text style={styles.daftarHarga}>Daftar Harga</Text>
+            <View style={styles.dateBox}>
+              <Text style={{color: Color.PRIMARY}}>{getCurrentDate()}</Text>
             </View>
           </View>
         </View>
       </View>
+
       {/* Item List */}
       <View style={styles.contentItems}>
         <FlatList
@@ -142,7 +150,6 @@ const DetailMarket = props => {
           renderItem={renderCard}
           numColumns={2}
           contentContainerStyle={{
-            flexGrow: 1, // Tambahkan flexGrow untuk memastikan FlatList mengisi ruang yang tersedia
             paddingBottom: 28, // Tambahkan padding di bagian bawah untuk menghindari pemotongan data
             marginTop: 16,
             paddingHorizontal: 8,

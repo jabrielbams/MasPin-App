@@ -26,11 +26,10 @@ import ProfileScreen from '../screens/profile';
 import LoginScreen from '../screens/login';
 import RegisterScreen from '../screens/register';
 import TaxScreen from '../screens/tax';
-import DetailTax from '../screens/tax/detail-tax';
 import HargaPangan from '../screens/market';
 import RuteBus from '../screens/ruteBus';
 import DetailLaporan from '../screens/detailLaporan';
-import DetailInfoTax from '../screens/tax/detail-info-tax';
+import DetailInfoTax from '../screens/tax/detailInfotax';
 import DetailRuteBus from '../screens/ruteBus/detailRuteBus';
 import ReportForm from '../screens/report/create';
 import ReportIndex from '../screens/report';
@@ -40,7 +39,7 @@ import DetailMarket from '../screens/market/detailMarket';
 import {getUserProfile} from '../services/profile';
 import {ModalPopup, TabBarButton} from '../components';
 import NewsIndex from '../screens/news';
-import OtherFeatures from '../screens/Other';
+import OtherFeatures from '../screens/lainnya';
 import DetailNews from '../screens/news/detailNews';
 
 // Screens Name
@@ -53,8 +52,10 @@ const profileName = 'Profil';
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
-function Home({navigation}) {
+function Home(props) {
   const [userData, setUserData] = useState(null);
+
+  const {navigation, route} = props;
 
   useEffect(() => {
     // Fetch user profile data from API
@@ -112,21 +113,25 @@ function Home({navigation}) {
           tabBarTouchable: 'auto',
         })}>
         <Tab.Screen
+          key={'homeTab'}
           name={homeName}
           component={HomeScreen}
           options={{headerShown: false}}
         />
         <Tab.Screen
+          key={'activityTab'}
           name={activityName}
           component={ActivityScreen}
           options={{headerShown: false}}
         />
         <Tab.Screen
+          key={'reportTab'}
           name={reportName}
           component={ReportForm}
           options={{headerShown: false}}
         />
         <Tab.Screen
+          key={'profileTab'}
           name={profileName}
           component={ProfileScreen}
           options={{headerShown: false}}
@@ -203,6 +208,7 @@ const MainComponent = ({navigation}) => {
           component={RegisterScreen}
           options={{headerShown: false}}
         />
+
         {/* navbar */}
         <Stack.Screen
           name="Home"
@@ -234,6 +240,7 @@ const MainComponent = ({navigation}) => {
           component={ActivityScreen}
           options={{headerShown: false}}
         />
+
         {/* feature */}
         <Stack.Screen
           name="Tax"
@@ -255,12 +262,8 @@ const MainComponent = ({navigation}) => {
           component={NewsIndex}
           options={{headerShown: false}}
         />
+
         {/* details */}
-        <Stack.Screen
-          name="DetailTax"
-          component={DetailTax}
-          options={{headerShown: false}}
-        />
         <Stack.Screen
           name="DetailLaporan"
           component={DetailLaporan}

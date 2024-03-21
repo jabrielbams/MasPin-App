@@ -9,6 +9,12 @@ export default StyleSheet.create({
     alignContent: 'flex-start',
     paddingTop: 32,
   },
+  bannerBox: {
+    alignItems: 'center',
+    marginTop: 20,
+    marginBottom: 24,
+    paddingHorizontal: 8,
+  },
   headerMain: {
     flexDirection: 'row',
     justifyContent: 'space-between',

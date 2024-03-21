@@ -22,12 +22,19 @@ import ImgRute from './img-rute.png';
 import ImgModalWarning from './img-modal-warning.svg';
 import ImgModalDanger from './img-modal-danger.svg';
 import ImgModalSuccess from './img-modal-success.svg';
+import ImgBanner from './img-banner-home.jpg';
+import ImgBannerPajak from './img-banner-pajak.jpg';
+
+// detail pasar
+import ImgTelurFix from './img-telur-fix.png';
 
 export {
   ImgNewsCovid,
   ImgCar,
   ImgProfile,
   ImgHomeBanner,
+  ImgBannerPajak,
+  ImgBanner,
   ImgStrokeDivider,
   ImgBawangMerah,
   ImgBawangPutih,
@@ -48,4 +55,5 @@ export {
   ImgModalDanger,
   ImgModalSuccess,
   ImgCabaiMerah,
+  ImgTelurFix,
 };

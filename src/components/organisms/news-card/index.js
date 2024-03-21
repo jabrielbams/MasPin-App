@@ -4,12 +4,14 @@ import {ImgBisTrans, ImgNewsCovid} from '../../../assets/images';
 import {Color, FontSize, Fonts} from '../../../constants';
 
 const NewsCardMain = ({category, titleNews, descNews, imageNews, onPress}) => {
+  const capitalizedValue = category.toUpperCase();
+
   return (
     <TouchableOpacity onPress={onPress} style={styles.cardContainer}>
       <Image source={{uri: imageNews}} style={styles.imgView} />
-      <View style={{flex: 1, paddingHorizontal: 16, paddingVertical: 10}}>
-        <Text style={styles.category} numberOfLines={1}>
-          {category}
+      <View style={styles.descSection}>
+        <Text style={styles.category} numberOfLines={1} autoCapitalization>
+          {capitalizedValue}
         </Text>
         <Text style={styles.titleNews} numberOfLines={2}>
           {titleNews}
@@ -46,6 +48,11 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.LIGHT,
     letterSpacing: 5,
     marginBottom: 4,
+  },
+  descSection: {
+    flex: 1,
+    paddingHorizontal: 16,
+    paddingVertical: 10,
   },
   titleNews: {
     color: Color.BLACK,

@@ -33,20 +33,22 @@ const BusCard = ({imgSource, busName, halteName, destinationName, onPress}) => {
 export default BusCard;
 
 const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: 90,
+    backgroundColor: Color.WHITE,
+    elevation: 2,
+    gap: 10,
+    marginBottom: 10,
+    paddingHorizontal: 8,
+    borderRadius: 8,
+    marginHorizontal: 1,
+  },
   nameBus: {
     fontFamily: Fonts.SEMIBOLD,
     color: Color.BLACK,
     fontSize: FontSize.dp_14,
   },
   routeSection: {flexDirection: 'row', alignItems: 'center', gap: 7},
-  container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    width: '100%',
-    height: 90,
-    backgroundColor: Color.WHITE,
-    elevation: 2,
-    gap: 10,
-    marginBottom: 10,
-  },
 });

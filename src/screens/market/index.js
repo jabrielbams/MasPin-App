@@ -8,7 +8,13 @@ import {
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {IcChevronLeft, IcFish, IcMapPins, IcSearch} from '../../assets/icons';
-import {LoadingIndicator, MarketCard, NotificationIcon} from '../../components';
+import {
+  HeaderMain,
+  LoadingIndicator,
+  MarketCard,
+  NotificationIcon,
+  SearchBar,
+} from '../../components';
 import styles from './styles';
 import {
   ImgPasarBms,
@@ -42,7 +48,7 @@ const HargaPangan = props => {
           },
         },
       );
-      setDataMarket(response.data.data); // Perhatikan penggunaan response.data.data karena data pasar berada dalam properti "data"
+      setDataMarket(response.data.data);
       console.log(response.data);
     } catch (error) {
       console.error('Error fetching user profile:', error);
@@ -60,14 +66,14 @@ const HargaPangan = props => {
           dataMarket: dataMarket,
         });
       }}
-      imgSource={item.gambar_pasar} // Perhatikan penggunaan item.gambar_pasar untuk mengakses URL gambar pasar
-      marketName={item.nama_pasar} // Perhatikan penggunaan item.nama_pasar untuk mengakses nama pasar
-      iconLeft={IcMapPins}
-      textDesc={item.lokasi_pasar} // Perhatikan penggunaan item.lokasi_pasar untuk mengakses lokasi pasar
-      iconLeftTwo={IcFish}
-      textDescTwo={item.detail_pasar} // Perhatikan penggunaan item.detail_pasar untuk mengakses detail pasar
+      imgSource={item.gambar_pasar}
+      marketName={item.nama_pasar}
+      iconLeft={<IcMapPins />}
+      textDesc={item.lokasi_pasar}
+      iconLeftTwo={<IcFish />}
+      textDescTwo={item.detail_pasar}
       showAddition={true}
-      additionText={item.additionText} // Perhatikan bahwa item.additionText belum ada dalam respons, sesuaikan jika diperlukan
+      additionText={item.additionText}
     />
   );
 
@@ -85,28 +91,20 @@ const HargaPangan = props => {
 
   return (
     <View style={styles.mainBody}>
-      <View style={styles.headerMain}>
-        <View style={styles.title}>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.goBack();
-            }}>
-            <IcChevronLeft />
-          </TouchableOpacity>
-          <Text style={styles.headerText}>{section}</Text>
-        </View>
-      </View>
-      <View style={styles.dividerStyle} />
+      {/* HEADER */}
+      <HeaderMain
+        sectionTitle={section}
+        showLeftButton={true}
+        onPressBack={() => navigation.goBack()}
+      />
+
+      {/* CONTENT LIST */}
       <View style={styles.content}>
-        <View style={styles.searchBox}>
-          <IcSearch />
-          <TextInput
-            placeholder="Cari pasar"
-            style={styles.placeholder}
-            value={searchMarket}
-            onChangeText={text => setSearchMarket(text)}
-          />
-        </View>
+        <SearchBar
+          placeholder="Cari pasar"
+          setSearchValue={text => setSearchMarket(text)}
+          searchValue={searchMarket}
+        />
         <View style={{marginTop: 24, flexDirection: 'column', gap: 20}}>
           <FlatList
             data={dataMarket}

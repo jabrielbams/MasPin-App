@@ -56,6 +56,45 @@ export default StyleSheet.create({
     fontSize: FontSize.dp_14,
     width: '80%',
   },
+  sectionBox: {flexDirection: 'row', justifyContent: 'space-between'},
+  daftarHarga: {
+    fontFamily: Fonts.MEDIUM,
+    fontSize: FontSize.dp_16,
+    color: Color.BLACK,
+  },
+  dateBox: {
+    backgroundColor: Color.DISABLE,
+    paddingVertical: 4,
+    paddingHorizontal: 10,
+    borderRadius: 10,
+  },
+
+  itemsName: {
+    fontFamily: Fonts.MEDIUM,
+    fontSize: FontSize.dp_16,
+    color: Color.BLACK,
+    marginTop: 5,
+  },
+  priceBox: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
+  },
+  price: {
+    fontFamily: Fonts.MEDIUM,
+    fontSize: FontSize.dp_12,
+    color: Color.BLACK,
+  },
+  qtyBox: {
+    backgroundColor: Color.PRIMARY,
+    width: 2,
+    height: '65%',
+  },
+  qty: {
+    fontFamily: Fonts.MEDIUM,
+    fontSize: FontSize.dp_12,
+    color: Color.PRIMARY,
+  },
 
   card: {},
 });

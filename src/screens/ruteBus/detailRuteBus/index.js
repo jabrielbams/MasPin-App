@@ -14,6 +14,7 @@ import {
   BusScheduleLine,
   BusScheduleTime,
   HalteBoxCard,
+  HeaderMain,
   NotificationIcon,
   TimeBox,
 } from '../../../components';
@@ -64,18 +65,12 @@ const DetailRuteBus = props => {
 
   return (
     <View style={styles.mainBody}>
-      <View style={styles.headerMain}>
-        <View style={styles.innerHeader}>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.goBack();
-            }}>
-            <IcChevronLeft />
-          </TouchableOpacity>
-          <Text style={styles.headerText}>{section}</Text>
-        </View>
-      </View>
-      <View style={styles.dividerStyle} />
+      {/* HEADER */}
+      <HeaderMain
+        sectionTitle={section}
+        showLeftButton={true}
+        onPressBack={() => navigation.goBack()}
+      />
       <View style={styles.content}>
         <Image source={ImgMapBus} />
         <View style={styles.busSection}>

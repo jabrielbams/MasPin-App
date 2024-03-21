@@ -34,6 +34,7 @@ import BusScheduleLine from './organisms/bus-schedule-line';
 import LoadingIndicator from './atomics/loading';
 import BusScheduleCard from './molecules/bus-schedule-card';
 import TabBarButton from './atomics/tab-bar-button';
+import HeaderMain from './molecules/header-main';
 
 //Skeleton
 import ReportCardMainSkeleton from './organisms/skeleton-card-report';
@@ -75,4 +76,5 @@ export {
   BusScheduleLine,
   LoadingIndicator,
   TabBarButton,
+  HeaderMain,
 };

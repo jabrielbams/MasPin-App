@@ -1,7 +1,7 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {Color, Fonts} from '../../constants';
-import {CardSubMenu, HeaderNavigation} from '../../components';
+import {CardSubMenu, HeaderMain, HeaderNavigation} from '../../components';
 import SubMenu from '../../components/molecules/submenu';
 import {
   IconBusRoute,
@@ -12,19 +12,21 @@ import {
 } from '../../assets/icons';
 import {styles} from './styles';
 
-export default function OtherFeatures({navigation}) {
+export default function OtherFeatures(props) {
+  const {navigation, route} = props;
+  const {section} = route.params;
+
   return (
     <View style={styles.mainBody}>
+      {/* HEADER */}
+      <HeaderMain
+        sectionTitle={section}
+        showLeftButton={true}
+        onPressBack={() => navigation.goBack()}
+      />
+
+      {/* CONTENT LIST */}
       <View>
-        <View style={styles.headerMain}>
-          <HeaderNavigation
-            title={'Lainnya'}
-            onPress={() => {
-              navigation.goBack();
-            }}
-          />
-        </View>
-        <View style={styles.dividerStyle} />
         <View style={styles.cardContainer}>
           <CardSubMenu
             title={'Lapor Masalah'}

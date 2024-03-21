@@ -16,6 +16,7 @@ import {Color, FontSize, Fonts} from '../../constants';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {
   FeatureIcon,
+  HeaderMain,
   LabelCategory,
   LabelStatus,
   ModalPopup,
@@ -26,7 +27,6 @@ import {
   SearchBar,
 } from '../../components';
 import styles from './styles';
-import {useHome} from './useHome';
 import {
   IcChevronRightActive,
   IconBusRoute,
@@ -36,7 +36,7 @@ import {
   IconTax,
   IconTelephone,
 } from '../../assets/icons';
-import {ImgCar, ImgNewsCovid} from '../../assets/images';
+import {ImgBanner, ImgCar, ImgNewsCovid} from '../../assets/images';
 import {getAllReport} from '../../services/reportData';
 import {FlatList} from 'react-native-gesture-handler';
 import {useFocusEffect} from '@react-navigation/native';
@@ -174,162 +174,161 @@ const HomeScreen = ({navigation}) => {
 
   return (
     <View style={styles.mainBody}>
-      <View>
-        <View style={styles.headerMain}>
-          <Text style={styles.headerText}>Beranda</Text>
+      {/* HEADER */}
+      <HeaderMain sectionTitle={'Beranda'} />
+
+      {/* CONTENT */}
+      <ScrollView
+        style={{marginBottom: 16}}
+        showsVerticalScrollIndicator={false}>
+        {/* Banner */}
+        <View style={styles.bannerBox}>
+          <Image source={ImgBanner} style={{borderRadius: 8}} />
         </View>
-        <View style={styles.dividerStyle} />
-        <ScrollView
-          style={{marginBottom: 50}}
-          showsVerticalScrollIndicator={false}>
-          <View
-            style={{
-              alignItems: 'center',
-              marginTop: 20,
-              marginBottom: 24,
-              paddingHorizontal: 8,
-            }}>
-            <Image
-              source={require('../../assets/images/img-banner-home.jpg')}
-              style={{borderRadius: 8}}
+
+        {/* Feature List */}
+        <View style={styles.content}>
+          <View style={styles.featureList}>
+            <FeatureIcon
+              icon={<IconReport />}
+              label="Laporan"
+              onPress={() => {
+                navigateToReportScreen();
+              }}
+            />
+            <FeatureIcon
+              icon={<IconTax />}
+              label="Pajak"
+              onPress={() => {
+                navigation.navigate('Tax', {
+                  section: 'Pajak',
+                });
+              }}
+            />
+            <FeatureIcon
+              icon={<IconTelephone />}
+              label="Darurat"
+              onPress={() => {
+                navigation.navigate('Telephone', {
+                  section: 'Telepon Darurat',
+                });
+              }}
+            />
+            <FeatureIcon
+              icon={<IconChartPrice />}
+              label="Harga"
+              onPress={() => {
+                navigation.navigate('HargaPangan', {
+                  section: 'Harga Pangan',
+                });
+              }}
+            />
+            <FeatureIcon
+              icon={<IconOthers />}
+              label="Lainnya"
+              onPress={() => {
+                navigation.navigate('OtherFeatures', {
+                  section: 'Lainnya',
+                });
+              }}
             />
           </View>
-          <View style={styles.content}>
-            <View style={styles.featureList}>
-              <FeatureIcon
-                icon={<IconReport />}
-                label="Laporan"
-                onPress={() => {
-                  navigateToReportScreen();
-                }}
-              />
-              <FeatureIcon
-                icon={<IconTax />}
-                label="Pajak"
-                onPress={() => {
-                  navigation.navigate('Tax', {
-                    section: 'Pajak',
-                  });
-                }}
-              />
-              <FeatureIcon
-                icon={<IconTelephone />}
-                label="Darurat"
-                onPress={() => {
-                  navigation.navigate('Telephone', {
-                    section: 'Nomor Darurat',
-                  });
-                }}
-              />
-              <FeatureIcon
-                icon={<IconChartPrice />}
-                label="Harga"
-                onPress={() => {
-                  navigation.navigate('HargaPangan', {
-                    section: 'Harga Pangan',
-                  });
-                }}
-              />
-              <FeatureIcon
-                icon={<IconOthers />}
-                label="Lainnya"
-                onPress={() => {
-                  navigation.navigate('OtherFeatures', {
-                    section: 'Lainnya',
-                  });
-                }}
-              />
-            </View>
+        </View>
+        <View style={styles.dividerStyle} />
+
+        <View style={styles.content}>
+          {/* Laporan */}
+          <View style={styles.sectionDivider}>
+            <Text style={styles.sectionTitle}>Laporan</Text>
+            <TouchableOpacity
+              style={styles.otherStyle}
+              onPress={() => {
+                navigation.navigate('ReportIndex', {
+                  section: 'Laporan',
+                });
+              }}>
+              <Text style={styles.otherText}>Lainnya</Text>
+              <IcChevronRightActive />
+            </TouchableOpacity>
           </View>
-          <View style={styles.dividerStyle} />
-          <View style={styles.content}>
-            <View style={styles.sectionDivider}>
-              <Text style={styles.sectionTitle}>Laporan</Text>
-              <TouchableOpacity
-                style={styles.otherStyle}
-                onPress={() => {
-                  navigation.navigate('ReportIndex');
-                }}>
-                <Text style={styles.otherText}>Lainnya</Text>
-                <IcChevronRightActive />
-              </TouchableOpacity>
-            </View>
-            <View>
-              {reportData ? (
-                reportData
-                  .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-                  .slice(0, 3)
-                  .map(item => (
-                    <ReportCardMain
-                      key={item._id}
-                      imgReport={item.image_laporan}
-                      descReport={item.detail_masalah}
-                      category={<LabelCategory title={item.kategori_masalah} />}
-                      status={<LabelStatus type={item.status} />}
-                      uploadDate={timeDifference(item.createdAt)}
-                      onPress={() => {
-                        navigation.navigate('DetailLaporan', {
-                          section: 'Detail Laporan',
-                          reportData: item,
-                        });
-                      }}
-                    />
-                  ))
-              ) : (
-                <ReportCardMainSkeleton />
-              )}
-            </View>
-            <View style={styles.sectionDivider}>
-              <Text style={styles.sectionTitle}>Berita Terbaru</Text>
-              <TouchableOpacity
-                style={styles.otherStyle}
-                onPress={() => {
-                  navigation.navigate('NewsIndex');
-                }}>
-                <Text style={styles.otherText}>Lainnya</Text>
-                <IcChevronRightActive />
-              </TouchableOpacity>
-            </View>
-            <View>
-              {newsData ? (
-                newsData
-                  .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-                  .slice(0, 2)
-                  .map(item => (
-                    <NewsCardMain
-                      key={item._id}
-                      imageNews={item.gambar_berita}
-                      titleNews={item.judul}
-                      descNews={item.isi.deskripsi}
-                      category={item.kategori}
-                      onPress={() => {
-                        navigation.navigate('DetailNews', {
-                          section: 'Detail Berita',
-                          newsData: item,
-                        });
-                      }}
-                    />
-                  ))
-              ) : (
-                <ReportCardMainSkeleton />
-              )}
-            </View>
+          <View>
+            {reportData ? (
+              reportData
+                .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+                .slice(0, 3)
+                .map(item => (
+                  <ReportCardMain
+                    key={item._id}
+                    imgReport={item.image_laporan}
+                    descReport={item.detail_masalah}
+                    category={<LabelCategory title={item.kategori_masalah} />}
+                    status={<LabelStatus type={item.status} />}
+                    uploadDate={timeDifference(item.createdAt)}
+                    onPress={() => {
+                      navigation.navigate('DetailLaporan', {
+                        section: 'Detail Laporan',
+                        reportData: item,
+                      });
+                    }}
+                  />
+                ))
+            ) : (
+              <ReportCardMainSkeleton />
+            )}
           </View>
 
-          <ModalPopup
-            isVisible={modalVisibility}
-            type={'alert'}
-            titleModal={'Verifikasi KTP Kamu!'}
-            descModal={
-              'Verifikasi KTP diperlukan untuk menggunakan semua fitur'
-            }
-            rightButtonTitle={'Verifikasi'}
-            leftButtonTitle={'Tutup'}
-            onPressLeft={handleCloseModal}
-            onPressRight={handleVerificationButton}
-          />
-        </ScrollView>
-      </View>
+          {/* Berita */}
+          <View style={styles.sectionDivider}>
+            <Text style={styles.sectionTitle}>Berita Terbaru</Text>
+            <TouchableOpacity
+              style={styles.otherStyle}
+              onPress={() => {
+                navigation.navigate('NewsIndex', {
+                  section: 'Berita Terbaru',
+                });
+              }}>
+              <Text style={styles.otherText}>Lainnya</Text>
+              <IcChevronRightActive />
+            </TouchableOpacity>
+          </View>
+
+          <View>
+            {newsData ? (
+              newsData
+                .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+                .slice(0, 2)
+                .map(item => (
+                  <NewsCardMain
+                    key={item._id}
+                    imageNews={item.gambar_berita}
+                    titleNews={item.judul}
+                    descNews={item.isi.deskripsi}
+                    category={item.kategori}
+                    onPress={() => {
+                      navigation.navigate('DetailNews', {
+                        section: 'Detail Berita',
+                        newsData: item,
+                      });
+                    }}
+                  />
+                ))
+            ) : (
+              <ReportCardMainSkeleton />
+            )}
+          </View>
+        </View>
+
+        <ModalPopup
+          isVisible={modalVisibility}
+          type={'alert'}
+          titleModal={'Verifikasi KTP Kamu!'}
+          descModal={'Verifikasi KTP diperlukan untuk menggunakan semua fitur'}
+          rightButtonTitle={'Verifikasi'}
+          leftButtonTitle={'Tutup'}
+          onPressLeft={handleCloseModal}
+          onPressRight={handleVerificationButton}
+        />
+      </ScrollView>
     </View>
   );
 };

@@ -8,7 +8,9 @@ const InformationBadge = ({icon, text, additionText, showAddition, isUsed}) => {
     <View style={styles.container}>
       {icon}
       {showAddition ? (
-        <Text style={styles.additionText}>{additionText}</Text>
+        <Text style={styles.additionText} numberOfLines={2}>
+          {additionText}
+        </Text>
       ) : null}
       <Text style={isUsed ? styles.text : styles.textTwo}>{text}</Text>
     </View>

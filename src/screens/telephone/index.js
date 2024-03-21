@@ -1,12 +1,16 @@
 import {Linking, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {Color, Fonts} from '../../constants';
-import {CardSubMenu, HeaderNavigation} from '../../components';
+import {CardSubMenu, HeaderMain, HeaderNavigation} from '../../components';
 import SubMenu from '../../components/molecules/submenu';
 import {IconTelephone} from '../../assets/icons';
 import call from 'react-native-phone-call';
+import styles from './styles';
 
-export default function EmergencyContact({navigation}) {
+export default function EmergencyContact(props) {
+  const {navigation, route} = props;
+  const {section} = route.params;
+
   const makeEmergencyCall = phoneNumber => {
     const url = `tel:${phoneNumber}`;
 
@@ -17,16 +21,15 @@ export default function EmergencyContact({navigation}) {
 
   return (
     <View style={styles.mainBody}>
+      {/* HEADER */}
+      <HeaderMain
+        sectionTitle={section}
+        showLeftButton={true}
+        onPressBack={() => navigation.goBack()}
+      />
+
+      {/* CONTENT LIST */}
       <View>
-        <View style={styles.headerMain}>
-          <HeaderNavigation
-            title={'Telepon Darurat'}
-            onPress={() => {
-              navigation.goBack();
-            }}
-          />
-        </View>
-        <View style={styles.dividerStyle} />
         <View style={styles.cardContainer}>
           <CardSubMenu
             title={'Ambulans'}
@@ -59,38 +62,3 @@ export default function EmergencyContact({navigation}) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  mainBody: {
-    flex: 1,
-    backgroundColor: '#FFFFFF',
-    justifyContent: 'flex-start',
-    alignContent: 'flex-start',
-    paddingTop: 32,
-  },
-  headerMain: {
-    alignItems: 'flex-start',
-    paddingHorizontal: 16,
-    marginBottom: 16,
-  },
-  titleSection: {
-    fontFamily: Fonts.MEDIUM,
-    fontSize: 16,
-    lineHeight: 24,
-    color: Color.BLACK,
-  },
-  content: {
-    paddingHorizontal: 16,
-  },
-  dividerStyle: {
-    height: 4,
-    width: '100%',
-    backgroundColor: Color.LIGHT_GRAY,
-  },
-  cardContainer: {
-    flexDirection: 'column',
-    gap: 20,
-    marginVertical: 20,
-    marginHorizontal: 16,
-  },
-});

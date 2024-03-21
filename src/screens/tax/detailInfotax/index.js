@@ -3,6 +3,7 @@ import React, {useEffect} from 'react';
 import {IcChevronLeft} from '../../../assets/icons';
 import {
   ButtonMain,
+  HeaderMain,
   NotificationIcon,
   TaxInformation,
 } from '../../../components';
@@ -78,12 +79,11 @@ const DetailInfoTax = ({route, navigation}) => {
 
   return (
     <View style={styles.mainBody}>
-      <View style={styles.headerMain}>
-        <View style={styles.sectionBar}>
-          <Text style={styles.headerText}>Detail Pajak</Text>
-        </View>
-        <NotificationIcon style={{marginLeft: 'auto'}} />
-      </View>
+      <HeaderMain
+        sectionTitle={section}
+        showLeftButton={true}
+        onPressBack={() => navigation.goBack()}
+      />
       <View style={styles.dividerStyle} />
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.content}>

@@ -19,8 +19,10 @@ const MarketCard = ({
   return (
     <TouchableOpacity style={styles.container} onPress={onPress}>
       <Image source={{uri: imgSource}} style={styles.imgStyle} />
-      <View style={{flexDirection: 'column', gap: 10}}>
-        <Text style={styles.title}>{marketName}</Text>
+      <View style={styles.identitySection}>
+        <Text style={styles.title} numberOfLines={1}>
+          {marketName}
+        </Text>
         <View>
           <InformationBadge icon={iconLeft} text={textDesc} />
           <InformationBadge
@@ -39,7 +41,6 @@ export default MarketCard;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     gap: 16,
@@ -73,5 +74,10 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.REGULAR,
     fontSize: FontSize.dp_10,
     color: Color.BLACK,
+  },
+  identitySection: {
+    flexDirection: 'column',
+    gap: 10,
+    flex: 1,
   },
 });

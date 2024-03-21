@@ -42,7 +42,9 @@ import axios from 'axios';
 import {ENDPOINT} from '../../utils/endpoint';
 import {launchCameraAndHandleLocation} from './camera';
 
-const ReportForm = ({navigation}) => {
+const ReportForm = props => {
+  const {navigation, route} = props;
+
   const [userData, setUserData] = useState();
   const [showDropdown, setShowDropdown] = useState(false);
   const [isAgree, setIsAgree] = useState(false);
@@ -122,9 +124,39 @@ const ReportForm = ({navigation}) => {
     setSearchText(text);
   };
 
+  // const getPhotoLocation = () => {
+  //   setAddress('Semarang City, Central Java 50131');
+  // };
+
   const getPhotoLocation = () => {
-    setAddress('Semarang City, Central Java 50131');
+    Geolocation.getCurrentPosition(position => {
+      const {latitude, longitude} = position.coords;
+      setLocation({latitude, longitude});
+      getAddress(latitude, longitude, setAddress);
+    });
   };
+
+  // const handleCameraLaunch = () => {
+  //   const options = {
+  //     mediaType: 'photo',
+  //     includeBase64: false,
+  //     maxHeight: 2000,
+  //     maxWidth: 2000,
+  //   };
+  //   launchCamera(options, response => {
+  //     if (response.didCancel) {
+  //       console.log('User cancelled camera');
+  //       navigation.goBack();
+  //     } else if (response.error) {
+  //       console.log('Camera Error: ', response.error);
+  //       navigation.goBack();
+  //     } else {
+  //       let imageUri = response.uri || response.assets?.[0]?.uri;
+  //       setSelectedImage(imageUri);
+  //       getPhotoLocation();
+  //     }
+  //   });
+  // };
 
   const handleCameraLaunch = () => {
     const options = {
@@ -146,6 +178,7 @@ const ReportForm = ({navigation}) => {
         getPhotoLocation();
       }
     });
+    setShowModalConfirmation(false);
   };
 
   const handlePressDropdown = () => {
@@ -216,6 +249,12 @@ const ReportForm = ({navigation}) => {
       setLoading(false);
       resetFormState();
     }
+  };
+
+  const navigateToTab = tabKey => {
+    navigation.navigate('Home', {
+      screen: tabKey,
+    });
   };
 
   useFocusEffect(
@@ -298,31 +337,9 @@ const ReportForm = ({navigation}) => {
                 onChangeText={value => setForm('desc', value)}
               />
               <View>
-                <Text
-                  style={{
-                    fontFamily: Fonts.MEDIUM,
-                    color: Color.DANGER,
-                    fontSize: 16,
-                    marginBottom: 12,
-                  }}>
-                  Pernyataan
-                </Text>
-                <View
-                  style={{
-                    gap: 20,
-                    flexDirection: 'column',
-                    borderWidth: 1,
-                    borderColor: Color.OUTLINE_GRAY,
-                    borderRadius: 8,
-                    paddingVertical: 16,
-                    paddingHorizontal: 12,
-                  }}>
-                  <Text
-                    style={{
-                      fontFamily: Fonts.REGULAR,
-                      fontSize: 12,
-                      color: Color.BLACK,
-                    }}>
+                <Text style={styles.statement}>Pernyataan</Text>
+                <View style={styles.agreeContainer}>
+                  <Text style={styles.descAgree}>
                     Laporan yang saya buat benar adanya dan dapat
                     dipertanggungjawabkan jika saya bersalah.
                   </Text>
@@ -395,7 +412,7 @@ const ReportForm = ({navigation}) => {
               navigation.replace('Home');
             }}
             onPressRight={() => {
-              navigation.replace('Activity');
+              navigation.navigate('Home', {screen: 'activityName'});
             }}
           />
         </View>
@@ -517,5 +534,25 @@ const styles = StyleSheet.create({
   submitButton: {
     backgroundColor: 'green',
     marginLeft: 8, // Adjust the margin as needed
+  },
+  agreeContainer: {
+    gap: 20,
+    flexDirection: 'column',
+    borderWidth: 1,
+    borderColor: Color.OUTLINE_GRAY,
+    borderRadius: 8,
+    paddingVertical: 16,
+    paddingHorizontal: 12,
+  },
+  descAgree: {
+    fontFamily: Fonts.REGULAR,
+    fontSize: 12,
+    color: Color.BLACK,
+  },
+  statement: {
+    fontFamily: Fonts.MEDIUM,
+    color: Color.DANGER,
+    fontSize: 16,
+    marginBottom: 12,
   },
 });

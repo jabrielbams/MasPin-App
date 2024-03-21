@@ -11,10 +11,10 @@ import {
   NotificationIcon,
   ReportInfoCard,
 } from '../../components';
-import styles from './styles';
 import {Image} from 'react-native-elements';
 import {ImgDetailLaporan, ImgPasarBms} from '../../assets/images';
 import {Color, FontSize, Fonts} from '../../constants';
+import styles from './styles';
 
 const DetailLaporan = props => {
   const {route, navigation} = props;

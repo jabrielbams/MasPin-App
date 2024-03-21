@@ -45,8 +45,8 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     position: 'relative',
-    width: '100%', // Set lebar gambar 100%
-    aspectRatio: 16 / 9, // Tetapkan rasio aspek 1:1 untuk gambar
+    width: '100%',
+    aspectRatio: 16 / 9,
   },
   image: {
     flex: 1,
@@ -82,19 +82,17 @@ const styles = StyleSheet.create({
     color: Color.PRIMARY,
   },
   itemsCategory: {
+    top: 3,
     position: 'absolute',
-    top: 6,
-    left: -4,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: Color.PRIMARY,
-    borderRadius: 10,
-    paddingHorizontal: 10,
     paddingVertical: 4,
+    backgroundColor: Color.PRIMARY,
+    borderRadius: 50,
+    width: 67,
   },
   categoryText: {
     fontFamily: Fonts.SEMIBOLD,
     fontSize: FontSize.dp_12,
     color: Color.WHITE,
+    textAlign: 'center',
   },
 });

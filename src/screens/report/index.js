@@ -11,15 +11,20 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {ENDPOINT} from '../../utils/endpoint';
 import {
+  HeaderMain,
   HeaderNavigation,
   LabelCategory,
   LabelStatus,
+  LoadingIndicator,
   ReportCardMain,
   SearchBar,
 } from '../../components';
 import {Color} from '../../constants';
 
-const ReportIndex = ({navigation}) => {
+const ReportIndex = props => {
+  const {navigation, route} = props;
+  const {section} = route.params;
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
@@ -90,23 +95,26 @@ const ReportIndex = ({navigation}) => {
 
   return (
     <View style={styles.mainBody}>
-      <View>
-        <View style={styles.headerMain}>
-          <HeaderNavigation
-            title={'Laporan'}
-            onPress={() => {
-              navigation.goBack();
-            }}
-          />
-        </View>
-        <View style={styles.dividerStyle} />
-        <View style={{marginTop: 12, marginHorizontal: 16}}>
-          <SearchBar
-            placeholder={'Cari laporan'}
-            setSearchValue={text => setSearchReport(text)}
-            searchValue={searchReport}
-          />
-        </View>
+      {/* HEADER */}
+      <HeaderMain
+        sectionTitle={section}
+        showLeftButton={true}
+        onPressBack={() => navigation.goBack()}
+      />
+
+      {/* SEARCH BAR */}
+      <View style={styles.searchContent}>
+        <SearchBar
+          placeholder={'Cari laporan'}
+          setSearchValue={text => setSearchReport(text)}
+          searchValue={searchReport}
+        />
+      </View>
+
+      {/* CONTENT LIST */}
+      {loading ? (
+        <LoadingIndicator />
+      ) : (
         <View style={styles.contentContainer}>
           <FlatList
             data={allReportData.sort(
@@ -114,9 +122,10 @@ const ReportIndex = ({navigation}) => {
             )}
             renderItem={renderItem}
             keyExtractor={item => item._id}
+            showsVerticalScrollIndicator={false}
           />
         </View>
-      </View>
+      )}
     </View>
   );
 };
@@ -126,27 +135,22 @@ export default ReportIndex;
 const styles = StyleSheet.create({
   mainBody: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: Color.WHITE,
     justifyContent: 'flex-start',
     alignContent: 'flex-start',
     paddingTop: 32,
     flexGrow: 1,
   },
-  headerMain: {
-    alignItems: 'flex-start',
+  searchContent: {
+    marginTop: 20,
     paddingHorizontal: 16,
-    marginBottom: 16,
-  },
-  dividerStyle: {
-    height: 4,
-    width: '100%',
-    backgroundColor: Color.LIGHT_GRAY,
   },
   contentContainer: {
     flexDirection: 'column',
     gap: 24,
-    marginHorizontal: 16,
-    marginTop: 16,
+    marginTop: 24,
+    paddingHorizontal: 16,
+    flex: 1,
   },
   errorText: {
     margin: 16,

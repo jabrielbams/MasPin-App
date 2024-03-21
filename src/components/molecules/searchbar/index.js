@@ -30,16 +30,17 @@ const styles = StyleSheet.create({
   searchBox: {
     backgroundColor: Color.TEXTFIELD,
     flexDirection: 'row',
+    alignItems: 'center',
     height: 45,
     borderRadius: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: 4,
+    paddingHorizontal: 12,
+    gap: 15,
   },
   placeholder: {
     color: Color.TEXTBOX,
     fontFamily: Fonts.REGULAR,
     fontSize: FontSize.dp_14,
     width: '80%',
+    alignItems: 'center',
   },
 });

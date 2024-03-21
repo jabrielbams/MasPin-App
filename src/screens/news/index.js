@@ -1,6 +1,7 @@
 import {FlatList, StyleSheet, Text, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {
+  HeaderMain,
   HeaderNavigation,
   LoadingIndicator,
   NewsCardMain,
@@ -11,8 +12,12 @@ import {Color} from '../../constants';
 import {ENDPOINT} from '../../utils/endpoint';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import styles from './styles';
 
-const NewsIndex = ({navigation}) => {
+const NewsIndex = props => {
+  const {navigation, route} = props;
+  const {section} = route.params;
+
   const [loading, setLoading] = useState(false);
 
   const [newsData, setNewsData] = useState([]);
@@ -62,66 +67,37 @@ const NewsIndex = ({navigation}) => {
 
   return (
     <View style={styles.mainBody}>
-      <View>
-        <View style={styles.headerMain}>
-          <HeaderNavigation
-            title={'Berita'}
-            onPress={() => {
-              navigation.goBack();
-            }}
-          />
-        </View>
-        <View style={styles.dividerStyle} />
-        <View style={{marginTop: 12, marginHorizontal: 16}}>
-          <SearchBar
-            placeholder={'Cari Berita'}
-            setSearchValue={text => setSearchNews(text)}
-            searchValue={searchNews}
-          />
-        </View>
-        <View style={styles.contentContainer}>
-          {newsData ? (
-            <FlatList
-              data={newsData}
-              keyExtractor={item => item._id}
-              renderItem={renderCard}
-              showsVerticalScrollIndicator={false}
-            />
-          ) : (
-            <Text>Server Error</Text>
-          )}
-        </View>
+      {/* HEADER */}
+      <HeaderMain
+        sectionTitle={section}
+        showLeftButton={true}
+        onPressBack={() => navigation.goBack()}
+      />
+
+      {/* SEARCH BAR */}
+      <View style={styles.searchContent}>
+        <SearchBar
+          placeholder={'Cari Berita'}
+          setSearchValue={text => setSearchNews(text)}
+          searchValue={searchNews}
+        />
       </View>
-      {loading && <LoadingIndicator />}
+
+      {/* CONTENT */}
+      {loading ? (
+        <LoadingIndicator />
+      ) : (
+        <View style={styles.contentContainer}>
+          <FlatList
+            data={newsData}
+            keyExtractor={item => item._id}
+            renderItem={renderCard}
+            showsVerticalScrollIndicator={false}
+          />
+        </View>
+      )}
     </View>
   );
 };
 
 export default NewsIndex;
-
-const styles = StyleSheet.create({
-  mainBody: {
-    flex: 1,
-    backgroundColor: '#FFFFFF',
-    justifyContent: 'flex-start',
-    alignContent: 'flex-start',
-    paddingTop: 32,
-    flexGrow: 1,
-  },
-  headerMain: {
-    alignItems: 'flex-start',
-    paddingHorizontal: 16,
-    marginBottom: 16,
-  },
-  dividerStyle: {
-    height: 4,
-    width: '100%',
-    backgroundColor: Color.LIGHT_GRAY,
-  },
-  contentContainer: {
-    flexDirection: 'column',
-    marginHorizontal: 16,
-    marginTop: 16,
-    gap: 24,
-  },
-});

@@ -7,7 +7,12 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import {IcChevronLeft, IcSearch} from '../../assets/icons';
-import {BusCard, NotificationIcon} from '../../components';
+import {
+  BusCard,
+  HeaderMain,
+  NotificationIcon,
+  SearchBar,
+} from '../../components';
 import styles from './styles';
 import {ImgBusTrans} from '../../assets/images';
 import {FlatList} from 'react-native';
@@ -53,35 +58,24 @@ const RuteBus = props => {
 
   return (
     <View style={styles.mainBody}>
-      <View>
-        <View style={styles.headerMain}>
-          <View style={styles.title}>
-            <TouchableOpacity
-              onPress={() => {
-                navigation.goBack();
-              }}>
-              <IcChevronLeft />
-            </TouchableOpacity>
-            <Text style={styles.headerText}>{section}</Text>
-          </View>
-        </View>
-        <View style={styles.dividerStyle} />
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={styles.content}>
-            <View style={styles.searchBox}>
-              <IcSearch />
-              <TextInput
-                placeholder="Cari bus"
-                style={styles.placeholder}
-                value={searchBus}
-                onChangeText={text => setSearchBus(text)}
-              />
-            </View>
-            <View
-              style={{marginTop: 24, flexDirection: 'column', gap: 20}}></View>
-          </View>
-        </ScrollView>
-        <View style={{paddingHorizontal: 16, marginTop: 10}}>
+      {/* HEADER */}
+      <HeaderMain
+        sectionTitle={section}
+        showLeftButton={true}
+        onPressBack={() => navigation.goBack()}
+      />
+
+      {/* CONTENT */}
+      <View style={styles.content}>
+        {/* Search Bar */}
+        <SearchBar
+          placeholder="Cari bus"
+          searchValue={searchBus}
+          setSearchValue={text => setSearchBus(text)}
+        />
+
+        {/* List Bus */}
+        <View style={{marginTop: 24}}>
           <FlatList
             data={filteredBusData}
             keyExtractor={item => item._id}
@@ -94,6 +88,7 @@ const RuteBus = props => {
                 onPress={() => {
                   navigation.navigate('DetailRuteBus', {
                     section: 'Rute Bus',
+                    busName: dataBus.busName,
                   });
                 }}
               />
