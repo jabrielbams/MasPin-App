@@ -18,7 +18,10 @@ const ModalPopup = ({
   leftButtonTitle,
   onPressLeft,
   onPressRight,
-  disableButton,
+  leftDisabled,
+  rightDisabled,
+  leftLoading,
+  rightLoading,
   oneButtonModal,
   oneButtonTitle,
   oneButtonPress,
@@ -48,8 +51,10 @@ const ModalPopup = ({
                 titleSecondary={leftButtonTitle}
                 onPressLeft={onPressLeft}
                 onPressRight={onPressRight}
-                leftDisable={disableButton}
-                rightDisable={disableButton}
+                leftDisabled={leftDisabled}
+                rightDisabled={rightDisabled}
+                leftLoading={leftLoading}
+                rightLoading={rightLoading}
               />
             )}
           </View>

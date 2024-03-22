@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   View,
   Image,
+  RefreshControl,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {Color, FontSize, Fonts} from '../../constants';
@@ -51,6 +52,7 @@ const HomeScreen = ({navigation}) => {
   const [newsData, setNewsData] = useState(null);
 
   const [loading, setLoading] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
 
   const [modalVisibility, setModalVisibility] = useState(false);
 
@@ -89,6 +91,15 @@ const HomeScreen = ({navigation}) => {
   const requestPermissions = async () => {
     await requestCameraPermission();
     await requestLocationPermission();
+  };
+
+  // Fungsi untuk mengeksekusi refresh data
+  const onRefresh = () => {
+    setRefreshing(true);
+    // Tempatkan pembaruan data Anda di sini, misalnya:
+    fetchAPI().then(() => {
+      setRefreshing(false);
+    });
   };
 
   const fetchAPI = async () => {
@@ -180,7 +191,10 @@ const HomeScreen = ({navigation}) => {
       {/* CONTENT */}
       <ScrollView
         style={{marginBottom: 16}}
-        showsVerticalScrollIndicator={false}>
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }>
         {/* Banner */}
         <View style={styles.bannerBox}>
           <Image source={ImgBanner} style={{borderRadius: 8}} />

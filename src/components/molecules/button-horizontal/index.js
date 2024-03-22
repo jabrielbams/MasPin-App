@@ -1,4 +1,10 @@
-import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  ActivityIndicator,
+} from 'react-native';
 import React from 'react';
 import {Color, FontSize, Fonts} from '../../../constants';
 
@@ -7,22 +13,34 @@ const ButtonHorizontalMain = ({
   onPressRight,
   titlePrimary,
   titleSecondary,
-  leftDisable,
-  rightDisable,
+  leftDisabled,
+  rightDisabled,
+  leftLoading,
+  rightLoading,
 }) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity
-        style={styles.btnSecondary}
+        // style={styles.btnSecondary}
+        style={[leftDisabled ? styles.btnDisabled : styles.btnSecondary]}
         onPress={onPressLeft}
-        disabled={leftDisable}>
-        <Text style={styles.textSecondary}>{titleSecondary}</Text>
+        disabled={leftDisabled}>
+        {leftLoading ? (
+          <ActivityIndicator color="white" />
+        ) : (
+          <Text style={styles.textSecondary}>{titleSecondary}</Text>
+        )}
       </TouchableOpacity>
       <TouchableOpacity
-        style={styles.btnPrimary}
+        // style={styles.btnPrimary}
+        style={[rightDisabled ? styles.btnDisabled : styles.btnPrimary]}
         onPress={onPressRight}
-        disabled={rightDisable}>
-        <Text style={styles.textPrimary}>{titlePrimary}</Text>
+        disabled={rightDisabled}>
+        {rightLoading ? (
+          <ActivityIndicator color="white" />
+        ) : (
+          <Text style={styles.textPrimary}>{titlePrimary}</Text>
+        )}
       </TouchableOpacity>
     </View>
   );
@@ -50,6 +68,16 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingHorizontal: 12,
     paddingVertical: 8,
+    width: '50%',
+  },
+  btnDisabled: {
+    backgroundColor: Color.DISABLE,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderRadius: 8,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
     width: '50%',
   },
   textSecondary: {

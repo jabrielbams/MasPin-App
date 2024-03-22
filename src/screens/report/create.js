@@ -381,7 +381,8 @@ const ReportForm = props => {
             onPressRight={() => {
               handleSubmit();
             }}
-            disableButton={loading}
+            rightDisabled={loading}
+            rightLoading={loading}
           />
 
           <ModalPopup
@@ -412,7 +413,7 @@ const ReportForm = props => {
               navigation.replace('Home');
             }}
             onPressRight={() => {
-              navigation.navigate('Home', {screen: 'activityName'});
+              navigation.navigate('Activity');
             }}
           />
         </View>

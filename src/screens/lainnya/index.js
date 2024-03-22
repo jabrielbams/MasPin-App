@@ -68,7 +68,9 @@ export default function OtherFeatures(props) {
             title={'Telepon Darurat'}
             leftIcon={<IconTelephone />}
             onPress={() => {
-              navigation.navigate('Telephone');
+              navigation.navigate('Telephone', {
+                section: 'Telepon Darurat',
+              });
             }}
           />
         </View>

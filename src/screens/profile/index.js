@@ -124,7 +124,6 @@ const ProfileScreen = ({navigation}) => {
               }}
               title={'Profil'}
             />
-            <NotificationIcon style={{marginLeft: 'auto'}} />
           </View>
           <View style={styles.dividerStyle} />
           <View style={styles.profileSection}>
