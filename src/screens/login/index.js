@@ -43,7 +43,7 @@ const LoginScreen = ({navigation}) => {
   const saveTokenToStorage = async refreshToken => {
     try {
       await AsyncStorage.setItem('refreshToken', refreshToken);
-      console.log(refreshToken);
+      console.log(refreshToken, 'saved');
     } catch (error) {
       console.error('Error saving token to AsyncStorage:', refreshToken);
     }

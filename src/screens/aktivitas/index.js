@@ -95,7 +95,7 @@ const ActivityScreen = ({navigation}) => {
           <HeaderNavigation
             title={'Aktivitas'}
             onPress={() => {
-              navigation.navigate('Home');
+              navigation.replace('Home');
             }}
           />
         </View>
