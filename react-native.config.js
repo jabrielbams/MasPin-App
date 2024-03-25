@@ -1,3 +1,6 @@
+// env
+require('dotenv').config();
+
 module.exports = {
   project: {
     ios: {},

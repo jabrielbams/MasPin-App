@@ -84,10 +84,10 @@ android {
     }
     signingConfigs {
         release {
-          storeFile file('maspin.keystore')
-          storePassword 'maspin'
-          keyAlias 'maspin'
-          keyPassword 'maspin'
+            storeFile file(MYAPP_RELEASE_STORE_FILE)
+            storePassword MYAPP_RELEASE_STORE_PASSWORD
+            keyAlias MYAPP_RELEASE_KEY_ALIAS
+            keyPassword MYAPP_RELEASE_KEY_PASSWORD
         }
     }
     buildTypes {
@@ -106,6 +106,7 @@ android {
 
 dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
+    implementation project(':react-native-config')
     implementation("com.facebook.react:react-android")
     implementation("com.facebook.react:flipper-integration")
     implementation("com.google.android.gms:play-services-location:21.0.1")
