@@ -96,7 +96,6 @@ const HomeScreen = ({navigation}) => {
   // Fungsi untuk mengeksekusi refresh data
   const onRefresh = () => {
     setRefreshing(true);
-    // Tempatkan pembaruan data Anda di sini, misalnya:
     fetchAPI().then(() => {
       setRefreshing(false);
     });

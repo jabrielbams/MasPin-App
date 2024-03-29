@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   Alert,
   KeyboardAvoidingView,
   SafeAreaView,
@@ -176,8 +177,13 @@ const RegisterScreen = ({navigation}) => {
             onPress={() => {
               handleRegister();
             }}
-            title="Daftar"
-            loading={loading}
+            title={
+              loading ? (
+                <ActivityIndicator size={'small'} color={'#FFFFFF'} />
+              ) : (
+                'Daftar'
+              )
+            }
           />
         </View>
         <View style={styles.actionText}>
