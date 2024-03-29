@@ -36,7 +36,11 @@ export default StyleSheet.create({
   content: {
     paddingHorizontal: 16,
   },
-
+  profile: {
+    width: 60,
+    height: 60,
+    borderRadius: 100,
+  },
   profileSection: {
     flexDirection: 'row',
     justifyContent: 'space-between',

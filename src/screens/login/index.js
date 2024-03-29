@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import {
+  ActivityIndicator,
   Alert,
   KeyboardAvoidingView,
   ScrollView,
@@ -109,13 +110,7 @@ const LoginScreen = ({navigation}) => {
   return (
     <View style={styles.mainBody}>
       <ScrollView>
-        <View
-          style={{
-            flex: 1,
-            justifyContent: 'flex-start',
-            alignContent: 'flex-start',
-            marginTop: 32,
-          }}>
+        <View style={styles.content}>
           <KeyboardAvoidingView enabled>
             <View style={styles.SectionStyle}>
               <Text style={styles.TitleStyle}>Selamat Datang Kembali!</Text>
@@ -154,13 +149,7 @@ const LoginScreen = ({navigation}) => {
                   secureTextEntry={true}
                 />
               </View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  marginTop: 16,
-                }}>
+              <View style={styles.forgotPass}>
                 <CustomCheckbox
                   onPress={() => setRememberMe(!rememberMe)}
                   title={'Remember Me'}
@@ -168,7 +157,7 @@ const LoginScreen = ({navigation}) => {
                 />
                 <TouchableOpacity
                   onPress={() => {
-                    navigation.navigate('ForgotPassword'); // Navigasi ke halaman "ForgotPassword"
+                    navigation.navigate('ForgotPassword');
                   }}>
                   <Text style={styles.highlightText}>Lupa Password?</Text>
                 </TouchableOpacity>
@@ -182,11 +171,16 @@ const LoginScreen = ({navigation}) => {
           <ButtonMain
             disabled={loading || disableSubmit}
             onPress={() => {
-              // Handle button press event
               handleLogin();
               console.log('Form Values:', form);
             }}
-            title="Masuk"
+            title={
+              loading ? (
+                <ActivityIndicator size={'small'} color={'#FFFFFF'} />
+              ) : (
+                'Masuk'
+              )
+            }
           />
         </View>
         <View style={styles.actionText}>

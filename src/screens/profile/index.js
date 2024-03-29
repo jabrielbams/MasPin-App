@@ -56,8 +56,6 @@ const ProfileScreen = ({navigation}) => {
   const handleLogout = async () => {
     try {
       await AsyncStorage.removeItem('refreshToken');
-
-      // Navigasi ke halaman Login atau halaman lain sesuai kebutuhan
       navigation.replace('Login');
     } catch (error) {
       console.error('Logout error:', error.message);
@@ -132,12 +130,7 @@ const ProfileScreen = ({navigation}) => {
               <LabelValidation />
             </View>
             <View>
-              <View
-                style={{
-                  width: 60,
-                  height: 60,
-                  borderRadius: 100,
-                }}>
+              <View style={styles.profile}>
                 <ImgProfile />
               </View>
             </View>

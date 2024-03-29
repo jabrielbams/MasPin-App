@@ -124,10 +124,6 @@ const ReportForm = props => {
     setSearchText(text);
   };
 
-  // const getPhotoLocation = () => {
-  //   setAddress('Semarang City, Central Java 50131');
-  // };
-
   const getPhotoLocation = () => {
     Geolocation.getCurrentPosition(position => {
       const {latitude, longitude} = position.coords;
@@ -135,28 +131,6 @@ const ReportForm = props => {
       getAddress(latitude, longitude, setAddress);
     });
   };
-
-  // const handleCameraLaunch = () => {
-  //   const options = {
-  //     mediaType: 'photo',
-  //     includeBase64: false,
-  //     maxHeight: 2000,
-  //     maxWidth: 2000,
-  //   };
-  //   launchCamera(options, response => {
-  //     if (response.didCancel) {
-  //       console.log('User cancelled camera');
-  //       navigation.goBack();
-  //     } else if (response.error) {
-  //       console.log('Camera Error: ', response.error);
-  //       navigation.goBack();
-  //     } else {
-  //       let imageUri = response.uri || response.assets?.[0]?.uri;
-  //       setSelectedImage(imageUri);
-  //       getPhotoLocation();
-  //     }
-  //   });
-  // };
 
   const handleCameraLaunch = () => {
     const options = {
@@ -307,9 +281,9 @@ const ReportForm = props => {
                 required={true}
                 value={form.label.value}
                 showDropdown={showDropdown}
-                onPress={() => handlePressDropdown()} // Perubahan di sini
-                onPressCloseDropdown={() => setShowDropdown(false)} // Perubahan di sini
-                onPressSelectItem={item => handleSelectDropdownItem(item)} // Perubahan di sini
+                onPress={() => handlePressDropdown()}
+                onPressCloseDropdown={() => setShowDropdown(false)}
+                onPressSelectItem={item => handleSelectDropdownItem(item)}
                 placeholder="Pilih Label"
                 dropdownData={dropdownData}
                 Icon={showDropdown ? <IcChevronUp /> : <IcChevronDown />}
@@ -363,7 +337,6 @@ const ReportForm = props => {
           <ButtonMain
             disabled={!isFormValid()}
             onPress={() => {
-              // Handle button press event
               handleOpenModalConfirmation();
             }}
             title="Buat laporan"

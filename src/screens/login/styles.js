@@ -8,6 +8,12 @@ export default StyleSheet.create({
     backgroundColor: '#FFFFFF',
     alignContent: 'flex-start',
   },
+  content: {
+    flex: 1,
+    justifyContent: 'flex-start',
+    alignContent: 'flex-start',
+    marginTop: 32,
+  },
   SectionStyle: {
     marginHorizontal: 16,
     justifyContent: 'flex-start',
@@ -51,5 +57,11 @@ export default StyleSheet.create({
   },
   gap: {
     height: 32,
+  },
+  forgotPass: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 16,
   },
 });
