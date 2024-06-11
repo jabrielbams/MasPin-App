@@ -6,7 +6,8 @@ async function getAddress(
   longitude: number,
   setLocationName: Function,
 ) {
-  const url = `https://revgeocode.search.hereapi.com/v1/revgeocode?at=${latitude}%2C${longitude}&lang=en-US&apiKey=${MAP_API_KEY}`;
+  const api_maps = process.env['MAP_API_KEY'];
+  const url = `https://revgeocode.search.hereapi.com/v1/revgeocode?at=${latitude}%2C${longitude}&lang=en-US&apiKey=${api_maps}`;
   const defaultResponse = latitude.toFixed(2) + ', ' + longitude.toFixed(2);
 
   try {

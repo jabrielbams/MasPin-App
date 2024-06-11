@@ -63,6 +63,8 @@ const ReportForm = props => {
   const [showModalSuccess, setModalSuccess] = useState(false);
   const [showModalFailure, setModalFailure] = useState(false);
 
+  const api_maps = process.env['MAP_API_KEY'];
+
   const [form, setForm] = useForm({
     label: {
       value: '',

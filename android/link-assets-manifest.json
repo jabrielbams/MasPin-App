@@ -2,24 +2,12 @@
   "migIndex": 1,
   "data": [
     {
-      "path": "src/assets/fonts/Inter-Bold.ttf",
-      "sha1": "47ff07c75746682133b81e7ac0537ce50a4c9916"
-    },
-    {
-      "path": "src/assets/fonts/Inter-Light.ttf",
-      "sha1": "cbb2506d8da21edbb2dc8cfa26e3b42a97d138f8"
-    },
-    {
-      "path": "src/assets/fonts/Inter-Medium.ttf",
-      "sha1": "e76f580811e031813e7150131a0724811cdd737a"
-    },
-    {
-      "path": "src/assets/fonts/Inter-Regular.ttf",
-      "sha1": "cfa780d0b50b2bb7eacb82984f1b18a95aaa40c5"
-    },
-    {
       "path": "src/assets/fonts/Poppins-Bold.ttf",
       "sha1": "875cf0cecd647bcf22e79d633d868c1b1ec98dfa"
+    },
+    {
+      "path": "src/assets/fonts/Poppins-Light.ttf",
+      "sha1": "e247a92158e112f8bf7b638c8d95381d66b00dbb"
     },
     {
       "path": "src/assets/fonts/Poppins-Medium.ttf",
