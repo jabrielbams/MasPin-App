@@ -68,7 +68,11 @@ export default StyleSheet.create({
     paddingHorizontal: 10,
     borderRadius: 10,
   },
-
+  itemStyle: {
+    paddingBottom: 28,
+    marginTop: 16,
+    paddingHorizontal: 8,
+  },
   itemsName: {
     fontFamily: Fonts.MEDIUM,
     fontSize: FontSize.dp_16,

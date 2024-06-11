@@ -149,11 +149,7 @@ const DetailMarket = props => {
           keyExtractor={item => item._id}
           renderItem={renderCard}
           numColumns={2}
-          contentContainerStyle={{
-            paddingBottom: 28, // Tambahkan padding di bagian bawah untuk menghindari pemotongan data
-            marginTop: 16,
-            paddingHorizontal: 8,
-          }}
+          contentContainerStyle={styles.itemStyle}
           showsVerticalScrollIndicator={false}
         />
       </View>
